@@ -25,9 +25,36 @@
     .info-row { margin-bottom: 8px; font-size: 14px; }
     .info-row strong { color: #808080; }
     label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; }
+    
+    /* Personel Listesi Izgara Düzeni */
+    .personel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+      background: #18222d;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #3d4d5e;
+    }
+    .personel-item {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .personel-item input {
+      width: 16px;
+      height: 16px;
+      accent-color: #27ae60;
+    }
+
     textarea {
       width: 100%;
-      height: 90px;
+      height: 80px;
       margin-top: 6px;
       border-radius: 8px;
       border: 1px solid #3d4d5e;
@@ -84,6 +111,11 @@
   </div>
 
   <div class="card">
+    <label>👨‍🚒 Görevdeki Personeller:</label>
+    <div class="personel-grid" id="personelContainer">
+      <!-- Personel isimleri JS ile buraya yüklenecek -->
+    </div>
+
     <label>📷 Olay Yeri Fotoğrafı:</label>
     <label for="fotoInput" class="file-btn">Fotoğraf Çek / Seç</label>
     <input type="file" id="fotoInput" accept="image/*" capture="environment">
@@ -100,6 +132,16 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
+    // 21 PERSONELİN İSİMLERİNİ BURAYA YAZIN
+    const PERSONEL_LISTESI = [
+      "Abdulkadir YÜKSEL", "Abdurrahman DOĞAN", "Adil USLU", "Ali AKYOL",
+      "Berat Abdullah ÇAKAR", "Fahrettin YÜKSEL", "Fatih KARA", "Hasan BİLİCİ",
+      "Kadir TURGUT", "Latif ÖZER", "Mehmet Ali SEVER", "Mesut BEZCİYARAR",
+      "Mustafa AY", "Mustafa CESUR", "Necip KUT", "Nurettin DEĞERLİ",
+      "Ramazan BALCI", "Ramazan GÜLHAN", "Ramazan KAYA", "Şükrü SARIKAYA",
+      "Zekeriya TOPKAYA"
+    ];
+
     const SUPABASE_URL = "https://gnufozcowbsrhcxbwhkf.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdudWZvemNvd2JzcmhjeGJ3aGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MzI1MDQsImV4cCI6MjEwNTIwODUwNH0._KdQ6MvqPE0Mam2c_ozcwSyDmHW3Fc-9923lUKEEJic";
     const TELEGRAM_TOKEN = "8611680491:AAHMzHLoVo_FMzbjtQ_YIV2_jVZXDpbQCsE";
@@ -113,6 +155,15 @@
 
     document.getElementById('vakaNo').innerText = vakaNo;
     document.getElementById('olayTuru').innerText = olayTuru;
+
+    // Personel listesini ekrana basma
+    const container = document.getElementById('personelContainer');
+    PERSONEL_LISTESI.forEach((isim, index) => {
+      const item = document.createElement('label');
+      item.className = 'personel-item';
+      item.innerHTML = `<input type="checkbox" value="${isim}"> ${isim}`;
+      container.appendChild(item);
+    });
 
     const fotoInput = document.getElementById('fotoInput');
     const preview = document.getElementById('preview');
@@ -131,8 +182,12 @@
       const raporNotu = document.getElementById('raporNotu').value;
       const file = fotoInput.files[0];
 
-      if (!file && !raporNotu.trim()) {
-        alert("Lütfen bir fotoğraf seçin veya açıklama notu girin.");
+      // Seçilen personelleri toplama
+      const secilenPersoneller = Array.from(document.querySelectorAll('#personelContainer input:checked'))
+        .map(cb => cb.value);
+
+      if (secilenPersoneller.length === 0 && !file && !raporNotu.trim()) {
+        alert("Lütfen en az bir personel seçin, fotoğraf ekleyin veya açıklama yazın.");
         return;
       }
 
@@ -158,15 +213,24 @@
           fotoUrl = publicRes.data.publicUrl;
         }
 
+        const personelMetni = secilenPersoneller.join(', ');
+
         const { error: dbError } = await supabaseClient
           .from('olay_raporlari')
-          .insert([{ vaka_no: vakaNo, olay_turu: olayTuru, rapor_notu: raporNotu, fotograf_url: fotoUrl }]);
+          .insert([{ 
+            vaka_no: vakaNo, 
+            olay_turu: olayTuru, 
+            rapor_notu: raporNotu, 
+            fotograf_url: fotoUrl,
+            gorevli_personel: personelMetni
+          }]);
 
         if (dbError) throw dbError;
 
         let tgMetin = `📸 <b>OLAY YERİ RAPORU EKLENDİ</b>\n\n`;
         tgMetin += `🆔 <b>Vaka No:</b> <code>${vakaNo}</code>\n`;
         tgMetin += `🔥 <b>Olay Türü:</b> ${olayTuru}\n`;
+        if (secilenPersoneller.length > 0) tgMetin += `👨‍🚒 <b>Ekip:</b> ${personelMetni}\n`;
         if (raporNotu) tgMetin += `📝 <b>Not:</b> ${raporNotu}\n`;
 
         if (fotoUrl) {
