@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Olay Yeri Raporu</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--tg-theme-bg-color, #18222d);
+      color: var(--tg-theme-text-color, #ffffff);
+      margin: 0;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: var(--tg-theme-secondary-bg-color, #212d3b);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    h2 { margin-top: 0; font-size: 18px; color: #eb5757; text-align: center; }
+    .info-row { margin-bottom: 8px; font-size: 14px; }
+    .info-row strong { color: #808080; }
+    label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; }
+    textarea {
+      width: 100%;
+      height: 90px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #3d4d5e;
+      background: #18222d;
+      color: #fff;
+      padding: 10px;
+      box-sizing: border-box;
+      font-size: 14px;
+      resize: none;
+    }
+    input[type="file"] { display: none; }
+    .file-btn {
+      display: block;
+      text-align: center;
+      background: #2f6ea5;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+    .submit-btn {
+      width: 100%;
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+    .submit-btn:disabled { background: #555; }
+    #status { margin-top: 10px; text-align: center; font-size: 13px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h2>📸 Olay Yeri Raporu</h2>
+
+  <div class="card">
+    <div class="info-row"><strong>Vaka No:</strong> <span id="vakaNo">-</span></div>
+    <div class="info-row"><strong>Olay Türü:</strong> <span id="olayTuru">-</span></div>
+  </div>
+
+  <div class="card">
+    <label>📷 Olay Yeri Fotoğrafı:</label>
+    <label for="fotoInput" class="file-btn">Fotoğraf Çek / Seç</label>
+    <input type="file" id="fotoInput" accept="image/*" capture="environment">
+    <img id="preview" alt="Önizleme">
+
+    <label>📝 Rapor Notu / Açıklama:</label>
+    <textarea id="raporNotu" placeholder="Olay yerindeki durum, müdahale detayları..."></textarea>
+
+    <button id="gonderBtn" class="submit-btn" onclick="raporGonder()">Raporu Kaydet ve Gönder</button>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const SUPABASE_URL = "https://gnufozcowbsrhcxbwhkf.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdudWZvemNvd2JzcmhjeGJ3aGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MzI1MDQsImV4cCI6MjEwNTIwODUwNH0._KdQ6MvqPE0Mam2c_ozcwSyDmHW3Fc-9923lUKEEJic";
+    const TELEGRAM_TOKEN = "8611680491:AAHMzHLoVo_FMzbjtQ_YIV2_jVZXDpbQCsE";
+    const CHAT_ID = "-1004426681303";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const vakaNo = urlParams.get('vakaId') || 'Belirtilmedi';
+    const olayTuru = urlParams.get('olayTuru') || 'Belirtilmedi';
+
+    document.getElementById('vakaNo').innerText = vakaNo;
+    document.getElementById('olayTuru').innerText = olayTuru;
+
+    const fotoInput = document.getElementById('fotoInput');
+    const preview = document.getElementById('preview');
+
+    fotoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      }
+    });
+
+    async function raporGonder() {
+      const btn = document.getElementById('gonderBtn');
+      const status = document.getElementById('status');
+      const raporNotu = document.getElementById('raporNotu').value;
+      const file = fotoInput.files[0];
+
+      if (!file && !raporNotu.trim()) {
+        alert("Lütfen bir fotoğraf seçin veya açıklama notu girin.");
+        return;
+      }
+
+      btn.disabled = true;
+      status.style.color = "#f39c12";
+      status.innerText = "Yükleniyor, lütfen bekleyin...";
+
+      try {
+        let fotoUrl = "";
+
+        if (file) {
+          const dosyaAdi = `${vakaNo}_${Date.now()}.jpg`;
+          const { data, error } = await supabaseClient.storage
+            .from('olay-fotograflari')
+            .upload(dosyaAdi, file);
+
+          if (error) throw error;
+
+          const publicRes = supabaseClient.storage
+            .from('olay-fotograflari')
+            .getPublicUrl(dosyaAdi);
+
+          fotoUrl = publicRes.data.publicUrl;
+        }
+
+        const { error: dbError } = await supabaseClient
+          .from('olay_raporlari')
+          .insert([{ vaka_no: vakaNo, olay_turu: olayTuru, rapor_notu: raporNotu, fotograf_url: fotoUrl }]);
+
+        if (dbError) throw dbError;
+
+        let tgMetin = `📸 <b>OLAY YERİ RAPORU EKLENDİ</b>\n\n`;
+        tgMetin += `🆔 <b>Vaka No:</b> <code>${vakaNo}</code>\n`;
+        tgMetin += `🔥 <b>Olay Türü:</b> ${olayTuru}\n`;
+        if (raporNotu) tgMetin += `📝 <b>Not:</b> ${raporNotu}\n`;
+
+        if (fotoUrl) {
+          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendPhoto`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CHAT_ID, photo: fotoUrl, caption: tgMetin, parse_mode: 'HTML' })
+          });
+        } else {
+          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CHAT_ID, text: tgMetin, parse_mode: 'HTML' })
+          });
+        }
+
+        status.style.color = "#2ecc71";
+        status.innerText = "Rapor başarıyla gönderildi!";
+        setTimeout(() => tg.close(), 1500);
+
+      } catch (err) {
+        console.error(err);
+        status.style.color = "#e74c3c";
+        status.innerText = "Hata oluştu: " + err.message;
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
