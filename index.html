@@ -227,6 +227,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const vakaNo = urlParams.get('vakaId') || 'Belirtilmedi';
     const olayTuru = urlParams.get('olayTuru') || 'Belirtilmedi';
+    const msgId = urlParams.get('msgId'); // EKLENEN SATIR
 
     document.getElementById('vakaNo').innerText = vakaNo;
     document.getElementById('olayTuru').innerText = olayTuru;
@@ -323,23 +324,34 @@
 
         if (dbError) throw dbError;
 
-        let tgMetin = `📸 <b>OLAY YERİ RAPORU EKLENDİ</b>\n\n`;
-        tgMetin += `🆔 <b>Vaka No:</b> <code>${vakaNo}</code>\n`;
-        tgMetin += `🔥 <b>Olay Türü:</b> ${olayTuru}\n`;
-        if (secilenPersoneller.length > 0) tgMetin += `👨‍🚒 <b>Ekip:</b> ${personelMetni}\n`;
-        if (raporNotu) tgMetin += `📝 <b>Not:</b> ${raporNotu}\n`;
+        // EĞER URL'DE MSGID VARSA ORİJİNAL MESAJIN BUTONUNU GÜNCELLE
+        if (msgId) {
+          const guncelLink = window.location.href; 
+          
+          const yeniKlavye = {
+            inline_keyboard: [
+              [
+                { text: "🚦 İstasyondan Çıkış", callback_data: "cikis" },
+                { text: "📍 Olay Yerine Varış", callback_data: "varis" }
+              ],
+              [
+                { text: "✅ Olay Yeri Raporu Eklendi", url: guncelLink }
+              ],
+              [
+                { text: "🏁 Olay Yerinden Ayrılış", callback_data: "ayrilis" },
+                { text: "🏠 İstasyona Dönüş", callback_data: "donus" }
+              ]
+            ]
+          };
 
-        if (fotoUrl) {
-          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendPhoto`, {
+          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: CHAT_ID, photo: fotoUrl, caption: tgMetin, parse_mode: 'HTML' })
-          });
-        } else {
-          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: CHAT_ID, text: tgMetin, parse_mode: 'HTML' })
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              message_id: msgId,
+              reply_markup: yeniKlavye
+            })
           });
         }
 
