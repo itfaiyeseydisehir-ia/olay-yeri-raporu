@@ -167,6 +167,32 @@
     }
     .submit-btn:disabled { background: #555; }
     #status { margin-top: 10px; text-align: center; font-size: 13px; font-weight: bold; }
+
+    /* Görüntüleme modu (rapor zaten eklenmişse) */
+    .goruntu-personel {
+      font-size: 14px;
+      color: #2ecc71;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+    .goruntu-not {
+      font-size: 14px;
+      margin-top: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .goruntu-zaman {
+      font-size: 12px;
+      color: #808080;
+      margin-top: 10px;
+      text-align: right;
+    }
+    #goruntuFoto {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -178,7 +204,16 @@
     <div class="info-row"><strong>Olay Türü:</strong> <span id="olayTuru">-</span></div>
   </div>
 
-  <div class="card">
+  <!-- Rapor zaten eklenmişse bu kart gösterilir, form gizlenir -->
+  <div class="card" id="goruntuCard" style="display:none;">
+    <label>✅ Rapor Zaten Eklenmiş</label>
+    <div class="goruntu-personel" id="goruntuPersonel"></div>
+    <img id="goruntuFoto" alt="Olay yeri fotoğrafı">
+    <div class="goruntu-not" id="goruntuNot"></div>
+    <div class="goruntu-zaman" id="goruntuZaman"></div>
+  </div>
+
+  <div class="card" id="formCard">
     <label>👨‍🚒 Görevdeki Personeller:</label>
     <button class="secim-btn" onclick="modalAc()">➕ Görevli Personel Seç</button>
     <div class="secilen-ozet" id="secilenOzet">Henüz personel seçilmedi.</div>
@@ -231,6 +266,55 @@
 
     document.getElementById('vakaNo').innerText = vakaNo;
     document.getElementById('olayTuru').innerText = olayTuru;
+
+    // Sayfa açılır açılmaz: bu vaka için zaten bir rapor kaydedilmiş mi diye bak.
+    // Varsa formu gizleyip kaydedilen bilgi/fotoğrafı göster (görüntüleme modu).
+    async function mevcutRaporuKontrolEt() {
+      try {
+        const { data, error } = await supabaseClient
+          .from('olay_raporlari')
+          .select('*')
+          .eq('vaka_no', vakaNo)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          goruntuModunuGoster(data[0]);
+        }
+      } catch (err) {
+        console.error('Mevcut rapor kontrol hatası:', err);
+        // Hata olsa bile formu göstermeye devam et; kullanıcı yine de rapor girebilsin.
+      }
+    }
+
+    function goruntuModunuGoster(rapor) {
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('goruntuCard').style.display = 'block';
+
+      const personel = rapor['Görevli Personel'];
+      document.getElementById('goruntuPersonel').innerText = personel
+        ? `👨‍🚒 Ekip: ${personel}`
+        : '👨‍🚒 Personel seçilmemiş.';
+
+      const foto = document.getElementById('goruntuFoto');
+      if (rapor.fotograf_url) {
+        foto.src = rapor.fotograf_url;
+        foto.style.display = 'block';
+      }
+
+      document.getElementById('goruntuNot').innerText = rapor.rapor_notu
+        ? `📝 ${rapor.rapor_notu}`
+        : '';
+
+      if (rapor.created_at) {
+        const tarih = new Date(rapor.created_at);
+        document.getElementById('goruntuZaman').innerText =
+          'Eklenme: ' + tarih.toLocaleString('tr-TR');
+      }
+    }
+
+    mevcutRaporuKontrolEt();
 
     // Personel listesini modal içine basma
     const container = document.getElementById('personelContainer');
@@ -326,33 +410,65 @@
 
         // EĞER URL'DE MSGID VARSA ORİJİNAL MESAJIN BUTONUNU GÜNCELLE
         if (msgId) {
-          const guncelLink = window.location.href; 
-          
+          const guncelLink = window.location.href;
+
+          // Varış/Ayrılış/Dönüş saatlerini bot'un Supabase'e yazdığı yerden oku ki
+          // checkmark'lar ("✅ ... 14:35" gibi) klavye yeniden kurulurken kaybolmasın.
+          let zamanlar = {};
+          try {
+            const { data: zamanVerisi, error: zamanHata } = await supabaseClient
+              .from('vaka_zamanlari')
+              .select('varis, ayrilis, donus')
+              .eq('message_id', Number(msgId))
+              .maybeSingle();
+            if (!zamanHata && zamanVerisi) zamanlar = zamanVerisi;
+          } catch (e) {
+            console.error('Zaman bilgisi okuma hatası:', e);
+          }
+
+          // Bot_v233.js'deki anaMenuKeyboard ile BİREBİR AYNI sıra/yapı:
+          // [çıkış, varış] / [ayrılış, dönüş] / [rapor] / [manuel saat gir]
           const yeniKlavye = {
             inline_keyboard: [
               [
                 { text: "🚦 İstasyondan Çıkış", callback_data: "cikis" },
-                { text: "📍 Olay Yerine Varış", callback_data: "varis" }
+                {
+                  text: zamanlar.varis ? `✅ Olay Y. Varış ${zamanlar.varis}` : "📍 Olay Y. Varış",
+                  callback_data: "varis"
+                }
+              ],
+              [
+                {
+                  text: zamanlar.ayrilis ? `✅ Olay Y. Ayrılış ${zamanlar.ayrilis}` : "🏁 Olay Y. Ayrılış",
+                  callback_data: "ayrilis"
+                },
+                {
+                  text: zamanlar.donus ? `✅ İstasyona Dönüş ${zamanlar.donus}` : "🏠 İstasyona Dönüş",
+                  callback_data: "donus"
+                }
               ],
               [
                 { text: "✅ Olay Yeri Raporu Eklendi", url: guncelLink }
               ],
               [
-                { text: "🏁 Olay Yerinden Ayrılış", callback_data: "ayrilis" },
-                { text: "🏠 İstasyona Dönüş", callback_data: "donus" }
+                { text: "✏️ Manuel Saat Gir", callback_data: "duzelt" }
               ]
             ]
           };
 
-          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
+          const editSonucu = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               chat_id: CHAT_ID,
-              message_id: msgId,
+              message_id: Number(msgId),
               reply_markup: yeniKlavye
             })
           });
+          const editVerisi = await editSonucu.json();
+          if (!editVerisi.ok) {
+            console.error('Buton güncelleme hatası:', editVerisi.description);
+          }
         }
 
         status.style.color = "#2ecc71";
