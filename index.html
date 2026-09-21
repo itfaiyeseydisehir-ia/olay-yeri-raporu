@@ -52,7 +52,6 @@
       line-height: 1.6;
       font-weight: 500;
     }
-</style>
 
     /* Modal / Pencere Stilleri */
     .modal {
@@ -124,89 +123,91 @@
       margin-top: 8px;
       text-align: center;
     }
+    
     /* Personel Seçim Özeti (Form Modu) */
-.secilen-ozet {
-  margin-top: 10px;
-  background: #1e2936;
-  border: 1px solid #3d4d5e;
-  padding: 12px;
-  border-radius: 8px;
-  min-height: 44px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px; /* İsim kutucukları arası boşluk */
-  box-sizing: border-box;
-}
-.secilen-ozet-bos {
-  color: #808080;
-  font-size: 13px;
-  font-style: italic;
-  margin-top: 2px;
-}
-/* Profesyonel İsim Etiketleri (Tag) */
-.personel-tag {
-  background: rgba(39, 174, 96, 0.15);
-  color: #2ecc71;
-  border: 1px solid rgba(39, 174, 96, 0.4);
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-block;
-}
+    .secilen-ozet {
+      margin-top: 10px;
+      background: #1e2936;
+      border: 1px solid #3d4d5e;
+      padding: 12px;
+      border-radius: 8px;
+      min-height: 44px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      box-sizing: border-box;
+    }
+    .secilen-ozet-bos {
+      color: #808080;
+      font-size: 13px;
+      font-style: italic;
+      margin-top: 2px;
+    }
+    
+    /* Profesyonel İsim Etiketleri (Tag) */
+    .personel-tag {
+      background: rgba(39, 174, 96, 0.15);
+      color: #2ecc71;
+      border: 1px solid rgba(39, 174, 96, 0.4);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
 
-/* Rapor Notu Form Alanı (Daha geniş ve etkileşimli) */
-textarea {
-  width: 100%;
-  height: 120px; /* Yükseklik 80px'den 120px'e çıkarıldı */
-  margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #3d4d5e;
-  background: #1e2936;
-  color: #fff;
-  padding: 14px;
-  box-sizing: border-box;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: vertical; 
-  transition: border-color 0.3s ease;
-}
-textarea:focus {
-  border-color: #2ecc71;
-  outline: none;
-  background: #212d3b;
-}
+    /* Rapor Notu Form Alanı (Daha geniş ve etkileşimli) */
+    textarea {
+      width: 100%;
+      height: 120px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #3d4d5e;
+      background: #1e2936;
+      color: #fff;
+      padding: 14px;
+      box-sizing: border-box;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical; 
+      transition: border-color 0.3s ease;
+    }
+    textarea:focus {
+      border-color: #2ecc71;
+      outline: none;
+      background: #212d3b;
+    }
 
-/* GÖRÜNTÜLEME MODU (Kart İçi Bilgi Kutuları) */
-.goruntu-kutu {
-  background: #1e2936;
-  border: 1px solid #3d4d5e;
-  border-left: 4px solid #27ae60; /* Profesyonel sol vurgu çizgisi */
-  padding: 14px;
-  border-radius: 6px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-}
-.goruntu-kutu-baslik {
-  font-size: 11px;
-  color: #a0aec0;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: bold;
-}
-.goruntu-not-icerik {
-  font-size: 14px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: #ecf0f1;
-  line-height: 1.6;
-}
-.goruntu-personel-icerik {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+    /* GÖRÜNTÜLEME MODU (Kart İçi Bilgi Kutuları) */
+    .goruntu-kutu {
+      background: #1e2936;
+      border: 1px solid #3d4d5e;
+      border-left: 4px solid #27ae60;
+      padding: 14px;
+      border-radius: 6px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    .goruntu-kutu-baslik {
+      font-size: 11px;
+      color: #a0aec0;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+    }
+    .goruntu-not-icerik {
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #ecf0f1;
+      line-height: 1.6;
+    }
+    .goruntu-personel-icerik {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
     input[type="file"] { display: none; }
     .file-btn {
       display: block;
@@ -282,7 +283,6 @@ textarea:focus {
     .submit-btn:disabled { background: #555; }
     #status { margin-top: 10px; text-align: center; font-size: 13px; font-weight: bold; }
 
-    /* Görüntüleme modu (rapor zaten eklenmişse) */
     .goruntu-personel {
       font-size: 14px;
       color: #2ecc71;
@@ -311,26 +311,6 @@ textarea:focus {
     <div class="info-row"><strong>Vaka No:</strong> <span id="vakaNo">-</span></div>
     <div class="info-row"><strong>Olay Tanımı:</strong> <span id="olayTanimi">-</span></div>
   </div>
-
-  <!-- Bilgi zaten eklenmişse bu kart gösterilir, form gizlenir -->
-  <div class="card" id="goruntuCard" style="display:none;">
-  <label style="color: #2ecc71; margin-bottom: 12px;">✅ Olay Raporu Kayıtlı</label>
-  
-  <div class="goruntu-kutu">
-    <div class="goruntu-kutu-baslik">👨‍🚒 GÖREVLİ EKİP</div>
-    <div class="goruntu-personel-icerik" id="goruntuPersonel"></div>
-  </div>
-
-  <div class="foto-grid" id="goruntuFotoGrid"></div>
-
-  <div class="goruntu-kutu">
-    <div class="goruntu-kutu-baslik">📝 RAPOR / AÇIKLAMA</div>
-    <div class="goruntu-not-icerik" id="goruntuNot"></div>
-  </div>
-  
-  <div class="goruntu-zaman" id="goruntuZaman"></div>
-  <button class="secim-btn" style="margin-top: 16px;" onclick="duzenlemeModunaGec()">✏️ Düzenle / Bilgi Ekle</button>
-</div>
 
   <!-- 1. FORM KARTI (Veri Giriş ve Düzenleme Alanı) -->
   <div class="card" id="formCard">
@@ -403,20 +383,16 @@ textarea:focus {
 
     const urlParams = new URLSearchParams(window.location.search);
     const vakaNo = urlParams.get('vakaId') || 'Belirtilmedi';
-    // "olayTanimi" yeni param adı; eski butonlardan gelen linklerde henüz "olayTuru" olabilir
     const olayTanimi = urlParams.get('olayTanimi') || urlParams.get('olayTuru') || 'Belirtilmedi';
     const msgId = urlParams.get('msgId');
 
     document.getElementById('vakaNo').innerText = vakaNo;
     document.getElementById('olayTanimi').innerText = olayTanimi;
 
-    // Zaten kaydedilmiş bir bilgi varsa: satırın id'si, mevcut fotoğrafları ve
-    // mevcut personel/not metni burada tutulur ki "Düzenle" ile üzerine eklenebilsin.
     let mevcutRaporId = null;
     let mevcutFotograflar = [];
     let mevcutPersonelStr = '';
 
-    // Bir rapordan gelen fotoğraf URL'lerini (yeni çoklu dizi veya eski tekli alan) tek bir diziye çevirir
     function raporFotograflari(rapor) {
       if (Array.isArray(rapor.fotograf_urls) && rapor.fotograf_urls.length > 0) {
         return rapor.fotograf_urls;
@@ -425,8 +401,6 @@ textarea:focus {
       return [];
     }
 
-    // Sayfa açılır açılmaz: bu vaka için zaten bilgi kaydedilmiş mi diye bak.
-    // Varsa formu gizleyip kaydedilen bilgi/fotoğrafları göster (görüntüleme modu).
     async function mevcutRaporuKontrolEt() {
       try {
         const { data, error } = await supabaseClient
@@ -442,7 +416,6 @@ textarea:focus {
         }
       } catch (err) {
         console.error('Mevcut bilgi kontrol hatası:', err);
-        // Hata olsa bile formu göstermeye devam et; kullanıcı yine de bilgi girebilsin.
       }
     }
 
@@ -454,7 +427,6 @@ textarea:focus {
       document.getElementById('formCard').style.display = 'none';
       document.getElementById('goruntuCard').style.display = 'block';
 
-      // --- YENİ PROFESYONEL PERSONEL KUTULARI (TAG) KISMI ---
       const personelKutusu = document.getElementById('goruntuPersonel');
       personelKutusu.innerHTML = '';
       if (mevcutPersonelStr) {
@@ -469,7 +441,6 @@ textarea:focus {
         personelKutusu.innerHTML = '<span class="secilen-ozet-bos">Personel seçilmemiş.</span>';
       }
 
-      // --- FOTOĞRAF IZGARASI KISMI (Değişmedi) ---
       const grid = document.getElementById('goruntuFotoGrid');
       grid.innerHTML = '';
       mevcutFotograflar.forEach((url) => {
@@ -481,7 +452,6 @@ textarea:focus {
         grid.appendChild(img);
       });
 
-      // --- YENİ RAPOR NOTU KISMI ---
       document.getElementById('goruntuNot').innerText = rapor.rapor_notu || 'Açıklama girilmemiş.';
 
       if (rapor.created_at) {
@@ -491,8 +461,6 @@ textarea:focus {
       }
     }
 
-    // "Düzenle / Bilgi Ekle" butonuna basılınca: formu, mevcut bilgilerle
-    // önceden doldurulmuş şekilde tekrar açar.
     function duzenlemeModunaGec() {
       document.getElementById('goruntuCard').style.display = 'none';
       document.getElementById('formCard').style.display = 'block';
@@ -516,7 +484,6 @@ textarea:focus {
 
     mevcutRaporuKontrolEt();
 
-    // Personel listesini modal içine basma
     const container = document.getElementById('personelContainer');
     PERSONEL_LISTESI.forEach((isim) => {
       const item = document.createElement('label');
@@ -534,32 +501,31 @@ textarea:focus {
     }
 
     function guncelleOzet() {
-  const secilenler = Array.from(document.querySelectorAll('#personelContainer input:checked'))
-    .map(cb => cb.value);
-  const ozetEl = document.getElementById('secilenOzet');
-  
-  ozetEl.innerHTML = ''; // İçeriği temizle
-  
-  if (secilenler.length > 0) {
-    secilenler.forEach(isim => {
-      const tag = document.createElement('span');
-      tag.className = 'personel-tag';
-      tag.innerText = isim;
-      ozetEl.appendChild(tag);
-    });
-  } else {
-    ozetEl.innerHTML = '<span class="secilen-ozet-bos">Henüz personel seçilmedi.</span>';
-  }
-}
+      const secilenler = Array.from(document.querySelectorAll('#personelContainer input:checked'))
+        .map(cb => cb.value);
+      const ozetEl = document.getElementById('secilenOzet');
+      
+      ozetEl.innerHTML = ''; 
+      
+      if (secilenler.length > 0) {
+        secilenler.forEach(isim => {
+          const tag = document.createElement('span');
+          tag.className = 'personel-tag';
+          tag.innerText = isim;
+          ozetEl.appendChild(tag);
+        });
+      } else {
+        ozetEl.innerHTML = '<span class="secilen-ozet-bos">Henüz personel seçilmedi.</span>';
+      }
+    }
 
     const fotoInput = document.getElementById('fotoInput');
     const onizlemeGrid = document.getElementById('onizlemeGrid');
-    let secilenFotograflar = []; // Birden fazla kez "Fotoğraf Ekle" ile birikir
+    let secilenFotograflar = []; 
 
     function onizlemeleriCiz() {
       onizlemeGrid.innerHTML = '';
 
-      // Önce daha önce kaydedilmiş fotoğraflar (düzenleme modunda), silinebilir
       mevcutFotograflar.forEach((url, index) => {
         const wrap = document.createElement('div');
         wrap.className = 'foto-thumb-wrap';
@@ -583,7 +549,6 @@ textarea:focus {
         onizlemeGrid.appendChild(wrap);
       });
 
-      // Sonra bu oturumda yeni eklenen fotoğraflar, silinebilir
       secilenFotograflar.forEach((dosya, index) => {
         const wrap = document.createElement('div');
         wrap.className = 'foto-thumb-wrap';
@@ -611,7 +576,7 @@ textarea:focus {
     fotoInput.addEventListener('change', (e) => {
       secilenFotograflar.push(...Array.from(e.target.files));
       onizlemeleriCiz();
-      fotoInput.value = ''; // aynı dosyanın tekrar seçilebilmesi ve her seferinde EKLENMESİ için
+      fotoInput.value = ''; 
     });
 
     async function raporGonder() {
@@ -650,7 +615,6 @@ textarea:focus {
           yeniFotoUrlleri.push(publicRes.data.publicUrl);
         }
 
-        // Düzenleme modundaysak: kalan mevcut fotoğraflar + yeni eklenenler birleşir
         const fotoUrlleri = mevcutFotograflar.concat(yeniFotoUrlleri);
         const personelMetni = secilenPersoneller.join(', ');
 
@@ -669,12 +633,8 @@ textarea:focus {
 
         if (dbError) throw dbError;
 
-        // EĞER URL'DE MSGID VARSA ORİJİNAL MESAJIN BUTONUNU GÜNCELLE
         if (msgId) {
           const guncelLink = window.location.href;
-
-          // Varış/Ayrılış/Dönüş saatlerini bot'un Supabase'e yazdığı yerden oku ki
-          // checkmark'lar ("✅ ... 14:35" gibi) klavye yeniden kurulurken kaybolmasın.
           let zamanlar = {};
           try {
             const { data: zamanVerisi, error: zamanHata } = await supabaseClient
@@ -687,8 +647,6 @@ textarea:focus {
             console.error('Zaman bilgisi okuma hatası:', e);
           }
 
-          // Bot_v233.js'deki anaMenuKeyboard ile BİREBİR AYNI sıra/yapı:
-          // [çıkış, varış] / [ayrılış, dönüş] / [rapor] / [manuel saat gir]
           const yeniKlavye = {
             inline_keyboard: [
               [
