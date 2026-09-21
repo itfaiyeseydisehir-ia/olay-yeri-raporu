@@ -26,30 +26,31 @@
     .info-row strong { color: #808080; }
     label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; }
 
-    /* --- BURADAN İTİBAREN YENİ NEON KODLARI EKLENDİ --- */
+    /* PROFESYONEL RAPOR KUTUSU (Yenilenmiş Tipografi ve Yüksek Kontrast) */
     .neon-kutu {
-      background: rgba(39, 174, 96, 0.12);
-      border: 1px solid rgba(39, 174, 96, 0.4);
+      background: #1e2936;
+      border: 1px solid #3d4d5e;
+      border-left: 4px solid #2ecc71; /* Yeşil sol vurgu paneli */
       border-radius: 8px;
-      padding: 14px;
+      padding: 14px 16px;
       margin-top: 12px;
       margin-bottom: 12px;
-      box-shadow: 0 0 12px rgba(39, 174, 96, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
     .neon-kutu-baslik {
       font-size: 11px;
-      color: #2ecc71;
-      margin-bottom: 8px;
+      color: #2ecc71; /* Etiket başlığı için canlı yeşil */
+      margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: bold;
+      letter-spacing: 0.8px;
+      font-weight: 700;
     }
     .neon-not-icerik {
-      font-size: 14px;
+      font-size: 15px;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #2ecc71;
-      line-height: 1.6;
+      color: #ffffff; /* Bembeyaz, son derece net okuma metni */
+      line-height: 1.5;
       font-weight: 500;
     }
 
@@ -156,7 +157,7 @@
       display: inline-block;
     }
 
-    /* Rapor Notu Form Alanı (Daha geniş ve etkileşimli) */
+    /* Rapor Notu Form Alanı */
     textarea {
       width: 100%;
       height: 120px;
@@ -178,13 +179,13 @@
       background: #212d3b;
     }
 
-    /* GÖRÜNTÜLEME MODU (Kart İçi Bilgi Kutuları) */
+    /* GÖRÜNTÜLEME MODU (Personel Kutusu) */
     .goruntu-kutu {
       background: #1e2936;
       border: 1px solid #3d4d5e;
       border-left: 4px solid #27ae60;
       padding: 14px;
-      border-radius: 6px;
+      border-radius: 8px;
       margin-top: 12px;
       margin-bottom: 12px;
     }
@@ -193,15 +194,8 @@
       color: #a0aec0;
       margin-bottom: 8px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       font-weight: bold;
-    }
-    .goruntu-not-icerik {
-      font-size: 14px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      color: #ecf0f1;
-      line-height: 1.6;
     }
     .goruntu-personel-icerik {
       display: flex;
@@ -283,18 +277,6 @@
     .submit-btn:disabled { background: #555; }
     #status { margin-top: 10px; text-align: center; font-size: 13px; font-weight: bold; }
 
-    .goruntu-personel {
-      font-size: 14px;
-      color: #2ecc71;
-      font-weight: 500;
-      margin-top: 6px;
-    }
-    .goruntu-not {
-      font-size: 14px;
-      margin-top: 6px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
     .goruntu-zaman {
       font-size: 12px;
       color: #808080;
@@ -473,8 +455,7 @@
       });
       guncelleOzet();
 
-      document.getElementById('raporNotu').value = document.getElementById('goruntuNot').innerText
-        .replace(/^📝\s*/, '');
+      document.getElementById('raporNotu').value = document.getElementById('goruntuNot').innerText;
 
       secilenFotograflar = [];
       onizlemeleriCiz();
