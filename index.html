@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Olay Yeri Raporu</title>
+  <title>Olay Yeri Bilgileri</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -133,13 +133,41 @@
       font-weight: bold;
       cursor: pointer;
     }
-    #preview {
+    .foto-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .foto-thumb-wrap {
+      position: relative;
       width: 100%;
-      max-height: 200px;
+      aspect-ratio: 1 / 1;
+    }
+    .foto-thumb {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border-radius: 8px;
-      margin-top: 10px;
-      display: none;
+      cursor: pointer;
+      display: block;
+    }
+    .foto-sil-btn {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 22px;
+      text-align: center;
+      cursor: pointer;
+      padding: 0;
     }
     .submit-btn {
       width: 100%;
@@ -187,28 +215,22 @@
       margin-top: 10px;
       text-align: right;
     }
-    #goruntuFoto {
-      width: 100%;
-      border-radius: 8px;
-      margin-top: 10px;
-      display: none;
-    }
   </style>
 </head>
 <body>
 
-  <h2>📸 Olay Yeri Raporu</h2>
+  <h2>📸 Olay Yeri Bilgileri</h2>
 
   <div class="card">
     <div class="info-row"><strong>Vaka No:</strong> <span id="vakaNo">-</span></div>
-    <div class="info-row"><strong>Olay Türü:</strong> <span id="olayTuru">-</span></div>
+    <div class="info-row"><strong>Olay Tanımı:</strong> <span id="olayTanimi">-</span></div>
   </div>
 
-  <!-- Rapor zaten eklenmişse bu kart gösterilir, form gizlenir -->
+  <!-- Bilgi zaten eklenmişse bu kart gösterilir, form gizlenir -->
   <div class="card" id="goruntuCard" style="display:none;">
-    <label>✅ Rapor Zaten Eklenmiş</label>
+    <label>✅ Bilgiler Zaten Eklenmiş</label>
     <div class="goruntu-personel" id="goruntuPersonel"></div>
-    <img id="goruntuFoto" alt="Olay yeri fotoğrafı">
+    <div class="foto-grid" id="goruntuFotoGrid"></div>
     <div class="goruntu-not" id="goruntuNot"></div>
     <div class="goruntu-zaman" id="goruntuZaman"></div>
   </div>
@@ -218,15 +240,15 @@
     <button class="secim-btn" onclick="modalAc()">➕ Görevli Personel Seç</button>
     <div class="secilen-ozet" id="secilenOzet">Henüz personel seçilmedi.</div>
 
-    <label>📷 Olay Yeri Fotoğrafı:</label>
-    <label for="fotoInput" class="file-btn">Fotoğraf Çek / Seç</label>
-    <input type="file" id="fotoInput" accept="image/*" capture="environment">
-    <img id="preview" alt="Önizleme">
+    <label>📷 Olay Yeri Fotoğrafları:</label>
+    <label for="fotoInput" class="file-btn">Fotoğraf Çek / Ekle</label>
+    <input type="file" id="fotoInput" accept="image/*" capture="environment" multiple>
+    <div class="foto-grid" id="onizlemeGrid"></div>
 
     <label>📝 Rapor Notu / Açıklama:</label>
     <textarea id="raporNotu" placeholder="Olay yerindeki durum, müdahale detayları..."></textarea>
 
-    <button id="gonderBtn" class="submit-btn" onclick="raporGonder()">Raporu Kaydet ve Gönder</button>
+    <button id="gonderBtn" class="submit-btn" onclick="raporGonder()">Bilgileri Kaydet</button>
     <div id="status"></div>
   </div>
 
@@ -261,14 +283,24 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const vakaNo = urlParams.get('vakaId') || 'Belirtilmedi';
-    const olayTuru = urlParams.get('olayTuru') || 'Belirtilmedi';
-    const msgId = urlParams.get('msgId'); // EKLENEN SATIR
+    // "olayTanimi" yeni param adı; eski butonlardan gelen linklerde henüz "olayTuru" olabilir
+    const olayTanimi = urlParams.get('olayTanimi') || urlParams.get('olayTuru') || 'Belirtilmedi';
+    const msgId = urlParams.get('msgId');
 
     document.getElementById('vakaNo').innerText = vakaNo;
-    document.getElementById('olayTuru').innerText = olayTuru;
+    document.getElementById('olayTanimi').innerText = olayTanimi;
 
-    // Sayfa açılır açılmaz: bu vaka için zaten bir rapor kaydedilmiş mi diye bak.
-    // Varsa formu gizleyip kaydedilen bilgi/fotoğrafı göster (görüntüleme modu).
+    // Bir rapordan gelen fotoğraf URL'lerini (yeni çoklu dizi veya eski tekli alan) tek bir diziye çevirir
+    function raporFotograflari(rapor) {
+      if (Array.isArray(rapor.fotograf_urls) && rapor.fotograf_urls.length > 0) {
+        return rapor.fotograf_urls;
+      }
+      if (rapor.fotograf_url) return [rapor.fotograf_url];
+      return [];
+    }
+
+    // Sayfa açılır açılmaz: bu vaka için zaten bilgi kaydedilmiş mi diye bak.
+    // Varsa formu gizleyip kaydedilen bilgi/fotoğrafları göster (görüntüleme modu).
     async function mevcutRaporuKontrolEt() {
       try {
         const { data, error } = await supabaseClient
@@ -283,8 +315,8 @@
           goruntuModunuGoster(data[0]);
         }
       } catch (err) {
-        console.error('Mevcut rapor kontrol hatası:', err);
-        // Hata olsa bile formu göstermeye devam et; kullanıcı yine de rapor girebilsin.
+        console.error('Mevcut bilgi kontrol hatası:', err);
+        // Hata olsa bile formu göstermeye devam et; kullanıcı yine de bilgi girebilsin.
       }
     }
 
@@ -297,11 +329,16 @@
         ? `👨‍🚒 Ekip: ${personel}`
         : '👨‍🚒 Personel seçilmemiş.';
 
-      const foto = document.getElementById('goruntuFoto');
-      if (rapor.fotograf_url) {
-        foto.src = rapor.fotograf_url;
-        foto.style.display = 'block';
-      }
+      const grid = document.getElementById('goruntuFotoGrid');
+      grid.innerHTML = '';
+      raporFotograflari(rapor).forEach((url) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Olay yeri fotoğrafı';
+        img.className = 'foto-thumb';
+        img.onclick = () => window.open(url, '_blank');
+        grid.appendChild(img);
+      });
 
       document.getElementById('goruntuNot').innerText = rapor.rapor_notu
         ? `📝 ${rapor.rapor_notu}`
@@ -348,26 +385,50 @@
     }
 
     const fotoInput = document.getElementById('fotoInput');
-    const preview = document.getElementById('preview');
+    const onizlemeGrid = document.getElementById('onizlemeGrid');
+    let secilenFotograflar = []; // Birden fazla kez "Fotoğraf Çek / Ekle" ile birikir
+
+    function onizlemeleriCiz() {
+      onizlemeGrid.innerHTML = '';
+      secilenFotograflar.forEach((dosya, index) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'foto-thumb-wrap';
+
+        const img = document.createElement('img');
+        img.className = 'foto-thumb';
+        img.src = URL.createObjectURL(dosya);
+        img.alt = 'Önizleme';
+        wrap.appendChild(img);
+
+        const silBtn = document.createElement('button');
+        silBtn.className = 'foto-sil-btn';
+        silBtn.type = 'button';
+        silBtn.innerText = '✕';
+        silBtn.onclick = () => {
+          secilenFotograflar.splice(index, 1);
+          onizlemeleriCiz();
+        };
+        wrap.appendChild(silBtn);
+
+        onizlemeGrid.appendChild(wrap);
+      });
+    }
 
     fotoInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = 'block';
-      }
+      secilenFotograflar.push(...Array.from(e.target.files));
+      onizlemeleriCiz();
+      fotoInput.value = ''; // aynı dosyanın tekrar seçilebilmesi ve her seferinde EKLENMESİ için
     });
 
     async function raporGonder() {
       const btn = document.getElementById('gonderBtn');
       const status = document.getElementById('status');
       const raporNotu = document.getElementById('raporNotu').value;
-      const file = fotoInput.files[0];
 
       const secilenPersoneller = Array.from(document.querySelectorAll('#personelContainer input:checked'))
         .map(cb => cb.value);
 
-      if (secilenPersoneller.length === 0 && !file && !raporNotu.trim()) {
+      if (secilenPersoneller.length === 0 && secilenFotograflar.length === 0 && !raporNotu.trim()) {
         alert("Lütfen en az bir personel seçin, fotoğraf ekleyin veya açıklama yazın.");
         return;
       }
@@ -377,13 +438,14 @@
       status.innerText = "Yükleniyor, lütfen bekleyin...";
 
       try {
-        let fotoUrl = "";
+        const fotoUrlleri = [];
 
-        if (file) {
-          const dosyaAdi = `${vakaNo}_${Date.now()}.jpg`;
-          const { data, error } = await supabaseClient.storage
+        for (let i = 0; i < secilenFotograflar.length; i++) {
+          const dosya = secilenFotograflar[i];
+          const dosyaAdi = `${vakaNo}_${Date.now()}_${i}.jpg`;
+          const { error } = await supabaseClient.storage
             .from('olay-fotograflari')
-            .upload(dosyaAdi, file);
+            .upload(dosyaAdi, dosya);
 
           if (error) throw error;
 
@@ -391,7 +453,7 @@
             .from('olay-fotograflari')
             .getPublicUrl(dosyaAdi);
 
-          fotoUrl = publicRes.data.publicUrl;
+          fotoUrlleri.push(publicRes.data.publicUrl);
         }
 
         const personelMetni = secilenPersoneller.join(', ');
@@ -400,9 +462,10 @@
           .from('olay_raporlari')
           .insert([{ 
             vaka_no: vakaNo, 
-            olay_turu: olayTuru, 
+            olay_turu: olayTanimi, 
             rapor_notu: raporNotu, 
-            fotograf_url: fotoUrl,
+            fotograf_url: fotoUrlleri[0] || "",
+            fotograf_urls: fotoUrlleri,
             "Görevli Personel": personelMetni
           }]);
 
@@ -472,7 +535,7 @@
         }
 
         status.style.color = "#2ecc71";
-        status.innerText = "Rapor başarıyla gönderildi!";
+        status.innerText = "Bilgiler başarıyla kaydedildi!";
         setTimeout(() => tg.close(), 1500);
 
       } catch (err) {
