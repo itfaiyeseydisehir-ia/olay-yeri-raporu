@@ -26,11 +26,11 @@
     .info-row strong { color: #808080; }
     label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; }
 
-    /* PROFESYONEL RAPOR KUTUSU (Yenilenmiş Tipografi ve Yüksek Kontrast) */
+    /* PROFESYONEL RAPOR KUTUSU */
     .neon-kutu {
       background: #1e2936;
       border: 1px solid #3d4d5e;
-      border-left: 4px solid #2ecc71; /* Yeşil sol vurgu paneli */
+      border-left: 4px solid #2ecc71;
       border-radius: 8px;
       padding: 14px 16px;
       margin-top: 12px;
@@ -39,7 +39,7 @@
     }
     .neon-kutu-baslik {
       font-size: 11px;
-      color: #2ecc71; /* Etiket başlığı için canlı yeşil */
+      color: #2ecc71;
       margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -49,7 +49,7 @@
       font-size: 15px;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #ffffff; /* Bembeyaz, son derece net okuma metni */
+      color: #ffffff;
       line-height: 1.5;
       font-weight: 500;
     }
@@ -125,7 +125,7 @@
       text-align: center;
     }
     
-    /* Personel Seçim Özeti (Form Modu) */
+    /* Personel Seçim Özeti */
     .secilen-ozet {
       margin-top: 10px;
       background: #1e2936;
@@ -145,7 +145,7 @@
       margin-top: 2px;
     }
     
-    /* Profesyonel İsim Etiketleri (Tag) */
+    /* Personel Etiketleri */
     .personel-tag {
       background: rgba(39, 174, 96, 0.15);
       color: #2ecc71;
@@ -157,7 +157,7 @@
       display: inline-block;
     }
 
-    /* Rapor Notu Form Alanı */
+    /* Form Alanı */
     textarea {
       width: 100%;
       height: 120px;
@@ -179,7 +179,7 @@
       background: #212d3b;
     }
 
-    /* GÖRÜNTÜLEME MODU (Personel Kutusu) */
+    /* GÖRÜNTÜLEME MODU */
     .goruntu-kutu {
       background: #1e2936;
       border: 1px solid #3d4d5e;
@@ -294,7 +294,7 @@
     <div class="info-row"><strong>Olay Tanımı:</strong> <span id="olayTanimi">-</span></div>
   </div>
 
-  <!-- 1. FORM KARTI (Veri Giriş ve Düzenleme Alanı) -->
+  <!-- 1. FORM KARTI -->
   <div class="card" id="formCard">
     <label>👨‍🚒 Görevdeki Personeller:</label>
     <button class="secim-btn" onclick="modalAc()">➕ Görevli Personel Seç</button>
@@ -314,7 +314,7 @@
     <div id="status"></div>
   </div>
 
-  <!-- 2. GÖRÜNTÜLEME KARTI (Rapor Kayıtlıysa Açılan Neon Kutu) -->
+  <!-- 2. GÖRÜNTÜLEME KARTI -->
   <div class="card" id="goruntuCard" style="display:none;">
     <label style="color: #2ecc71; margin-bottom: 12px;">✅ Olay Raporu Kayıtlı</label>
     
@@ -334,7 +334,7 @@
     <button class="secim-btn" style="margin-top: 16px;" onclick="duzenlemeModunaGec()">✏️ Düzenle / Bilgi Ekle</button>
   </div>
 
-  <!-- 3. PERSONEL SEÇİM PENCERESİ (Modal) -->
+  <!-- 3. PERSONEL SEÇİM PENCERESİ -->
   <div id="personelModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">👨‍🚒 Görevli Personel Seçimi</div>
@@ -561,145 +561,159 @@
     });
 
     async function raporGonder() {
-  const btn = document.getElementById('gonderBtn');
-  const status = document.getElementById('status');
-  const raporNotu = document.getElementById('raporNotu').value;
+      const btn = document.getElementById('gonderBtn');
+      const status = document.getElementById('status');
+      const raporNotu = document.getElementById('raporNotu').value;
 
-  const secilenPersoneller = Array.from(document.querySelectorAll('#personelContainer input:checked'))
-    .map(cb => cb.value);
+      const secilenPersoneller = Array.from(document.querySelectorAll('#personelContainer input:checked'))
+        .map(cb => cb.value);
 
-  if (secilenPersoneller.length === 0 && secilenFotograflar.length === 0 && mevcutFotograflar.length === 0 && !raporNotu.trim()) {
-    alert("Lütfen en az bir personel seçin, fotoğraf ekleyin veya açıklama yazın.");
-    return;
-  }
+      if (secilenPersoneller.length === 0 && secilenFotograflar.length === 0 && mevcutFotograflar.length === 0 && !raporNotu.trim()) {
+        alert("Lütfen en az bir personel seçin, fotoğraf ekleyin veya açıklama yazın.");
+        return;
+      }
 
-  btn.disabled = true;
-  status.style.color = "#f39c12";
-  status.innerText = "Yükleniyor, lütfen bekleyin...";
+      btn.disabled = true;
+      status.style.color = "#f39c12";
+      status.innerText = "Yükleniyor, lütfen bekleyin...";
 
-  // İlk ekleme mi kontrolü (Veritabanında daha önce id yoksa ilk eklemedir)
-  const ilkEklemeMi = !mevcutRaporId;
+      // İlk ekleme kontrolü
+      const ilkEklemeMi = !mevcutRaporId;
 
-  try {
-    const yeniFotoUrlleri = [];
-
-    for (let i = 0; i < secilenFotograflar.length; i++) {
-      const dosya = secilenFotograflar[i];
-      const dosyaAdi = `${vakaNo}_${Date.now()}_${i}.jpg`;
-      const { error } = await supabaseClient.storage
-        .from('olay-fotograflari')
-        .upload(dosyaAdi, dosya);
-
-      if (error) throw error;
-
-      const publicRes = supabaseClient.storage
-        .from('olay-fotograflari')
-        .getPublicUrl(dosyaAdi);
-
-      yeniFotoUrlleri.push(publicRes.data.publicUrl);
-    }
-
-    const fotoUrlleri = mevcutFotograflar.concat(yeniFotoUrlleri);
-    const personelMetni = secilenPersoneller.join(', ');
-
-    const kayitVerisi = {
-      vaka_no: vakaNo,
-      olay_turu: olayTanimi,
-      rapor_notu: raporNotu,
-      fotograf_url: fotoUrlleri[0] || "",
-      fotograf_urls: fotoUrlleri,
-      "Görevli Personel": personelMetni
-    };
-
-    const { error: dbError } = mevcutRaporId
-      ? await supabaseClient.from('olay_raporlari').update(kayitVerisi).eq('id', mevcutRaporId)
-      : await supabaseClient.from('olay_raporlari').insert([kayitVerisi]);
-
-    if (dbError) throw dbError;
-
-    if (msgId) {
-      const guncelLink = window.location.href;
-      let zamanlar = {};
       try {
-        const { data: zamanVerisi, error: zamanHata } = await supabaseClient
-          .from('vaka_zamanlari')
-          .select('varis, ayrilis, donus')
-          .eq('message_id', Number(msgId))
-          .maybeSingle();
-        if (!zamanHata && zamanVerisi) zamanlar = zamanVerisi;
-      } catch (e) {
-        console.error('Zaman bilgisi okuma hatası:', e);
-      }
+        const yeniFotoUrlleri = [];
 
-      // 1. Telegram Mesaj Butonunu Güncelle (Sessiz işlem)
-      const yeniKlavye = {
-        inline_keyboard: [
-          [
-            { text: "🚦 İstasyondan Çıkış", callback_data: "cikis" },
-            {
-              text: zamanlar.varis ? `✅ Olay Y. Varış ${zamanlar.varis}` : "📍 Olay Y. Varış",
-              callback_data: "varis"
-            }
-          ],
-          [
-            {
-              text: zamanlar.ayrilis ? `✅ Olay Y. Ayrılış ${zamanlar.ayrilis}` : "🏁 Olay Y. Ayrılış",
-              callback_data: "ayrilis"
-            },
-            {
-              text: zamanlar.donus ? `✅ İstasyona Dönüş ${zamanlar.donus}` : "🏠 İstasyona Dönüş",
-              callback_data: "donus"
-            }
-          ],
-          [
-            { text: "✅ Olay Yeri Bilgileri Eklendi", url: guncelLink }
-          ],
-          [
-            { text: "✏️ Manuel Saat Gir", callback_data: "duzelt" }
-          ]
-        ]
-      };
+        for (let i = 0; i < secilenFotograflar.length; i++) {
+          const dosya = secilenFotograflar[i];
+          const dosyaAdi = `${vakaNo}_${Date.now()}_${i}.jpg`;
+          const { error } = await supabaseClient.storage
+            .from('olay-fotograflari')
+            .upload(dosyaAdi, dosya);
 
-      const editSonucu = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          message_id: Number(msgId),
-          reply_markup: yeniKlavye
-        })
-      });
-      
-      const editVerisi = await editSonucu.json();
-      if (!editVerisi.ok) {
-        console.error('Buton güncelleme hatası:', editVerisi.description);
-      }
+          if (error) throw error;
 
-      // 2. Yalnızca İLK defa bilgi/fotoğraf eklendiğinde gruba sesli bildirim (yeni mesaj) gönder
-      if (ilkEklemeMi) {
-        const bildirimMetni = `📸 <b>Olay Yeri Bilgileri Eklendi</b>\n\n<b>Vaka No:</b> ${vakaNo}\n<b>Olay:</b> ${olayTanimi}\n\nEkipler olay yeri fotoğraflarını ve detaylarını sisteme ekledi.`;
+          const publicRes = supabaseClient.storage
+            .from('olay-fotograflari')
+            .getPublicUrl(dosyaAdi);
 
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            reply_to_message_id: Number(msgId),
-            text: bildirimMetni,
-            parse_mode: 'HTML'
-          })
-        });
+          yeniFotoUrlleri.push(publicRes.data.publicUrl);
+        }
+
+        const fotoUrlleri = mevcutFotograflar.concat(yeniFotoUrlleri);
+        const personelMetni = secilenPersoneller.join(', ');
+
+        const kayitVerisi = {
+          vaka_no: vakaNo,
+          olay_turu: olayTanimi,
+          rapor_notu: raporNotu,
+          fotograf_url: fotoUrlleri[0] || "",
+          fotograf_urls: fotoUrlleri,
+          "Görevli Personel": personelMetni
+        };
+
+        if (mevcutRaporId) {
+          const { error: dbError } = await supabaseClient
+            .from('olay_raporlari')
+            .update(kayitVerisi)
+            .eq('id', mevcutRaporId);
+          if (dbError) throw dbError;
+        } else {
+          const { data: insData, error: dbError } = await supabaseClient
+            .from('olay_raporlari')
+            .insert([kayitVerisi])
+            .select();
+          if (dbError) throw dbError;
+          if (insData && insData.length > 0) {
+            mevcutRaporId = insData[0].id; // Oluşan ID hafızaya yazılır
+          }
+        }
+
+        if (msgId) {
+          const guncelLink = window.location.href;
+          let zamanlar = {};
+          try {
+            const { data: zamanVerisi, error: zamanHata } = await supabaseClient
+              .from('vaka_zamanlari')
+              .select('varis, ayrilis, donus')
+              .eq('message_id', Number(msgId))
+              .maybeSingle();
+            if (!zamanHata && zamanVerisi) zamanlar = zamanVerisi;
+          } catch (e) {
+            console.error('Zaman bilgisi okuma hatası:', e);
+          }
+
+          // 1. Telegram Mesaj Butonunu Güncelle (Sessiz)
+          const yeniKlavye = {
+            inline_keyboard: [
+              [
+                { text: "🚦 İstasyondan Çıkış", callback_data: "cikis" },
+                {
+                  text: zamanlar.varis ? `✅ Olay Y. Varış ${zamanlar.varis}` : "📍 Olay Y. Varış",
+                  callback_data: "varis"
+                }
+              ],
+              [
+                {
+                  text: zamanlar.ayrilis ? `✅ Olay Y. Ayrılış ${zamanlar.ayrilis}` : "🏁 Olay Y. Ayrılış",
+                  callback_data: "ayrilis"
+                },
+                {
+                  text: zamanlar.donus ? `✅ İstasyona Dönüş ${zamanlar.donus}` : "🏠 İstasyona Dönüş",
+                  callback_data: "donus"
+                }
+              ],
+              [
+                { text: "✅ Olay Yeri Bilgileri Eklendi", url: guncelLink }
+              ],
+              [
+                { text: "✏️ Manuel Saat Gir", callback_data: "duzelt" }
+              ]
+            ]
+          };
+
+          const editSonucu = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              message_id: Number(msgId),
+              reply_markup: yeniKlavye
+            })
+          });
+          
+          const editVerisi = await editSonucu.json();
+          if (!editVerisi.ok) {
+            console.error('Buton güncelleme hatası:', editVerisi.description);
+          }
+
+          // 2. Yalnızca İLK defa bilgi/fotoğraf eklendiğinde gruba sesli bildirim mesajı gönder
+          if (ilkEklemeMi) {
+            const bildirimMetni = `📸 <b>Olay Yeri Bilgileri Eklendi</b>\n\n<b>Vaka No:</b> ${vakaNo}\n<b>Olay:</b> ${olayTanimi}\n\nEkipler olay yeri fotoğraflarını ve detaylarını sisteme ekledi.`;
+
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: CHAT_ID,
+                reply_to_message_id: Number(msgId),
+                text: bildirimMetni,
+                parse_mode: 'HTML'
+              })
+            });
+          }
+        }
+
+        status.style.color = "#2ecc71";
+        status.innerText = "Bilgiler başarıyla kaydedildi!";
+        setTimeout(() => tg.close(), 1500);
+
+      } catch (err) {
+        console.error(err);
+        status.style.color = "#e74c3c";
+        status.innerText = "Hata oluştu: " + err.message;
+        btn.disabled = false;
       }
     }
-
-    status.style.color = "#2ecc71";
-    status.innerText = "Bilgiler başarıyla kaydedildi!";
-    setTimeout(() => tg.close(), 1500);
-
-  } catch (err) {
-    console.error(err);
-    status.style.color = "#e74c3c";
-    status.innerText = "Hata oluştu: " + err.message;
-    btn.disabled = false;
-  }
-}
+  </script>
+</body>
+</html>
