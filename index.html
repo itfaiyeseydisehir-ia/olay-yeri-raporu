@@ -26,6 +26,34 @@
     .info-row strong { color: #808080; }
     label { display: block; margin-top: 12px; font-weight: bold; font-size: 14px; }
 
+    /* --- BURADAN İTİBAREN YENİ NEON KODLARI EKLENDİ --- */
+    .neon-kutu {
+      background: rgba(39, 174, 96, 0.12);
+      border: 1px solid rgba(39, 174, 96, 0.4);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 12px rgba(39, 174, 96, 0.15);
+    }
+    .neon-kutu-baslik {
+      font-size: 11px;
+      color: #2ecc71;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+    }
+    .neon-not-icerik {
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #2ecc71;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+</style>
+
     /* Modal / Pencere Stilleri */
     .modal {
       display: none;
@@ -304,14 +332,17 @@ textarea:focus {
   <button class="secim-btn" style="margin-top: 16px;" onclick="duzenlemeModunaGec()">✏️ Düzenle / Bilgi Ekle</button>
 </div>
 
+  <!-- 1. FORM KARTI (Veri Giriş ve Düzenleme Alanı) -->
   <div class="card" id="formCard">
     <label>👨‍🚒 Görevdeki Personeller:</label>
     <button class="secim-btn" onclick="modalAc()">➕ Görevli Personel Seç</button>
-    <div class="secilen-ozet" id="secilenOzet">Henüz personel seçilmedi.</div>
+    <div class="secilen-ozet" id="secilenOzet">
+      <span class="secilen-ozet-bos">Henüz personel seçilmedi.</span>
+    </div>
 
     <label>📷 Olay Yeri Fotoğrafları:</label>
     <label for="fotoInput" class="file-btn">Fotoğraf Ekle</label>
-    <input type="file" id="fotoInput" accept="image/*" multiple>
+    <input type="file" id="fotoInput" accept="image/*" multiple style="display: none;">
     <div class="foto-grid" id="onizlemeGrid"></div>
 
     <label>📝 Rapor Notu / Açıklama:</label>
@@ -321,7 +352,27 @@ textarea:focus {
     <div id="status"></div>
   </div>
 
-  <!-- Personel Seçim Penceresi (Modal) -->
+  <!-- 2. GÖRÜNTÜLEME KARTI (Rapor Kayıtlıysa Açılan Neon Kutu) -->
+  <div class="card" id="goruntuCard" style="display:none;">
+    <label style="color: #2ecc71; margin-bottom: 12px;">✅ Olay Raporu Kayıtlı</label>
+    
+    <div class="goruntu-kutu">
+      <div class="goruntu-kutu-baslik">👨‍🚒 GÖREVLİ EKİP</div>
+      <div class="goruntu-personel-icerik" id="goruntuPersonel"></div>
+    </div>
+
+    <div class="foto-grid" id="goruntuFotoGrid"></div>
+
+    <div class="neon-kutu">
+      <div class="neon-kutu-baslik">📝 RAPOR / AÇIKLAMA</div>
+      <div class="neon-not-icerik" id="goruntuNot"></div>
+    </div>
+    
+    <div class="goruntu-zaman" id="goruntuZaman"></div>
+    <button class="secim-btn" style="margin-top: 16px;" onclick="duzenlemeModunaGec()">✏️ Düzenle / Bilgi Ekle</button>
+  </div>
+
+  <!-- 3. PERSONEL SEÇİM PENCERESİ (Modal) -->
   <div id="personelModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">👨‍🚒 Görevli Personel Seçimi</div>
