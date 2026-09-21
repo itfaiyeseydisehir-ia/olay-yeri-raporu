@@ -233,6 +233,7 @@
     <div class="foto-grid" id="goruntuFotoGrid"></div>
     <div class="goruntu-not" id="goruntuNot"></div>
     <div class="goruntu-zaman" id="goruntuZaman"></div>
+    <button class="secim-btn" onclick="duzenlemeModunaGec()">✏️ Düzenle / Bilgi Ekle</button>
   </div>
 
   <div class="card" id="formCard">
@@ -290,6 +291,12 @@
     document.getElementById('vakaNo').innerText = vakaNo;
     document.getElementById('olayTanimi').innerText = olayTanimi;
 
+    // Zaten kaydedilmiş bir bilgi varsa: satırın id'si, mevcut fotoğrafları ve
+    // mevcut personel/not metni burada tutulur ki "Düzenle" ile üzerine eklenebilsin.
+    let mevcutRaporId = null;
+    let mevcutFotograflar = [];
+    let mevcutPersonelStr = '';
+
     // Bir rapordan gelen fotoğraf URL'lerini (yeni çoklu dizi veya eski tekli alan) tek bir diziye çevirir
     function raporFotograflari(rapor) {
       if (Array.isArray(rapor.fotograf_urls) && rapor.fotograf_urls.length > 0) {
@@ -321,17 +328,20 @@
     }
 
     function goruntuModunuGoster(rapor) {
+      mevcutRaporId = rapor.id;
+      mevcutFotograflar = raporFotograflari(rapor);
+      mevcutPersonelStr = rapor['Görevli Personel'] || '';
+
       document.getElementById('formCard').style.display = 'none';
       document.getElementById('goruntuCard').style.display = 'block';
 
-      const personel = rapor['Görevli Personel'];
-      document.getElementById('goruntuPersonel').innerText = personel
-        ? `👨‍🚒 Ekip: ${personel}`
+      document.getElementById('goruntuPersonel').innerText = mevcutPersonelStr
+        ? `👨‍🚒 Ekip: ${mevcutPersonelStr}`
         : '👨‍🚒 Personel seçilmemiş.';
 
       const grid = document.getElementById('goruntuFotoGrid');
       grid.innerHTML = '';
-      raporFotograflari(rapor).forEach((url) => {
+      mevcutFotograflar.forEach((url) => {
         const img = document.createElement('img');
         img.src = url;
         img.alt = 'Olay yeri fotoğrafı';
@@ -349,6 +359,29 @@
         document.getElementById('goruntuZaman').innerText =
           'Eklenme: ' + tarih.toLocaleString('tr-TR');
       }
+    }
+
+    // "Düzenle / Bilgi Ekle" butonuna basılınca: formu, mevcut bilgilerle
+    // önceden doldurulmuş şekilde tekrar açar.
+    function duzenlemeModunaGec() {
+      document.getElementById('goruntuCard').style.display = 'none';
+      document.getElementById('formCard').style.display = 'block';
+
+      const seciliIsimler = mevcutPersonelStr
+        ? mevcutPersonelStr.split(',').map(s => s.trim())
+        : [];
+      document.querySelectorAll('#personelContainer input[type="checkbox"]').forEach((cb) => {
+        cb.checked = seciliIsimler.includes(cb.value);
+      });
+      guncelleOzet();
+
+      document.getElementById('raporNotu').value = document.getElementById('goruntuNot').innerText
+        .replace(/^📝\s*/, '');
+
+      secilenFotograflar = [];
+      onizlemeleriCiz();
+
+      document.getElementById('status').innerText = '';
     }
 
     mevcutRaporuKontrolEt();
@@ -390,6 +423,32 @@
 
     function onizlemeleriCiz() {
       onizlemeGrid.innerHTML = '';
+
+      // Önce daha önce kaydedilmiş fotoğraflar (düzenleme modunda), silinebilir
+      mevcutFotograflar.forEach((url, index) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'foto-thumb-wrap';
+
+        const img = document.createElement('img');
+        img.className = 'foto-thumb';
+        img.src = url;
+        img.alt = 'Kayıtlı fotoğraf';
+        wrap.appendChild(img);
+
+        const silBtn = document.createElement('button');
+        silBtn.className = 'foto-sil-btn';
+        silBtn.type = 'button';
+        silBtn.innerText = '✕';
+        silBtn.onclick = () => {
+          mevcutFotograflar.splice(index, 1);
+          onizlemeleriCiz();
+        };
+        wrap.appendChild(silBtn);
+
+        onizlemeGrid.appendChild(wrap);
+      });
+
+      // Sonra bu oturumda yeni eklenen fotoğraflar, silinebilir
       secilenFotograflar.forEach((dosya, index) => {
         const wrap = document.createElement('div');
         wrap.className = 'foto-thumb-wrap';
@@ -428,7 +487,7 @@
       const secilenPersoneller = Array.from(document.querySelectorAll('#personelContainer input:checked'))
         .map(cb => cb.value);
 
-      if (secilenPersoneller.length === 0 && secilenFotograflar.length === 0 && !raporNotu.trim()) {
+      if (secilenPersoneller.length === 0 && secilenFotograflar.length === 0 && mevcutFotograflar.length === 0 && !raporNotu.trim()) {
         alert("Lütfen en az bir personel seçin, fotoğraf ekleyin veya açıklama yazın.");
         return;
       }
@@ -438,7 +497,7 @@
       status.innerText = "Yükleniyor, lütfen bekleyin...";
 
       try {
-        const fotoUrlleri = [];
+        const yeniFotoUrlleri = [];
 
         for (let i = 0; i < secilenFotograflar.length; i++) {
           const dosya = secilenFotograflar[i];
@@ -453,21 +512,25 @@
             .from('olay-fotograflari')
             .getPublicUrl(dosyaAdi);
 
-          fotoUrlleri.push(publicRes.data.publicUrl);
+          yeniFotoUrlleri.push(publicRes.data.publicUrl);
         }
 
+        // Düzenleme modundaysak: kalan mevcut fotoğraflar + yeni eklenenler birleşir
+        const fotoUrlleri = mevcutFotograflar.concat(yeniFotoUrlleri);
         const personelMetni = secilenPersoneller.join(', ');
 
-        const { error: dbError } = await supabaseClient
-          .from('olay_raporlari')
-          .insert([{ 
-            vaka_no: vakaNo, 
-            olay_turu: olayTanimi, 
-            rapor_notu: raporNotu, 
-            fotograf_url: fotoUrlleri[0] || "",
-            fotograf_urls: fotoUrlleri,
-            "Görevli Personel": personelMetni
-          }]);
+        const kayitVerisi = {
+          vaka_no: vakaNo,
+          olay_turu: olayTanimi,
+          rapor_notu: raporNotu,
+          fotograf_url: fotoUrlleri[0] || "",
+          fotograf_urls: fotoUrlleri,
+          "Görevli Personel": personelMetni
+        };
+
+        const { error: dbError } = mevcutRaporId
+          ? await supabaseClient.from('olay_raporlari').update(kayitVerisi).eq('id', mevcutRaporId)
+          : await supabaseClient.from('olay_raporlari').insert([kayitVerisi]);
 
         if (dbError) throw dbError;
 
