@@ -241,8 +241,8 @@
     <div class="secilen-ozet" id="secilenOzet">Henüz personel seçilmedi.</div>
 
     <label>📷 Olay Yeri Fotoğrafları:</label>
-    <label for="fotoInput" class="file-btn">Fotoğraf Çek / Ekle</label>
-    <input type="file" id="fotoInput" accept="image/*" capture="environment" multiple>
+    <label for="fotoInput" class="file-btn">Fotoğraf Ekle</label>
+    <input type="file" id="fotoInput" accept="image/*" multiple>
     <div class="foto-grid" id="onizlemeGrid"></div>
 
     <label>📝 Rapor Notu / Açıklama:</label>
@@ -386,7 +386,7 @@
 
     const fotoInput = document.getElementById('fotoInput');
     const onizlemeGrid = document.getElementById('onizlemeGrid');
-    let secilenFotograflar = []; // Birden fazla kez "Fotoğraf Çek / Ekle" ile birikir
+    let secilenFotograflar = []; // Birden fazla kez "Fotoğraf Ekle" ile birikir
 
     function onizlemeleriCiz() {
       onizlemeGrid.innerHTML = '';
