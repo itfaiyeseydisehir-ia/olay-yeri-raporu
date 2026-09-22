@@ -2,71 +2,53 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0,
-             maximum-scale=1.0, user-scalable=no"
-  >
-
-  <meta name="theme-color" content="#8B0000">
-
-  <title>Seydişehir İtfaiyesi | Olay Yeri Raporlama</title>
+  <title>Seydişehir İtfaiyesi | Olay Yeri Bilgileri</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
-    /* =========================================================
-       SEYDİŞEHİR İTFAİYESİ
-       OLAY YERİ RAPORLAMA SİSTEMİ
-       ========================================================= */
-
-    :root {
-      --itfaiye-kirmizi: #8B0000;
-      --itfaiye-kirmizi-acik: #b71c1c;
-      --itfaiye-kirmizi-koyu: #5f0000;
-
-      --arka-plan: #101417;
-      --kart: #191e23;
-      --kart-2: #20262c;
-      --kart-3: #262d34;
-
-      --border: #343c44;
-      --border-acik: #454e57;
-
-      --beyaz: #ffffff;
-      --metin: #f1f3f5;
-      --ikincil-metin: #aab2ba;
-      --pasif: #707981;
-
-      --yesil: #2eaf68;
-      --yesil-acik: #3dcc7c;
-
-      --turuncu: #e89b28;
-      --mavi: #357abd;
-
-      --golge:
-        0 12px 30px rgba(0, 0, 0, 0.30);
-
-      --radius: 14px;
-    }
-
     * {
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
     }
 
-    html {
-      background: var(--arka-plan);
+    :root {
+      --kirmizi: #b71c1c;
+      --kirmizi-koyu: #8f1111;
+      --kirmizi-acik: #d32f2f;
+
+      --arka: #f4f6f8;
+      --kart: #ffffff;
+      --kart-2: #fafbfc;
+
+      --metin: #1f2937;
+      --ikincil: #6b7280;
+      --cizgi: #e1e5ea;
+
+      --yesil: #168a4a;
+      --yesil-acik: #e9f7ef;
+
+      --mavi: #1769aa;
+      --mavi-acik: #edf6fd;
+
+      --turuncu: #d97706;
+      --turuncu-acik: #fff7e8;
+
+      --golge: 0 4px 18px rgba(15, 23, 42, 0.07);
+      --golge-buyuk: 0 15px 45px rgba(15, 23, 42, 0.18);
     }
 
+    html,
     body {
       margin: 0;
       padding: 0;
-      min-height: 100vh;
+      width: 100%;
+      min-height: 100%;
+    }
 
+    body {
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -76,595 +58,316 @@
         Arial,
         sans-serif;
 
+      background: var(--arka);
       color: var(--metin);
-      background:
-        radial-gradient(
-          circle at top center,
-          rgba(139, 0, 0, 0.18),
-          transparent 420px
-        ),
-        var(--arka-plan);
 
+      padding: 14px;
       -webkit-font-smoothing: antialiased;
     }
 
-    button,
-    textarea,
-    input {
-      font-family: inherit;
-    }
-
-    button {
-      -webkit-appearance: none;
-    }
-
-
     /* =========================================================
-       ANA KONTEYNER
+       ÜST BAŞLIK
        ========================================================= */
 
-    .app-container {
-      width: 100%;
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 14px 14px 30px;
-    }
+    .ust-baslik {
+      background: linear-gradient(
+        135deg,
+        #8f1111 0%,
+        #b71c1c 55%,
+        #c62828 100%
+      );
 
-
-    /* =========================================================
-       ÜST KURUMSAL BAŞLIK
-       ========================================================= */
-
-    .header {
-      position: relative;
-
-      background:
-        linear-gradient(
-          135deg,
-          #8B0000 0%,
-          #710000 55%,
-          #500000 100%
-        );
-
+      color: white;
       border-radius: 18px;
 
       padding: 20px 18px;
-
       margin-bottom: 14px;
 
-      overflow: hidden;
-
-      box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255,255,255,0.10);
-    }
-
-    .header::after {
-      content: "🚒";
-
-      position: absolute;
-      right: 14px;
-      bottom: -18px;
-
-      font-size: 86px;
-      opacity: 0.10;
-
-      pointer-events: none;
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      gap: 13px;
+      box-shadow: 0 7px 22px rgba(183, 28, 28, 0.18);
 
       position: relative;
-      z-index: 1;
+      overflow: hidden;
     }
 
-    .logo-box {
-      width: 48px;
-      height: 48px;
+    .ust-baslik::after {
+      content: "";
+      position: absolute;
+      right: -55px;
+      top: -65px;
 
-      flex: 0 0 48px;
+      width: 160px;
+      height: 160px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: rgba(255,255,255,0.12);
-
-      border: 1px solid rgba(255,255,255,0.20);
-
-      border-radius: 13px;
-
-      font-size: 26px;
-
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.12);
+      border-radius: 50%;
+      border: 18px solid rgba(255,255,255,0.06);
     }
 
-    .header-title {
-      min-width: 0;
-    }
-
-    .header-title h1 {
-      margin: 0;
-
-      font-size: 18px;
-      line-height: 1.2;
-
+    .kurum-adi {
+      font-size: 21px;
       font-weight: 800;
-
-      letter-spacing: 0.2px;
-
-      color: #ffffff;
+      letter-spacing: -0.3px;
+      position: relative;
+      z-index: 2;
     }
 
-    .header-title p {
-      margin: 4px 0 0;
+    .sayfa-baslik {
+      margin-top: 4px;
 
-      font-size: 11px;
+      font-size: 13px;
+      font-weight: 500;
 
-      font-weight: 600;
+      opacity: 0.88;
 
-      letter-spacing: 1px;
-
-      color: rgba(255,255,255,0.72);
-
-      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
     }
-
-    .header-line {
-      height: 1px;
-
-      margin-top: 17px;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,0.28),
-          rgba(255,255,255,0)
-        );
-    }
-
 
     /* =========================================================
-       VAKA KARTI
+       KARTLAR
        ========================================================= */
 
-    .vaka-card {
-      background:
-        linear-gradient(
-          145deg,
-          #20262c,
-          #181d22
-        );
+    .card {
+      background: var(--kart);
 
-      border: 1px solid var(--border);
+      border: 1px solid var(--cizgi);
+      border-radius: 16px;
 
-      border-radius: var(--radius);
-
-      overflow: hidden;
+      padding: 17px;
 
       margin-bottom: 14px;
 
       box-shadow: var(--golge);
     }
 
-    .vaka-status {
+    .card-baslik {
       display: flex;
       align-items: center;
-      gap: 8px;
-
-      padding: 10px 14px;
-
-      background: rgba(139,0,0,0.14);
-
-      border-bottom: 1px solid rgba(139,0,0,0.35);
-
-      font-size: 11px;
-      font-weight: 800;
-
-      letter-spacing: 0.8px;
-
-      color: #ff8585;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-
-      border-radius: 50%;
-
-      background: #ef5350;
-
-      box-shadow:
-        0 0 0 4px rgba(239,83,80,0.12),
-        0 0 12px rgba(239,83,80,0.40);
-    }
-
-    .vaka-content {
-      padding: 17px;
-    }
-
-    .vaka-no-label {
-      color: var(--pasif);
-
-      font-size: 10px;
-      font-weight: 700;
-
-      letter-spacing: 1px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 3px;
-    }
-
-    .vaka-no {
-      color: #ffffff;
-
-      font-size: 26px;
-      font-weight: 800;
-
-      line-height: 1.1;
-
-      letter-spacing: 0.5px;
-
-      margin-bottom: 15px;
-    }
-
-    .olay-box {
-      display: flex;
-      align-items: flex-start;
-
-      gap: 11px;
-
-      background: #151a1f;
-
-      border: 1px solid #30373e;
-
-      border-radius: 11px;
-
-      padding: 12px;
-    }
-
-    .olay-icon {
-      width: 34px;
-      height: 34px;
-
-      flex: 0 0 34px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 9px;
-
-      background: rgba(139,0,0,0.18);
-
-      font-size: 18px;
-    }
-
-    .olay-label {
-      font-size: 10px;
-
-      color: var(--pasif);
-
-      font-weight: 700;
-
-      letter-spacing: 0.8px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 3px;
-    }
-
-    .olay-value {
-      color: #ffffff;
+      gap: 9px;
 
       font-size: 14px;
+      font-weight: 800;
 
+      color: var(--metin);
+
+      margin-bottom: 13px;
+    }
+
+    .baslik-cizgi {
+      width: 4px;
+      height: 19px;
+
+      border-radius: 5px;
+
+      background: var(--kirmizi);
+    }
+
+    /* =========================================================
+       OLAY BİLGİLERİ
+       ========================================================= */
+
+    .olay-bilgi-karti {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .olay-bilgi-ust {
+      background: #f8fafc;
+
+      border-bottom: 1px solid var(--cizgi);
+
+      padding: 13px 16px;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      color: var(--kirmizi);
+
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .olay-bilgi-icerik {
+      padding: 15px 16px;
+    }
+
+    .info-row {
+      display: flex;
+      flex-direction: column;
+
+      gap: 4px;
+
+      margin-bottom: 13px;
+    }
+
+    .info-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-label {
+      color: var(--ikincil);
+
+      font-size: 11px;
       font-weight: 700;
 
-      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .info-value {
+      color: var(--metin);
+
+      font-size: 15px;
+      font-weight: 700;
 
       word-break: break-word;
     }
 
-
     /* =========================================================
-       GENEL KART
-       ========================================================= */
-
-    .card {
-      background:
-        linear-gradient(
-          145deg,
-          rgba(32,38,44,0.98),
-          rgba(24,29,34,0.98)
-        );
-
-      border: 1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      padding: 17px;
-
-      margin-bottom: 14px;
-
-      box-shadow: var(--golge);
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      margin-bottom: 14px;
-    }
-
-    .section-icon {
-      width: 38px;
-      height: 38px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 10px;
-
-      background: rgba(139,0,0,0.15);
-
-      border: 1px solid rgba(139,0,0,0.30);
-
-      font-size: 19px;
-    }
-
-    .section-title-text {
-      flex: 1;
-    }
-
-    .section-title-text h2 {
-      margin: 0;
-
-      color: #ffffff;
-
-      font-size: 15px;
-
-      font-weight: 800;
-    }
-
-    .section-title-text p {
-      margin: 3px 0 0;
-
-      color: var(--pasif);
-
-      font-size: 11px;
-    }
-
-
-    /* =========================================================
-       FORM LABEL
+       ETİKET / LABEL
        ========================================================= */
 
     label.form-label {
       display: block;
 
-      margin-top: 17px;
-      margin-bottom: 7px;
+      margin-top: 16px;
+      margin-bottom: 8px;
 
-      color: #dce1e5;
+      color: #374151;
 
-      font-size: 12px;
-
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 800;
     }
 
-
     /* =========================================================
-       PERSONEL SEÇİM BUTONU
+       PERSONEL
        ========================================================= */
 
     .secim-btn {
       width: 100%;
 
-      min-height: 48px;
+      background: #f8fafc;
+      color: var(--metin);
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: 1px dashed #b9c2cc;
 
-      gap: 8px;
+      padding: 13px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #2b333b,
-          #232a31
-        );
+      border-radius: 11px;
 
-      color: #ffffff;
-
-      border: 1px solid #454e57;
-
-      border-radius: 10px;
-
-      padding: 12px;
-
-      font-size: 13px;
       font-weight: 700;
+      font-size: 14px;
 
       cursor: pointer;
 
-      transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
-    }
+      text-align: center;
 
-    .secim-btn:active {
-      transform: scale(0.98);
+      transition: 0.2s;
     }
 
     .secim-btn:hover {
-      border-color: #68737e;
-      background: #303941;
+      background: #f1f5f9;
+      border-color: var(--kirmizi);
     }
-
-
-    /* =========================================================
-       PERSONEL ÖZET
-       ========================================================= */
 
     .secilen-ozet {
       margin-top: 9px;
 
-      background: #14191e;
+      background: #fafbfc;
 
-      border: 1px solid #30373e;
+      border: 1px solid var(--cizgi);
 
-      border-radius: 10px;
+      padding: 11px;
 
-      padding: 10px;
+      border-radius: 11px;
 
       min-height: 48px;
 
       display: flex;
-
       flex-wrap: wrap;
 
       gap: 7px;
     }
 
     .secilen-ozet-bos {
-      color: #737c84;
+      color: #9ca3af;
 
-      font-size: 12px;
-
+      font-size: 13px;
       font-style: italic;
 
       align-self: center;
     }
 
     .personel-tag {
-      display: inline-flex;
-      align-items: center;
+      background: var(--yesil-acik);
+      color: #116b3b;
 
-      background:
-        rgba(46,175,104,0.10);
+      border: 1px solid #bfe7cf;
 
-      color: #65dc95;
-
-      border: 1px solid rgba(46,175,104,0.28);
-
-      padding: 6px 9px;
+      padding: 6px 10px;
 
       border-radius: 8px;
 
-      font-size: 11px;
-
+      font-size: 12px;
       font-weight: 700;
-    }
 
+      display: inline-block;
+    }
 
     /* =========================================================
-       FOTOĞRAF ALANI
+       FOTOĞRAF EKLEME
        ========================================================= */
-
-    .foto-upload {
-      position: relative;
-
-      border: 1px dashed #59636d;
-
-      background:
-        linear-gradient(
-          145deg,
-          #20272e,
-          #171c21
-        );
-
-      border-radius: 12px;
-
-      padding: 20px 14px;
-
-      text-align: center;
-
-      cursor: pointer;
-
-      transition:
-        border-color 0.2s ease,
-        background 0.2s ease;
-    }
-
-    .foto-upload:hover {
-      border-color: #b71c1c;
-
-      background:
-        linear-gradient(
-          145deg,
-          #272f37,
-          #1a2025
-        );
-    }
-
-    .foto-upload-icon {
-      width: 48px;
-      height: 48px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      margin: 0 auto 8px;
-
-      border-radius: 14px;
-
-      background: rgba(139,0,0,0.14);
-
-      font-size: 25px;
-    }
-
-    .foto-upload-title {
-      color: #ffffff;
-
-      font-size: 13px;
-
-      font-weight: 800;
-    }
-
-    .foto-upload-desc {
-      margin-top: 4px;
-
-      color: #7e878f;
-
-      font-size: 10px;
-    }
 
     input[type="file"] {
       display: none;
     }
 
+    .file-btn {
+      display: flex;
 
-    /* =========================================================
-       FOTO GALERİ
-       ========================================================= */
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      text-align: center;
+
+      background: var(--mavi);
+      color: white;
+
+      padding: 13px;
+
+      border-radius: 11px;
+
+      margin-top: 8px;
+
+      font-weight: 800;
+      font-size: 14px;
+
+      cursor: pointer;
+
+      box-shadow: 0 4px 10px rgba(23, 105, 170, 0.16);
+
+      transition: 0.2s;
+    }
+
+    .file-btn:active {
+      transform: scale(0.98);
+    }
 
     .foto-grid {
       display: grid;
 
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
 
       gap: 8px;
 
-      margin-top: 10px;
+      margin-top: 11px;
     }
 
     .foto-thumb-wrap {
       position: relative;
 
       width: 100%;
-
       aspect-ratio: 1 / 1;
 
       overflow: visible;
@@ -676,15 +379,19 @@
 
       object-fit: cover;
 
-      display: block;
-
-      border-radius: 10px;
-
-      border: 1px solid #394149;
-
-      background: #111;
+      border-radius: 11px;
 
       cursor: pointer;
+
+      display: block;
+
+      border: 1px solid #dce1e6;
+
+      transition: 0.2s;
+    }
+
+    .foto-thumb:active {
+      transform: scale(0.97);
     }
 
     .foto-sil-btn {
@@ -693,235 +400,370 @@
       top: -6px;
       right: -6px;
 
-      width: 24px;
-      height: 24px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 25px;
+      height: 25px;
 
       border-radius: 50%;
 
-      background: #c62828;
+      background: #d32f2f;
 
-      color: #ffffff;
+      color: white;
 
-      border: 2px solid #191e23;
+      border: 2px solid white;
 
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 900;
 
-      font-weight: 800;
+      line-height: 20px;
+
+      text-align: center;
 
       cursor: pointer;
 
       padding: 0;
 
-      z-index: 2;
+      z-index: 5;
     }
 
+    /* =========================================================
+       MÜDAHALE TİPİ
+       ========================================================= */
+
+    .mudahale-karti {
+      margin-top: 18px;
+
+      border: 1px solid var(--cizgi);
+
+      border-radius: 13px;
+
+      overflow: hidden;
+
+      background: #fff;
+    }
+
+    .mudahale-baslik {
+      background: #f8fafc;
+
+      border-bottom: 1px solid var(--cizgi);
+
+      padding: 12px 13px;
+
+      color: #374151;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      letter-spacing: 0.7px;
+
+      text-transform: uppercase;
+    }
+
+    .mudahale-icerik {
+      padding: 12px;
+    }
+
+    .mudahale-secim {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 11px;
+
+      margin-bottom: 9px;
+
+      border: 1px solid #e1e5ea;
+
+      border-radius: 10px;
+
+      background: #fff;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .mudahale-secim:last-child {
+      margin-bottom: 0;
+    }
+
+    .mudahale-secim.aktif {
+      border-color: #d7a2a2;
+      background: #fff8f8;
+    }
+
+    .mudahale-secim input[type="checkbox"] {
+      width: 19px;
+      height: 19px;
+
+      accent-color: var(--kirmizi);
+
+      flex-shrink: 0;
+    }
+
+    .mudahale-icon {
+      width: 34px;
+      height: 34px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #f3f4f6;
+
+      border-radius: 9px;
+
+      font-size: 17px;
+    }
+
+    .mudahale-adi {
+      flex: 1;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      color: #374151;
+    }
+
+    .mudahale-miktar {
+      display: flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      margin-left: auto;
+    }
+
+    .miktar-input {
+      width: 85px;
+
+      border: 1px solid #d5dbe1;
+
+      background: white;
+
+      color: #1f2937;
+
+      border-radius: 8px;
+
+      padding: 8px 9px;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      text-align: right;
+    }
+
+    .miktar-input:focus {
+      outline: none;
+
+      border-color: var(--kirmizi);
+
+      box-shadow: 0 0 0 3px rgba(183,28,28,0.08);
+    }
+
+    .birim {
+      font-size: 12px;
+      font-weight: 700;
+
+      color: #6b7280;
+
+      min-width: 34px;
+    }
+
+    .kkt-alt {
+      display: none;
+
+      padding: 0 11px 11px 61px;
+    }
+
+    .kkt-alt.aktif {
+      display: block;
+    }
+
+    .kkt-adet-baslik {
+      color: #6b7280;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      margin-bottom: 5px;
+    }
+
+    .kkt-adet-select {
+      width: 100%;
+
+      border: 1px solid #d5dbe1;
+
+      background: white;
+
+      color: #1f2937;
+
+      border-radius: 8px;
+
+      padding: 9px;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
 
     /* =========================================================
        TEXTAREA
        ========================================================= */
-
-    .textarea-wrapper {
-      position: relative;
-    }
 
     textarea {
       width: 100%;
 
       min-height: 125px;
 
-      margin-top: 0;
+      margin-top: 7px;
 
       border-radius: 11px;
 
-      border: 1px solid #3b444c;
+      border: 1px solid #d7dce2;
 
-      background: #14191e;
+      background: #fff;
 
-      color: #ffffff;
+      color: #1f2937;
 
       padding: 13px;
 
-      font-size: 13px;
+      font-size: 14px;
 
-      line-height: 1.55;
+      line-height: 1.5;
 
       resize: vertical;
 
-      outline: none;
-
-      transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    textarea::placeholder {
-      color: #68727a;
+      transition: 0.2s;
     }
 
     textarea:focus {
-      border-color: #a52222;
+      border-color: var(--kirmizi);
 
-      box-shadow:
-        0 0 0 3px rgba(139,0,0,0.10);
+      outline: none;
+
+      box-shadow: 0 0 0 3px rgba(183,28,28,0.08);
     }
 
+    textarea::placeholder {
+      color: #9ca3af;
+    }
 
     /* =========================================================
-       KAYDET BUTONU
+       KAYDET
        ========================================================= */
 
     .submit-btn {
       width: 100%;
 
-      min-height: 52px;
+      background: linear-gradient(
+        135deg,
+        #a91515,
+        #c62828
+      );
 
-      margin-top: 17px;
+      color: white;
 
       border: none;
 
+      padding: 14px;
+
       border-radius: 11px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #b71c1c,
-          #8B0000
-        );
-
-      color: #ffffff;
-
-      font-size: 14px;
-
+      font-size: 15px;
       font-weight: 800;
 
-      letter-spacing: 0.2px;
+      margin-top: 18px;
 
       cursor: pointer;
 
-      box-shadow:
-        0 8px 20px rgba(139,0,0,0.25);
+      box-shadow: 0 5px 14px rgba(183, 28, 28, 0.20);
 
-      transition:
-        transform 0.15s ease,
-        filter 0.15s ease;
+      transition: 0.2s;
     }
 
     .submit-btn:active {
-      transform: scale(0.98);
-    }
-
-    .submit-btn:hover {
-      filter: brightness(1.08);
+      transform: scale(0.985);
     }
 
     .submit-btn:disabled {
-      background: #454b51;
-
-      color: #999;
-
+      background: #aeb4bb;
       box-shadow: none;
-
       cursor: not-allowed;
     }
 
-
-    /* =========================================================
-       DURUM MESAJI
-       ========================================================= */
-
     #status {
-      min-height: 18px;
-
       margin-top: 10px;
 
       text-align: center;
 
-      font-size: 12px;
-
+      font-size: 13px;
       font-weight: 700;
-    }
 
+      min-height: 18px;
+    }
 
     /* =========================================================
-       GÖRÜNTÜLEME MODU
+       KAYITLI RAPOR
        ========================================================= */
 
-    .success-banner {
+    .kayitli-baslik {
       display: flex;
+
       align-items: center;
-      gap: 10px;
+      gap: 8px;
 
-      padding: 12px;
+      color: var(--yesil);
 
-      background:
-        rgba(46,175,104,0.09);
+      font-size: 14px;
+      font-weight: 800;
 
-      border: 1px solid rgba(46,175,104,0.25);
-
-      border-radius: 10px;
-
-      margin-bottom: 14px;
+      margin-bottom: 13px;
     }
 
-    .success-icon {
-      width: 34px;
-      height: 34px;
+    .kayitli-isaret {
+      width: 27px;
+      height: 27px;
+
+      border-radius: 50%;
 
       display: flex;
+
       align-items: center;
       justify-content: center;
 
-      border-radius: 9px;
+      background: var(--yesil-acik);
 
-      background: rgba(46,175,104,0.15);
-
-      font-size: 17px;
-    }
-
-    .success-text strong {
-      display: block;
-
-      color: #69dd98;
-
-      font-size: 13px;
-    }
-
-    .success-text span {
-      display: block;
-
-      margin-top: 2px;
-
-      color: #718078;
-
-      font-size: 10px;
+      font-size: 14px;
     }
 
     .goruntu-kutu {
-      background: #14191e;
+      background: #fafbfc;
 
-      border: 1px solid #30373e;
+      border: 1px solid var(--cizgi);
 
-      border-radius: 11px;
+      border-left: 4px solid var(--yesil);
 
       padding: 13px;
 
+      border-radius: 10px;
+
+      margin-top: 12px;
       margin-bottom: 12px;
     }
 
     .goruntu-kutu-baslik {
-      color: #838d95;
-
       font-size: 10px;
 
-      margin-bottom: 9px;
+      color: #6b7280;
+
+      margin-bottom: 8px;
 
       text-transform: uppercase;
 
-      letter-spacing: 0.9px;
+      letter-spacing: 0.8px;
 
       font-weight: 800;
     }
@@ -934,25 +776,93 @@
       gap: 7px;
     }
 
-    .neon-kutu {
-      background: #14191e;
+    /* =========================================================
+       MÜDAHALE GÖRÜNTÜLEME
+       ========================================================= */
 
-      border: 1px solid #30373e;
+    .goruntu-mudahale {
+      background: #fff;
 
-      border-left:
-        3px solid #8B0000;
+      border: 1px solid var(--cizgi);
 
       border-radius: 11px;
 
-      padding: 13px;
+      margin-top: 13px;
 
-      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .goruntu-mudahale-baslik {
+      padding: 10px 12px;
+
+      background: #f8fafc;
+
+      border-bottom: 1px solid var(--cizgi);
+
+      color: #6b7280;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
+
+      font-weight: 800;
+    }
+
+    .goruntu-mudahale-satir {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 10px 12px;
+
+      border-bottom: 1px solid #edf0f2;
+
+      font-size: 13px;
+    }
+
+    .goruntu-mudahale-satir:last-child {
+      border-bottom: none;
+    }
+
+    .goruntu-mudahale-adi {
+      font-weight: 700;
+
+      color: #374151;
+    }
+
+    .goruntu-mudahale-deger {
+      font-weight: 800;
+
+      color: var(--kirmizi);
+    }
+
+    /* =========================================================
+       RAPOR NOTU
+       ========================================================= */
+
+    .neon-kutu {
+      background: #fafbfc;
+
+      border: 1px solid var(--cizgi);
+
+      border-left: 4px solid var(--kirmizi);
+
+      border-radius: 10px;
+
+      padding: 14px;
+
+      margin-top: 13px;
+      margin-bottom: 12px;
     }
 
     .neon-kutu-baslik {
       font-size: 10px;
 
-      color: #aeb5bb;
+      color: #6b7280;
 
       margin-bottom: 7px;
 
@@ -964,13 +874,13 @@
     }
 
     .neon-not-icerik {
-      font-size: 13px;
+      font-size: 14px;
 
       white-space: pre-wrap;
 
       word-break: break-word;
 
-      color: #f3f4f5;
+      color: #374151;
 
       line-height: 1.55;
 
@@ -978,15 +888,14 @@
     }
 
     .goruntu-zaman {
-      font-size: 10px;
+      font-size: 11px;
 
-      color: #687179;
+      color: #9ca3af;
 
-      margin-top: 12px;
+      margin-top: 10px;
 
       text-align: right;
     }
-
 
     /* =========================================================
        MODAL
@@ -997,151 +906,102 @@
 
       position: fixed;
 
-      top: 0;
-      left: 0;
+      inset: 0;
 
-      width: 100%;
-      height: 100%;
-
-      background:
-        rgba(0,0,0,0.78);
+      background: rgba(15, 23, 42, 0.55);
 
       z-index: 1000;
 
       align-items: center;
       justify-content: center;
 
-      padding: 14px;
+      padding: 15px;
+
+      backdrop-filter: blur(3px);
     }
 
     .modal-content {
-      width: 100%;
-      max-width: 470px;
+      background: white;
 
-      max-height: 86vh;
+      border-radius: 17px;
+
+      padding: 16px;
+
+      width: 100%;
+      max-width: 430px;
+
+      max-height: 82vh;
 
       display: flex;
+
       flex-direction: column;
 
-      background:
-        linear-gradient(
-          145deg,
-          #20262c,
-          #171c21
-        );
-
-      border: 1px solid #3a424a;
-
-      border-radius: 16px;
-
-      padding: 15px;
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,0.55);
+      box-shadow: var(--golge-buyuk);
     }
 
     .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      color: #ffffff;
-
-      font-size: 15px;
+      font-size: 16px;
 
       font-weight: 800;
 
-      padding: 3px 2px 13px;
+      color: #252b32;
+
+      margin-bottom: 12px;
+
+      text-align: center;
     }
-
-    .modal-header::after {
-      content: "👨‍🚒";
-
-      font-size: 20px;
-    }
-
-
-    /* =========================================================
-       PERSONEL GRID
-       ========================================================= */
 
     .personel-grid {
       display: grid;
 
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr 1fr;
 
       gap: 8px;
 
       overflow-y: auto;
 
-      background: #11161a;
+      background: #f7f9fb;
 
-      padding: 9px;
+      padding: 10px;
 
       border-radius: 11px;
 
-      border: 1px solid #30373e;
+      border: 1px solid var(--cizgi);
 
-      max-height: 52vh;
+      max-height: 320px;
     }
 
     .personel-item {
       display: flex;
+
       align-items: center;
 
-      min-height: 42px;
-
-      padding: 7px;
-
-      background: #1b2126;
-
-      border: 1px solid #2e363e;
-
-      border-radius: 8px;
-
-      font-size: 11px;
-
-      color: #dce1e5;
+      font-size: 12px;
 
       gap: 7px;
 
       cursor: pointer;
 
-      transition:
-        background 0.15s ease,
-        border-color 0.15s ease;
-    }
+      padding: 7px 4px;
 
-    .personel-item:has(input:checked) {
-      background: rgba(46,175,104,0.09);
-
-      border-color:
-        rgba(46,175,104,0.40);
+      color: #374151;
     }
 
     .personel-item input {
       width: 17px;
       height: 17px;
 
-      flex: 0 0 17px;
+      accent-color: var(--kirmizi);
 
-      accent-color: #2eaf68;
+      flex-shrink: 0;
     }
 
     .modal-confirm-btn {
       width: 100%;
 
-      min-height: 47px;
+      background: var(--kirmizi);
 
-      background:
-        linear-gradient(
-          135deg,
-          #b71c1c,
-          #8B0000
-        );
-
-      color: #ffffff;
+      color: white;
 
       border: none;
 
@@ -1149,259 +1009,307 @@
 
       border-radius: 10px;
 
-      font-size: 13px;
+      font-size: 14px;
 
       font-weight: 800;
 
-      margin-top: 11px;
+      margin-top: 12px;
 
       cursor: pointer;
     }
 
-
     /* =========================================================
-       ALT BİLGİ
+       TAM EKRAN FOTOĞRAF GALERİSİ
        ========================================================= */
 
-    .footer {
-      text-align: center;
+    .foto-modal {
+      display: none;
 
-      padding: 4px 10px 0;
+      position: fixed;
 
-      color: #555e66;
+      inset: 0;
 
-      font-size: 9px;
+      z-index: 2000;
 
-      letter-spacing: 0.5px;
+      background: rgba(8, 12, 18, 0.96);
 
-      line-height: 1.5;
+      align-items: center;
+      justify-content: center;
+
+      touch-action: none;
     }
 
-    .footer strong {
-      color: #737d85;
+    .foto-modal.aktif {
+      display: flex;
     }
 
+    .foto-modal-img {
+      max-width: 94vw;
+      max-height: 82vh;
+
+      object-fit: contain;
+
+      border-radius: 8px;
+
+      user-select: none;
+
+      -webkit-user-drag: none;
+
+      box-shadow: 0 15px 60px rgba(0,0,0,0.55);
+
+      transition: opacity 0.15s ease;
+    }
+
+    .foto-kapat {
+      position: absolute;
+
+      top: 18px;
+      right: 18px;
+
+      width: 42px;
+      height: 42px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(255,255,255,0.25);
+
+      background: rgba(255,255,255,0.12);
+
+      color: white;
+
+      font-size: 20px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      z-index: 10;
+    }
+
+    .foto-ok {
+      position: absolute;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 46px;
+      height: 46px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(255,255,255,0.25);
+
+      background: rgba(255,255,255,0.12);
+
+      color: white;
+
+      font-size: 24px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      z-index: 10;
+
+      user-select: none;
+    }
+
+    .foto-onceki {
+      left: 15px;
+    }
+
+    .foto-sonraki {
+      right: 15px;
+    }
+
+    .foto-sayac {
+      position: absolute;
+
+      bottom: 22px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      color: white;
+
+      background: rgba(0,0,0,0.45);
+
+      border: 1px solid rgba(255,255,255,0.15);
+
+      padding: 7px 13px;
+
+      border-radius: 20px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      z-index: 10;
+    }
+
+    .foto-yardim {
+      position: absolute;
+
+      bottom: 22px;
+      left: 18px;
+
+      color: rgba(255,255,255,0.65);
+
+      font-size: 11px;
+    }
 
     /* =========================================================
        MOBİL
        ========================================================= */
 
-    @media (max-width: 390px) {
+    @media (max-width: 420px) {
 
-      .app-container {
-        padding: 10px 10px 25px;
+      body {
+        padding: 10px;
       }
 
-      .header {
+      .ust-baslik {
+        border-radius: 15px;
+
         padding: 17px 15px;
       }
 
-      .header-title h1 {
-        font-size: 16px;
+      .kurum-adi {
+        font-size: 19px;
       }
 
-      .card,
-      .vaka-content {
+      .card {
         padding: 14px;
-      }
 
-      .personel-grid {
-        grid-template-columns: 1fr;
+        border-radius: 14px;
       }
 
       .foto-grid {
         gap: 6px;
       }
 
-      .vaka-no {
-        font-size: 23px;
+      .mudahale-secim {
+        flex-wrap: wrap;
+      }
+
+      .mudahale-miktar {
+        width: 100%;
+        margin-left: 51px;
+      }
+
+      .miktar-input {
+        width: 100px;
+      }
+
+      .kkt-alt {
+        padding-left: 51px;
+      }
+
+      .foto-ok {
+        width: 40px;
+        height: 40px;
+      }
+
+      .foto-onceki {
+        left: 8px;
+      }
+
+      .foto-sonraki {
+        right: 8px;
       }
     }
-
-
-    /* =========================================================
-       SCROLLBAR
-       ========================================================= */
-
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #11161a;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #3b444c;
-      border-radius: 10px;
-    }
-
   </style>
 </head>
 
-
 <body>
 
-<div class="app-container">
+  <!-- =========================================================
+       ÜST BAŞLIK
+       ========================================================= -->
+
+  <div class="ust-baslik">
+    <div class="kurum-adi">Seydişehir İtfaiyesi</div>
+    <div class="sayfa-baslik">Olay Yeri Bilgi ve Raporlama</div>
+  </div>
 
 
-  <!-- =======================================================
-       KURUMSAL ÜST BAŞLIK
-       ======================================================= -->
+  <!-- =========================================================
+       OLAY BİLGİLERİ
+       ========================================================= -->
 
-  <header class="header">
+  <div class="card olay-bilgi-karti">
 
-    <div class="header-top">
+    <div class="olay-bilgi-ust">
+      Olay Bilgileri
+    </div>
 
-      <div class="logo-box">
-        🚒
+    <div class="olay-bilgi-icerik">
+
+      <div class="info-row">
+        <div class="info-label">Vaka No</div>
+        <div class="info-value" id="vakaNo">-</div>
       </div>
 
-      <div class="header-title">
-        <h1>SEYDİŞEHİR İTFAİYESİ</h1>
-
-        <p>Olay Yeri Raporlama Sistemi</p>
+      <div class="info-row">
+        <div class="info-label">Olay Tanımı</div>
+        <div class="info-value" id="olayTanimi">-</div>
       </div>
 
     </div>
-
-    <div class="header-line"></div>
-
-  </header>
+  </div>
 
 
-  <!-- =======================================================
-       VAKA BİLGİLERİ
-       ======================================================= -->
-
-  <section class="vaka-card">
-
-    <div class="vaka-status">
-
-      <span class="status-dot"></span>
-
-      AKTİF VAKA
-
-    </div>
-
-
-    <div class="vaka-content">
-
-      <div class="vaka-no-label">
-        VAKA NUMARASI
-      </div>
-
-      <div
-        class="vaka-no"
-        id="vakaNo"
-      >
-        -
-      </div>
-
-
-      <div class="olay-box">
-
-        <div class="olay-icon">
-          🔥
-        </div>
-
-        <div>
-
-          <div class="olay-label">
-            OLAY TANIMI
-          </div>
-
-          <div
-            class="olay-value"
-            id="olayTanimi"
-          >
-            -
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
+  <!-- =========================================================
        FORM
-       ======================================================= -->
+       ========================================================= -->
 
-  <div
-    class="card"
-    id="formCard"
-  >
+  <div class="card" id="formCard">
+
+    <div class="card-baslik">
+      <div class="baslik-cizgi"></div>
+      Olay Yeri Bilgileri
+    </div>
+
 
     <!-- PERSONEL -->
 
-    <div class="section-title">
-
-      <div class="section-icon">
-        👨‍🚒
-      </div>
-
-      <div class="section-title-text">
-
-        <h2>Görevli Ekip</h2>
-
-        <p>Olay yerinde görev yapan personeller</p>
-
-      </div>
-
-    </div>
-
+    <label class="form-label">
+      👨‍🚒 Görevdeki Personeller
+    </label>
 
     <button
       class="secim-btn"
+      type="button"
       onclick="modalAc()"
     >
-      ➕ Görevli Personel Seç
+      + Görevli Personel Seç
     </button>
-
 
     <div
       class="secilen-ozet"
       id="secilenOzet"
     >
-
       <span class="secilen-ozet-bos">
         Henüz personel seçilmedi.
       </span>
-
     </div>
 
 
-    <!-- FOTOĞRAFLAR -->
+    <!-- FOTOĞRAF -->
 
     <label class="form-label">
       📷 Olay Yeri Fotoğrafları
     </label>
 
-
     <label
       for="fotoInput"
-      class="foto-upload"
+      class="file-btn"
     >
-
-      <div class="foto-upload-icon">
-        📷
-      </div>
-
-      <div class="foto-upload-title">
-        Fotoğraf Ekle
-      </div>
-
-      <div class="foto-upload-desc">
-        Olay yerinden fotoğraf seçin veya çekin
-      </div>
-
+      📷 Fotoğraf Ekle
     </label>
-
 
     <input
       type="file"
@@ -1410,28 +1318,187 @@
       multiple
     >
 
-
     <div
       class="foto-grid"
       id="onizlemeGrid"
     ></div>
 
 
-    <!-- RAPOR -->
+    <!-- =====================================================
+         MÜDAHALE TİPİ
+         ===================================================== -->
+
+    <div class="mudahale-karti">
+
+      <div class="mudahale-baslik">
+        Müdahale Tipi
+      </div>
+
+      <div class="mudahale-icerik">
+
+
+        <!-- SU -->
+
+        <div
+          class="mudahale-secim"
+          id="mudahaleSuSatir"
+          onclick="mudahaleSatirTikla('su')"
+        >
+
+          <input
+            type="checkbox"
+            id="suCheck"
+            onclick="event.stopPropagation(); mudahaleKontrol('su')"
+          >
+
+          <div class="mudahale-icon">
+            💧
+          </div>
+
+          <div class="mudahale-adi">
+            Su
+          </div>
+
+          <div class="mudahale-miktar">
+
+            <input
+              type="number"
+              id="suMiktar"
+              class="miktar-input"
+              value="2000"
+              min="0"
+              step="1"
+              onclick="event.stopPropagation()"
+            >
+
+            <span class="birim">
+              Litre
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- KÖPÜK -->
+
+        <div
+          class="mudahale-secim"
+          id="mudahaleKopukSatir"
+          onclick="mudahaleSatirTikla('kopuk')"
+        >
+
+          <input
+            type="checkbox"
+            id="kopukCheck"
+            onclick="event.stopPropagation(); mudahaleKontrol('kopuk')"
+          >
+
+          <div class="mudahale-icon">
+            🫧
+          </div>
+
+          <div class="mudahale-adi">
+            Köpük
+          </div>
+
+          <div class="mudahale-miktar">
+
+            <input
+              type="number"
+              id="kopukMiktar"
+              class="miktar-input"
+              value="30"
+              min="0"
+              step="1"
+              onclick="event.stopPropagation()"
+            >
+
+            <span class="birim">
+              Litre
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- KKT -->
+
+        <div
+          class="mudahale-secim"
+          id="mudahaleKktSatir"
+          onclick="mudahaleSatirTikla('kkt')"
+        >
+
+          <input
+            type="checkbox"
+            id="kktCheck"
+            onclick="event.stopPropagation(); mudahaleKontrol('kkt')"
+          >
+
+          <div class="mudahale-icon">
+            🧯
+          </div>
+
+          <div class="mudahale-adi">
+            KKT
+          </div>
+
+          <div class="mudahale-miktar">
+
+            <input
+              type="number"
+              id="kktMiktar"
+              class="miktar-input"
+              value="6"
+              min="0"
+              step="1"
+              onclick="event.stopPropagation()"
+            >
+
+            <span class="birim">
+              KG
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="kkt-alt"
+          id="kktAdetAlan"
+        >
+
+          <div class="kkt-adet-baslik">
+            Kullanılan KKT adedi
+          </div>
+
+          <select
+            id="kktAdet"
+            class="kkt-adet-select"
+          >
+            <option value="1">1 Adet</option>
+            <option value="2">2 Adet</option>
+          </select>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- RAPOR NOTU -->
 
     <label class="form-label">
-      📝 Olay Raporu / Açıklama
+      📝 Rapor Notu / Açıklama
     </label>
 
-
-    <div class="textarea-wrapper">
-
-      <textarea
-        id="raporNotu"
-        placeholder="Olay yerindeki durum, müdahale detayları ve gerekli açıklamaları buraya yazın..."
-      ></textarea>
-
-    </div>
+    <textarea
+      id="raporNotu"
+      placeholder="Olay yerindeki durum, müdahale detayları, yapılan işlemler ve diğer önemli açıklamalar..."
+    ></textarea>
 
 
     <!-- KAYDET -->
@@ -1441,18 +1508,17 @@
       class="submit-btn"
       onclick="raporGonder()"
     >
-      💾 Bilgileri Kaydet
+      Bilgileri Kaydet
     </button>
-
 
     <div id="status"></div>
 
   </div>
 
 
-  <!-- =======================================================
+  <!-- =========================================================
        GÖRÜNTÜLEME KARTI
-       ======================================================= -->
+       ========================================================= -->
 
   <div
     class="card"
@@ -1460,33 +1526,23 @@
     style="display:none;"
   >
 
-    <div class="success-banner">
+    <div class="kayitli-baslik">
 
-      <div class="success-icon">
+      <div class="kayitli-isaret">
         ✓
       </div>
 
-      <div class="success-text">
-
-        <strong>
-          Olay Raporu Kayıtlı
-        </strong>
-
-        <span>
-          Bilgiler başarıyla sisteme kaydedildi
-        </span>
-
-      </div>
+      Olay Yeri Bilgileri Eklendi
 
     </div>
 
 
-    <!-- EKİP -->
+    <!-- PERSONEL -->
 
     <div class="goruntu-kutu">
 
       <div class="goruntu-kutu-baslik">
-        👨‍🚒 GÖREVLİ EKİP
+        Görevli Ekip
       </div>
 
       <div
@@ -1505,12 +1561,31 @@
     ></div>
 
 
+    <!-- MÜDAHALE -->
+
+    <div
+      class="goruntu-mudahale"
+      id="goruntuMudahale"
+      style="display:none;"
+    >
+
+      <div class="goruntu-mudahale-baslik">
+        Müdahale Bilgileri
+      </div>
+
+      <div
+        id="goruntuMudahaleIcerik"
+      ></div>
+
+    </div>
+
+
     <!-- RAPOR -->
 
     <div class="neon-kutu">
 
       <div class="neon-kutu-baslik">
-        📝 RAPOR / AÇIKLAMA
+        Rapor / Açıklama
       </div>
 
       <div
@@ -1538,9 +1613,9 @@
   </div>
 
 
-  <!-- =======================================================
-       PERSONEL MODAL
-       ======================================================= -->
+  <!-- =========================================================
+       PERSONEL SEÇİM MODALI
+       ========================================================= -->
 
   <div
     id="personelModal"
@@ -1553,18 +1628,16 @@
         Görevli Personel Seçimi
       </div>
 
-
       <div
         class="personel-grid"
         id="personelContainer"
       ></div>
 
-
       <button
         class="modal-confirm-btn"
         onclick="modalKapat()"
       >
-        ✓ Seçimi Tamamla
+        Seçimi Tamamla
       </button>
 
     </div>
@@ -1572,970 +1645,236 @@
   </div>
 
 
-  <!-- =======================================================
-       FOOTER
-       ======================================================= -->
+  <!-- =========================================================
+       FOTOĞRAF GALERİ MODALI
+       ========================================================= -->
 
-  <div class="footer">
+  <div
+    id="fotoModal"
+    class="foto-modal"
+  >
 
-    <strong>Seydişehir İtfaiyesi</strong>
+    <button
+      class="foto-kapat"
+      onclick="fotoGaleriyiKapat()"
+      aria-label="Kapat"
+    >
+      ✕
+    </button>
 
-    · Olay Yeri Raporlama Sistemi
+    <button
+      class="foto-ok foto-onceki"
+      onclick="galeriOnceki()"
+      aria-label="Önceki fotoğraf"
+    >
+      ‹
+    </button>
 
-    <br>
+    <img
+      id="buyukFoto"
+      class="foto-modal-img"
+      src=""
+      alt="Olay yeri fotoğrafı"
+      draggable="false"
+    >
 
-    Güvenli müdahale · Doğru kayıt · Hızlı koordinasyon
+    <button
+      class="foto-ok foto-sonraki"
+      onclick="galeriSonraki()"
+      aria-label="Sonraki fotoğraf"
+    >
+      ›
+    </button>
+
+    <div
+      id="fotoSayac"
+      class="foto-sayac"
+    >
+      1 / 1
+    </div>
+
+    <div class="foto-yardim">
+      Fotoğrafı değiştirmek için sağa/sola kaydırın
+    </div>
 
   </div>
 
 
-</div>
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
 
+  <script>
 
-<script>
+    /* =========================================================
+       TELEGRAM
+       ========================================================= */
 
-  /* =========================================================
-     TELEGRAM WEB APP
-     ========================================================= */
+    const tg = window.Telegram.WebApp;
 
-  const tg = window.Telegram.WebApp;
+    tg.expand();
 
-  tg.expand();
 
+    /* =========================================================
+       PERSONEL
+       ========================================================= */
 
-  /* =========================================================
-     PERSONEL LİSTESİ
-     ========================================================= */
+    const PERSONEL_LISTESI = [
 
-  const PERSONEL_LISTESI = [
+      "Abdulkadir YÜKSEL",
+      "Abdurrahman DOĞAN",
+      "Adil USLU",
+      "Ali AKYOL",
+      "Berat Abdullah ÇAKAR",
+      "Fahrettin YÜKSEL",
+      "Fatih KARA",
+      "Hasan BİLİCİ",
+      "Kadir TURGUT",
+      "Latif ÖZER",
+      "Mehmet Ali SEVER",
+      "Mesut BEZCİYARAR",
+      "Mustafa AY",
+      "Mustafa CESUR",
+      "Necip KUT",
+      "Nurettin DEĞERLİ",
+      "Ramazan BALCI",
+      "Ramazan GÜLHAN",
+      "Ramazan KAYA",
+      "Şükrü SARIKAYA",
+      "Zekeriya TOPKAYA"
 
-    "Abdulkadir YÜKSEL",
-    "Abdurrahman DOĞAN",
-    "Adil USLU",
-    "Ali AKYOL",
-    "Berat Abdullah ÇAKAR",
-    "Fahrettin YÜKSEL",
-    "Fatih KARA",
-    "Hasan BİLİCİ",
-    "Kadir TURGUT",
-    "Latif ÖZER",
-    "Mehmet Ali SEVER",
-    "Mesut BEZCİYARAR",
-    "Mustafa AY",
-    "Mustafa CESUR",
-    "Necip KUT",
-    "Nurettin DEĞERLİ",
-    "Ramazan BALCI",
-    "Ramazan GÜLHAN",
-    "Ramazan KAYA",
-    "Şükrü SARIKAYA",
-    "Zekeriya TOPKAYA"
+    ];
 
-  ];
 
+    /* =========================================================
+       SUPABASE / TELEGRAM
+       ========================================================= */
 
-  /* =========================================================
-     SUPABASE
-     ========================================================= */
+    const SUPABASE_URL =
+      "https://gnufozcowbsrhcxbwhkf.supabase.co";
 
-  const SUPABASE_URL =
-    "https://gnufozcowbsrhcxbwhkf.supabase.co";
+    /*
+      Güvenlik nedeniyle gerçek bot tokenını burada tekrar
+      yayınlamıyorum.
 
-  const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdudWZvemNvd2JzcmhjeGJ3aGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MzI1MDQsImV4cCI6MjEwNTIwODUwNH0._KdQ6MvqPE0Mam2c_ozcwSyDmHW3Fc-9923lUKEEJic";
+      Mevcut index.html dosyandaki TELEGRAM_TOKEN satırını
+      aynen koruyabilirsin.
+    */
 
+    const TELEGRAM_TOKEN =
+      "MEVCUT_TELEGRAM_TOKENUNU_BURAYA_YAZ";
 
-  const TELEGRAM_TOKEN =
-    "8611680491:AAHMzHLoVo_FMzbjtQ_YIV2_jVZXDpbQCsE";
+    const CHAT_ID =
+      "-1004426681303";
 
 
-  const CHAT_ID =
-    "-1004426681303";
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
 
-  const supabaseClient =
-    supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+    /* =========================================================
+       URL PARAMETRELERİ
+       ========================================================= */
 
+    const urlParams =
+      new URLSearchParams(
+        window.location.search
+      );
 
-  /* =========================================================
-     URL PARAMETRELERİ
-     ========================================================= */
+    const vakaNo =
+      urlParams.get("vakaId") ||
+      "Belirtilmedi";
 
-  const urlParams =
-    new URLSearchParams(
-      window.location.search
-    );
+    const olayTanimi =
+      urlParams.get("olayTanimi") ||
+      urlParams.get("olayTuru") ||
+      "Belirtilmedi";
 
+    const msgId =
+      urlParams.get("msgId");
 
-  const vakaNo =
-    urlParams.get("vakaId")
-    || "Belirtilmedi";
 
+    document.getElementById("vakaNo").innerText =
+      vakaNo;
 
-  const olayTanimi =
-    urlParams.get("olayTanimi")
-    || urlParams.get("olayTuru")
-    || "Belirtilmedi";
+    document.getElementById("olayTanimi").innerText =
+      olayTanimi;
 
 
-  const msgId =
-    urlParams.get("msgId");
+    /* =========================================================
+       GLOBAL DEĞİŞKENLER
+       ========================================================= */
 
+    let mevcutRaporId = null;
 
-  document.getElementById("vakaNo").innerText =
-    vakaNo;
+    let mevcutFotograflar = [];
 
+    let mevcutPersonelStr = "";
 
-  document.getElementById("olayTanimi").innerText =
-    olayTanimi;
+    let secilenFotograflar = [];
 
+    let mevcutMudahale = {
+      su: 0,
+      kopuk: 0,
+      kkt: 0,
+      kktAdet: 0
+    };
 
-  /* =========================================================
-     GLOBAL DEĞİŞKENLER
-     ========================================================= */
 
-  let mevcutRaporId = null;
+    /* =========================================================
+       FOTOĞRAF FONKSİYONU
+       ========================================================= */
 
-  let mevcutFotograflar = [];
-
-  let mevcutPersonelStr = "";
-
-  let secilenFotograflar = [];
-
-
-  /* =========================================================
-     FOTOĞRAF URL YARDIMCISI
-     ========================================================= */
-
-  function raporFotograflari(rapor) {
-
-    if (
-      Array.isArray(rapor.fotograf_urls)
-      &&
-      rapor.fotograf_urls.length > 0
-    ) {
-
-      return rapor.fotograf_urls;
-
-    }
-
-
-    if (rapor.fotograf_url) {
-
-      return [
-        rapor.fotograf_url
-      ];
-
-    }
-
-
-    return [];
-
-  }
-
-
-  /* =========================================================
-     MEVCUT RAPORU KONTROL ET
-     ========================================================= */
-
-  async function mevcutRaporuKontrolEt() {
-
-    try {
-
-      const {
-        data,
-        error
-      } = await supabaseClient
-
-        .from("olay_raporlari")
-
-        .select("*")
-
-        .eq("vaka_no", vakaNo)
-
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        )
-
-        .limit(1);
-
-
-      if (error) {
-
-        throw error;
-
-      }
-
+    function raporFotograflari(rapor) {
 
       if (
-        data
-        &&
-        data.length > 0
+        Array.isArray(rapor.fotograf_urls) &&
+        rapor.fotograf_urls.length > 0
       ) {
 
-        goruntuModunuGoster(
-          data[0]
-        );
+        return rapor.fotograf_urls;
 
       }
 
-    }
-    catch (err) {
+      if (rapor.fotograf_url) {
 
-      console.error(
-        "Mevcut bilgi kontrol hatası:",
-        err
-      );
-
-    }
-
-  }
-
-
-  /* =========================================================
-     GÖRÜNTÜLEME MODU
-     ========================================================= */
-
-  function goruntuModunuGoster(rapor) {
-
-    mevcutRaporId =
-      rapor.id;
-
-
-    mevcutFotograflar =
-      raporFotograflari(
-        rapor
-      );
-
-
-    mevcutPersonelStr =
-      rapor["Görevli Personel"]
-      || "";
-
-
-    document.getElementById(
-      "formCard"
-    ).style.display = "none";
-
-
-    document.getElementById(
-      "goruntuCard"
-    ).style.display = "block";
-
-
-    /* PERSONEL */
-
-    const personelKutusu =
-      document.getElementById(
-        "goruntuPersonel"
-      );
-
-
-    personelKutusu.innerHTML =
-      "";
-
-
-    if (mevcutPersonelStr) {
-
-      const isimler =
-        mevcutPersonelStr
-          .split(",")
-          .map(
-            s => s.trim()
-          );
-
-
-      isimler.forEach(
-        isim => {
-
-          const tag =
-            document.createElement(
-              "span"
-            );
-
-
-          tag.className =
-            "personel-tag";
-
-
-          tag.innerText =
-            isim;
-
-
-          personelKutusu.appendChild(
-            tag
-          );
-
-        }
-      );
-
-    }
-    else {
-
-      personelKutusu.innerHTML =
-        '<span class="secilen-ozet-bos">Personel seçilmemiş.</span>';
-
-    }
-
-
-    /* FOTOĞRAFLAR */
-
-    const grid =
-      document.getElementById(
-        "goruntuFotoGrid"
-      );
-
-
-    grid.innerHTML =
-      "";
-
-
-    mevcutFotograflar.forEach(
-      url => {
-
-        const img =
-          document.createElement(
-            "img"
-          );
-
-
-        img.src =
-          url;
-
-
-        img.alt =
-          "Olay yeri fotoğrafı";
-
-
-        img.className =
-          "foto-thumb";
-
-
-        img.onclick =
-          () => {
-
-            window.open(
-              url,
-              "_blank"
-            );
-
-          };
-
-
-        grid.appendChild(
-          img
-        );
+        return [rapor.fotograf_url];
 
       }
-    );
 
-
-    /* RAPOR */
-
-    document.getElementById(
-      "goruntuNot"
-    ).innerText =
-      rapor.rapor_notu
-      ||
-      "Açıklama girilmemiş.";
-
-
-    /* ZAMAN */
-
-    if (rapor.created_at) {
-
-      const tarih =
-        new Date(
-          rapor.created_at
-        );
-
-
-      document.getElementById(
-        "goruntuZaman"
-      ).innerText =
-        "Kayıt zamanı: "
-        +
-        tarih.toLocaleString(
-          "tr-TR"
-        );
+      return [];
 
     }
 
-  }
 
+    /* =========================================================
+       MEVCUT RAPOR KONTROL
+       ========================================================= */
 
-  /* =========================================================
-     DÜZENLEME MODU
-     ========================================================= */
+    async function mevcutRaporuKontrolEt() {
 
-  function duzenlemeModunaGec() {
+      try {
 
-    document.getElementById(
-      "goruntuCard"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "formCard"
-    ).style.display =
-      "block";
-
-
-    const seciliIsimler =
-      mevcutPersonelStr
-
-        ? mevcutPersonelStr
-            .split(",")
-            .map(
-              s => s.trim()
-            )
-
-        : [];
-
-
-    document
-      .querySelectorAll(
-        "#personelContainer input[type='checkbox']"
-      )
-      .forEach(
-        cb => {
-
-          cb.checked =
-            seciliIsimler.includes(
-              cb.value
-            );
-
-        }
-      );
-
-
-    guncelleOzet();
-
-
-    document.getElementById(
-      "raporNotu"
-    ).value =
-      document.getElementById(
-        "goruntuNot"
-      ).innerText;
-
-
-    secilenFotograflar =
-      [];
-
-
-    onizlemeleriCiz();
-
-
-    document.getElementById(
-      "status"
-    ).innerText =
-      "";
-
-  }
-
-
-  /* =========================================================
-     PERSONEL LİSTESİ OLUŞTUR
-     ========================================================= */
-
-  const container =
-    document.getElementById(
-      "personelContainer"
-    );
-
-
-  PERSONEL_LISTESI.forEach(
-    isim => {
-
-      const item =
-        document.createElement(
-          "label"
-        );
-
-
-      item.className =
-        "personel-item";
-
-
-      item.innerHTML = `
-        <input
-          type="checkbox"
-          value="${isim}"
-          onchange="guncelleOzet()"
-        >
-        <span>${isim}</span>
-      `;
-
-
-      container.appendChild(
-        item
-      );
-
-    }
-  );
-
-
-  /* =========================================================
-     MODAL
-     ========================================================= */
-
-  function modalAc() {
-
-    document.getElementById(
-      "personelModal"
-    ).style.display =
-      "flex";
-
-  }
-
-
-  function modalKapat() {
-
-    document.getElementById(
-      "personelModal"
-    ).style.display =
-      "none";
-
-
-    guncelleOzet();
-
-  }
-
-
-  /* =========================================================
-     MODAL DIŞINA TIKLAMA
-     ========================================================= */
-
-  document.getElementById(
-    "personelModal"
-  ).addEventListener(
-    "click",
-    function(e) {
-
-      if (
-        e.target === this
-      ) {
-
-        modalKapat();
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     PERSONEL ÖZET
-     ========================================================= */
-
-  function guncelleOzet() {
-
-    const secilenler =
-      Array.from(
-        document.querySelectorAll(
-          "#personelContainer input:checked"
-        )
-      )
-      .map(
-        cb => cb.value
-      );
-
-
-    const ozetEl =
-      document.getElementById(
-        "secilenOzet"
-      );
-
-
-    ozetEl.innerHTML =
-      "";
-
-
-    if (
-      secilenler.length > 0
-    ) {
-
-      secilenler.forEach(
-        isim => {
-
-          const tag =
-            document.createElement(
-              "span"
-            );
-
-
-          tag.className =
-            "personel-tag";
-
-
-          tag.innerText =
-            isim;
-
-
-          ozetEl.appendChild(
-            tag
-          );
-
-        }
-      );
-
-    }
-    else {
-
-      ozetEl.innerHTML =
-        '<span class="secilen-ozet-bos">Henüz personel seçilmedi.</span>';
-
-    }
-
-  }
-
-
-  /* =========================================================
-     FOTOĞRAF
-     ========================================================= */
-
-  const fotoInput =
-    document.getElementById(
-      "fotoInput"
-    );
-
-
-  const onizlemeGrid =
-    document.getElementById(
-      "onizlemeGrid"
-    );
-
-
-  function onizlemeleriCiz() {
-
-    onizlemeGrid.innerHTML =
-      "";
-
-
-    /* MEVCUT FOTOĞRAFLAR */
-
-    mevcutFotograflar.forEach(
-      (url, index) => {
-
-        const wrap =
-          document.createElement(
-            "div"
-          );
-
-
-        wrap.className =
-          "foto-thumb-wrap";
-
-
-        const img =
-          document.createElement(
-            "img"
-          );
-
-
-        img.className =
-          "foto-thumb";
-
-
-        img.src =
-          url;
-
-
-        img.alt =
-          "Kayıtlı fotoğraf";
-
-
-        img.onclick =
-          () => {
-
-            window.open(
-              url,
-              "_blank"
-            );
-
-          };
-
-
-        wrap.appendChild(
-          img
-        );
-
-
-        const silBtn =
-          document.createElement(
-            "button"
-          );
-
-
-        silBtn.className =
-          "foto-sil-btn";
-
-
-        silBtn.type =
-          "button";
-
-
-        silBtn.innerText =
-          "✕";
-
-
-        silBtn.onclick =
-          () => {
-
-            mevcutFotograflar.splice(
-              index,
-              1
-            );
-
-
-            onizlemeleriCiz();
-
-          };
-
-
-        wrap.appendChild(
-          silBtn
-        );
-
-
-        onizlemeGrid.appendChild(
-          wrap
-        );
-
-      }
-    );
-
-
-    /* YENİ FOTOĞRAFLAR */
-
-    secilenFotograflar.forEach(
-      (dosya, index) => {
-
-        const wrap =
-          document.createElement(
-            "div"
-          );
-
-
-        wrap.className =
-          "foto-thumb-wrap";
-
-
-        const img =
-          document.createElement(
-            "img"
-          );
-
-
-        img.className =
-          "foto-thumb";
-
-
-        img.src =
-          URL.createObjectURL(
-            dosya
-          );
-
-
-        img.alt =
-          "Önizleme";
-
-
-        wrap.appendChild(
-          img
-        );
-
-
-        const silBtn =
-          document.createElement(
-            "button"
-          );
-
-
-        silBtn.className =
-          "foto-sil-btn";
-
-
-        silBtn.type =
-          "button";
-
-
-        silBtn.innerText =
-          "✕";
-
-
-        silBtn.onclick =
-          () => {
-
-            secilenFotograflar.splice(
-              index,
-              1
-            );
-
-
-            onizlemeleriCiz();
-
-          };
-
-
-        wrap.appendChild(
-          silBtn
-        );
-
-
-        onizlemeGrid.appendChild(
-          wrap
-        );
-
-      }
-    );
-
-  }
-
-
-  fotoInput.addEventListener(
-    "change",
-    e => {
-
-      secilenFotograflar.push(
-        ...Array.from(
-          e.target.files
-        )
-      );
-
-
-      onizlemeleriCiz();
-
-
-      fotoInput.value =
-        "";
-
-    }
-  );
-
-
-  /* =========================================================
-     RAPOR GÖNDER
-     ========================================================= */
-
-  async function raporGonder() {
-
-    const btn =
-      document.getElementById(
-        "gonderBtn"
-      );
-
-
-    const status =
-      document.getElementById(
-        "status"
-      );
-
-
-    const raporNotu =
-      document.getElementById(
-        "raporNotu"
-      ).value;
-
-
-    const secilenPersoneller =
-      Array.from(
-        document.querySelectorAll(
-          "#personelContainer input:checked"
-        )
-      )
-      .map(
-        cb => cb.value
-      );
-
-
-    if (
-
-      secilenPersoneller.length === 0
-
-      &&
-
-      secilenFotograflar.length === 0
-
-      &&
-
-      mevcutFotograflar.length === 0
-
-      &&
-
-      !raporNotu.trim()
-
-    ) {
-
-      alert(
-        "Lütfen en az bir personel seçin, fotoğraf ekleyin veya açıklama yazın."
-      );
-
-      return;
-
-    }
-
-
-    btn.disabled =
-      true;
-
-
-    status.style.color =
-      "#e89b28";
-
-
-    status.innerText =
-      "Bilgiler yükleniyor, lütfen bekleyin...";
-
-
-    const ilkEklemeMi =
-      !mevcutRaporId;
-
-
-    try {
-
-      /* =====================================================
-         FOTOĞRAFLARI SUPABASE'E YÜKLE
-         ===================================================== */
-
-      const yeniFotoUrlleri =
-        [];
-
-
-      for (
-        let i = 0;
-        i < secilenFotograflar.length;
-        i++
-      ) {
-
-        const dosya =
-          secilenFotograflar[i];
-
-
-        const dosyaAdi =
-          `${vakaNo}_${Date.now()}_${i}.jpg`;
-
-
-        const {
-          error
-        } =
+        const { data, error } =
           await supabaseClient
-            .storage
-            .from(
-              "olay-fotograflari"
+
+            .from("olay_raporlari")
+
+            .select("*")
+
+            .eq("vaka_no", vakaNo)
+
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
             )
-            .upload(
-              dosyaAdi,
-              dosya
-            );
+
+            .limit(1);
 
 
         if (error) {
@@ -2545,474 +1884,1921 @@
         }
 
 
-        const publicRes =
-          supabaseClient
-            .storage
-            .from(
-              "olay-fotograflari"
-            )
-            .getPublicUrl(
-              dosyaAdi
-            );
+        if (
+          data &&
+          data.length > 0
+        ) {
 
+          goruntuModunuGoster(
+            data[0]
+          );
 
-        yeniFotoUrlleri.push(
-          publicRes.data.publicUrl
+        }
+
+      }
+
+      catch (err) {
+
+        console.error(
+          "Mevcut bilgi kontrol hatası:",
+          err
         );
 
       }
 
+    }
 
-      /* =====================================================
-         FOTOĞRAF LİSTESİ
-         ===================================================== */
 
-      const fotoUrlleri =
-        mevcutFotograflar.concat(
-          yeniFotoUrlleri
+    /* =========================================================
+       GÖRÜNTÜLEME MODU
+       ========================================================= */
+
+    function goruntuModunuGoster(rapor) {
+
+      mevcutRaporId =
+        rapor.id;
+
+      mevcutFotograflar =
+        raporFotograflari(
+          rapor
         );
 
-
-      /* =====================================================
-         PERSONEL
-         ===================================================== */
-
-      const personelMetni =
-        secilenPersoneller.join(
-          ", "
-        );
+      mevcutPersonelStr =
+        rapor["Görevli Personel"] ||
+        "";
 
 
-      /* =====================================================
-         VERİ
-         ===================================================== */
+      mevcutMudahale = {
 
-      const kayitVerisi = {
+        su:
+          Number(
+            rapor.mudahale_su || 0
+          ),
 
-        vaka_no:
-          vakaNo,
+        kopuk:
+          Number(
+            rapor.mudahale_kopuk || 0
+          ),
 
-        olay_turu:
-          olayTanimi,
+        kkt:
+          Number(
+            rapor.mudahale_kkt || 0
+          ),
 
-        rapor_notu:
-          raporNotu,
-
-        fotograf_url:
-          fotoUrlleri[0]
-          || "",
-
-        fotograf_urls:
-          fotoUrlleri,
-
-        "Görevli Personel":
-          personelMetni
+        kktAdet:
+          Number(
+            rapor.mudahale_kkt_adet || 0
+          )
 
       };
 
 
-      /* =====================================================
-         UPDATE / INSERT
-         ===================================================== */
+      document.getElementById(
+        "formCard"
+      ).style.display = "none";
 
-      if (mevcutRaporId) {
+      document.getElementById(
+        "goruntuCard"
+      ).style.display = "block";
 
-        const {
-          error: dbError
-        } =
-          await supabaseClient
 
-            .from(
-              "olay_raporlari"
-            )
+      /* PERSONEL */
 
-            .update(
-              kayitVerisi
-            )
+      const personelKutusu =
+        document.getElementById(
+          "goruntuPersonel"
+        );
 
-            .eq(
-              "id",
-              mevcutRaporId
+      personelKutusu.innerHTML = "";
+
+
+      if (mevcutPersonelStr) {
+
+        const isimler =
+          mevcutPersonelStr
+
+            .split(",")
+
+            .map(
+              s => s.trim()
             );
 
+        isimler.forEach(
+          isim => {
 
-        if (dbError) {
+            const tag =
+              document.createElement(
+                "span"
+              );
 
-          throw dbError;
+            tag.className =
+              "personel-tag";
 
-        }
+            tag.innerText =
+              isim;
+
+            personelKutusu.appendChild(
+              tag
+            );
+
+          }
+        );
 
       }
+
       else {
 
-        const {
-          data: insData,
-          error: dbError
-        } =
-          await supabaseClient
+        personelKutusu.innerHTML =
+          '<span class="secilen-ozet-bos">Personel seçilmemiş.</span>';
 
-            .from(
-              "olay_raporlari"
-            )
-
-            .insert([
-              kayitVerisi
-            ])
-
-            .select();
+      }
 
 
-        if (dbError) {
+      /* FOTOĞRAFLAR */
 
-          throw dbError;
+      const grid =
+        document.getElementById(
+          "goruntuFotoGrid"
+        );
+
+      grid.innerHTML = "";
+
+
+      mevcutFotograflar.forEach(
+        (url, index) => {
+
+          const wrap =
+            document.createElement(
+              "div"
+            );
+
+          wrap.className =
+            "foto-thumb-wrap";
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+          img.src =
+            url;
+
+          img.alt =
+            "Olay yeri fotoğrafı";
+
+          img.className =
+            "foto-thumb";
+
+
+          img.onclick = () => {
+
+            fotoGaleriyiAc(
+              mevcutFotograflar,
+              index
+            );
+
+          };
+
+
+          wrap.appendChild(
+            img
+          );
+
+          grid.appendChild(
+            wrap
+          );
+
+        }
+      );
+
+
+      /* MÜDAHALE */
+
+      goruntuMudahaleGoster();
+
+
+      /* RAPOR */
+
+      document.getElementById(
+        "goruntuNot"
+      ).innerText =
+        rapor.rapor_notu ||
+        "Açıklama girilmemiş.";
+
+
+      /* TARİH */
+
+      if (rapor.created_at) {
+
+        const tarih =
+          new Date(
+            rapor.created_at
+          );
+
+        document.getElementById(
+          "goruntuZaman"
+        ).innerText =
+          "Eklenme: " +
+          tarih.toLocaleString(
+            "tr-TR"
+          );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       MÜDAHALE GÖRÜNTÜLEME
+       ========================================================= */
+
+    function goruntuMudahaleGoster() {
+
+      const kutu =
+        document.getElementById(
+          "goruntuMudahale"
+        );
+
+      const icerik =
+        document.getElementById(
+          "goruntuMudahaleIcerik"
+        );
+
+
+      icerik.innerHTML = "";
+
+
+      let herhangiBirMudahale =
+        false;
+
+
+      /* SU */
+
+      if (
+        mevcutMudahale.su > 0
+      ) {
+
+        herhangiBirMudahale =
+          true;
+
+        const satir =
+          document.createElement(
+            "div"
+          );
+
+        satir.className =
+          "goruntu-mudahale-satir";
+
+        satir.innerHTML = `
+
+          <span class="goruntu-mudahale-adi">
+            💧 Su
+          </span>
+
+          <span class="goruntu-mudahale-deger">
+            ${formatSayi(mevcutMudahale.su)} Litre
+          </span>
+
+        `;
+
+        icerik.appendChild(
+          satir
+        );
+
+      }
+
+
+      /* KÖPÜK */
+
+      if (
+        mevcutMudahale.kopuk > 0
+      ) {
+
+        herhangiBirMudahale =
+          true;
+
+        const satir =
+          document.createElement(
+            "div"
+          );
+
+        satir.className =
+          "goruntu-mudahale-satir";
+
+        satir.innerHTML = `
+
+          <span class="goruntu-mudahale-adi">
+            🫧 Köpük
+          </span>
+
+          <span class="goruntu-mudahale-deger">
+            ${formatSayi(mevcutMudahale.kopuk)} Litre
+          </span>
+
+        `;
+
+        icerik.appendChild(
+          satir
+        );
+
+      }
+
+
+      /* KKT */
+
+      if (
+        mevcutMudahale.kkt > 0
+      ) {
+
+        herhangiBirMudahale =
+          true;
+
+        const adet =
+          mevcutMudahale.kktAdet > 0
+            ? mevcutMudahale.kktAdet
+            : 1;
+
+        const satir =
+          document.createElement(
+            "div"
+          );
+
+        satir.className =
+          "goruntu-mudahale-satir";
+
+        satir.innerHTML = `
+
+          <span class="goruntu-mudahale-adi">
+            🧯 KKT
+          </span>
+
+          <span class="goruntu-mudahale-deger">
+            ${formatSayi(mevcutMudahale.kkt)} KG × ${adet} Adet
+          </span>
+
+        `;
+
+        icerik.appendChild(
+          satir
+        );
+
+      }
+
+
+      kutu.style.display =
+        herhangiBirMudahale
+          ? "block"
+          : "none";
+
+    }
+
+
+    function formatSayi(sayi) {
+
+      return Number(
+        sayi
+      ).toLocaleString(
+        "tr-TR"
+      );
+
+    }
+
+
+    /* =========================================================
+       DÜZENLEME MODU
+       ========================================================= */
+
+    function duzenlemeModunaGec() {
+
+      document.getElementById(
+        "goruntuCard"
+      ).style.display = "none";
+
+      document.getElementById(
+        "formCard"
+      ).style.display = "block";
+
+
+      /* PERSONEL */
+
+      const seciliIsimler =
+        mevcutPersonelStr
+
+          ? mevcutPersonelStr
+              .split(",")
+              .map(
+                s => s.trim()
+              )
+
+          : [];
+
+
+      document
+        .querySelectorAll(
+          "#personelContainer input[type='checkbox']"
+        )
+        .forEach(
+          cb => {
+
+            cb.checked =
+              seciliIsimler.includes(
+                cb.value
+              );
+
+          }
+        );
+
+
+      guncelleOzet();
+
+
+      /* RAPOR NOTU */
+
+      document.getElementById(
+        "raporNotu"
+      ).value =
+        document.getElementById(
+          "goruntuNot"
+        ).innerText;
+
+
+      /* MÜDAHALE */
+
+      mudahaleDuzenlemeYukle();
+
+
+      /* FOTOĞRAFLAR */
+
+      secilenFotograflar = [];
+
+      onizlemeleriCiz();
+
+
+      document.getElementById(
+        "status"
+      ).innerText = "";
+
+    }
+
+
+    /* =========================================================
+       PERSONEL MODALI
+       ========================================================= */
+
+    const container =
+      document.getElementById(
+        "personelContainer"
+      );
+
+
+    PERSONEL_LISTESI.forEach(
+      isim => {
+
+        const item =
+          document.createElement(
+            "label"
+          );
+
+        item.className =
+          "personel-item";
+
+
+        item.innerHTML = `
+
+          <input
+            type="checkbox"
+            value="${isim}"
+            onchange="guncelleOzet()"
+          >
+
+          <span>
+            ${isim}
+          </span>
+
+        `;
+
+
+        container.appendChild(
+          item
+        );
+
+      }
+    );
+
+
+    function modalAc() {
+
+      document.getElementById(
+        "personelModal"
+      ).style.display = "flex";
+
+    }
+
+
+    function modalKapat() {
+
+      document.getElementById(
+        "personelModal"
+      ).style.display = "none";
+
+    }
+
+
+    function guncelleOzet() {
+
+      const secilenler =
+        Array.from(
+
+          document.querySelectorAll(
+            "#personelContainer input:checked"
+          )
+
+        ).map(
+          cb => cb.value
+        );
+
+
+      const ozetEl =
+        document.getElementById(
+          "secilenOzet"
+        );
+
+
+      ozetEl.innerHTML = "";
+
+
+      if (
+        secilenler.length > 0
+      ) {
+
+        secilenler.forEach(
+          isim => {
+
+            const tag =
+              document.createElement(
+                "span"
+              );
+
+            tag.className =
+              "personel-tag";
+
+            tag.innerText =
+              isim;
+
+            ozetEl.appendChild(
+              tag
+            );
+
+          }
+        );
+
+      }
+
+      else {
+
+        ozetEl.innerHTML =
+          '<span class="secilen-ozet-bos">Henüz personel seçilmedi.</span>';
+
+      }
+
+    }
+
+
+    /* =========================================================
+       FOTOĞRAF SEÇİMİ
+       ========================================================= */
+
+    const fotoInput =
+      document.getElementById(
+        "fotoInput"
+      );
+
+    const onizlemeGrid =
+      document.getElementById(
+        "onizlemeGrid"
+      );
+
+
+    function onizlemeleriCiz() {
+
+      onizlemeGrid.innerHTML = "";
+
+
+      /* MEVCUT FOTOĞRAFLAR */
+
+      mevcutFotograflar.forEach(
+        (url, index) => {
+
+          const wrap =
+            document.createElement(
+              "div"
+            );
+
+          wrap.className =
+            "foto-thumb-wrap";
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+          img.className =
+            "foto-thumb";
+
+          img.src =
+            url;
+
+          img.alt =
+            "Kayıtlı fotoğraf";
+
+
+          img.onclick = () => {
+
+            fotoGaleriyiAc(
+              mevcutFotograflar,
+              index
+            );
+
+          };
+
+
+          wrap.appendChild(
+            img
+          );
+
+
+          const silBtn =
+            document.createElement(
+              "button"
+            );
+
+          silBtn.className =
+            "foto-sil-btn";
+
+          silBtn.type =
+            "button";
+
+          silBtn.innerText =
+            "✕";
+
+
+          silBtn.onclick = (
+            event
+          ) => {
+
+            event.stopPropagation();
+
+            mevcutFotograflar.splice(
+              index,
+              1
+            );
+
+            onizlemeleriCiz();
+
+          };
+
+
+          wrap.appendChild(
+            silBtn
+          );
+
+          onizlemeGrid.appendChild(
+            wrap
+          );
+
+        }
+      );
+
+
+      /* YENİ FOTOĞRAFLAR */
+
+      secilenFotograflar.forEach(
+        (dosya, index) => {
+
+          const wrap =
+            document.createElement(
+              "div"
+            );
+
+          wrap.className =
+            "foto-thumb-wrap";
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+          img.className =
+            "foto-thumb";
+
+          img.src =
+            URL.createObjectURL(
+              dosya
+            );
+
+          img.alt =
+            "Önizleme";
+
+
+          wrap.appendChild(
+            img
+          );
+
+
+          const silBtn =
+            document.createElement(
+              "button"
+            );
+
+          silBtn.className =
+            "foto-sil-btn";
+
+          silBtn.type =
+            "button";
+
+          silBtn.innerText =
+            "✕";
+
+
+          silBtn.onclick = (
+            event
+          ) => {
+
+            event.stopPropagation();
+
+            secilenFotograflar.splice(
+              index,
+              1
+            );
+
+            onizlemeleriCiz();
+
+          };
+
+
+          wrap.appendChild(
+            silBtn
+          );
+
+          onizlemeGrid.appendChild(
+            wrap
+          );
+
+        }
+      );
+
+    }
+
+
+    fotoInput.addEventListener(
+      "change",
+      e => {
+
+        secilenFotograflar.push(
+          ...Array.from(
+            e.target.files
+          )
+        );
+
+        onizlemeleriCiz();
+
+        fotoInput.value = "";
+
+      }
+    );
+
+
+    /* =========================================================
+       MÜDAHALE SEÇİMİ
+       ========================================================= */
+
+    function mudahaleSatirTikla(
+      tip
+    ) {
+
+      const checkbox =
+        document.getElementById(
+          tip + "Check"
+        );
+
+      checkbox.checked =
+        !checkbox.checked;
+
+      mudahaleKontrol(
+        tip
+      );
+
+    }
+
+
+    function mudahaleKontrol(
+      tip
+    ) {
+
+      const checkbox =
+        document.getElementById(
+          tip + "Check"
+        );
+
+      const satir =
+        document.getElementById(
+          "mudahale" +
+          tip.charAt(0).toUpperCase() +
+          tip.slice(1) +
+          "Satir"
+        );
+
+
+      if (checkbox.checked) {
+
+        satir.classList.add(
+          "aktif"
+        );
+
+      }
+
+      else {
+
+        satir.classList.remove(
+          "aktif"
+        );
+
+      }
+
+
+      if (tip === "kkt") {
+
+        const alan =
+          document.getElementById(
+            "kktAdetAlan"
+          );
+
+        if (checkbox.checked) {
+
+          alan.classList.add(
+            "aktif"
+          );
 
         }
 
+        else {
 
-        if (
-          insData
-          &&
-          insData.length > 0
-        ) {
-
-          mevcutRaporId =
-            insData[0].id;
+          alan.classList.remove(
+            "aktif"
+          );
 
         }
 
       }
 
-
-      /* =====================================================
-         TELEGRAM MESAJI
-         ===================================================== */
-
-      if (msgId) {
-
-        const guncelLink =
-          window.location.href;
+    }
 
 
-        let zamanlar = {};
+    /* =========================================================
+       DÜZENLEMEDE MÜDAHALE YÜKLE
+       ========================================================= */
+
+    function mudahaleDuzenlemeYukle() {
+
+      const su =
+        Number(
+          mevcutMudahale.su || 0
+        );
+
+      const kopuk =
+        Number(
+          mevcutMudahale.kopuk || 0
+        );
+
+      const kkt =
+        Number(
+          mevcutMudahale.kkt || 0
+        );
+
+      const kktAdet =
+        Number(
+          mevcutMudahale.kktAdet || 1
+        );
 
 
-        try {
+      document.getElementById(
+        "suCheck"
+      ).checked =
+        su > 0;
 
-          const {
-            data: zamanVerisi,
-            error: zamanHata
-          } =
-            await supabaseClient
+      document.getElementById(
+        "kopukCheck"
+      ).checked =
+        kopuk > 0;
 
-              .from(
-                "vaka_zamanlari"
-              )
+      document.getElementById(
+        "kktCheck"
+      ).checked =
+        kkt > 0;
 
-              .select(
-                "varis, ayrilis, donus"
-              )
 
-              .eq(
-                "message_id",
-                Number(msgId)
-              )
+      document.getElementById(
+        "suMiktar"
+      ).value =
+        su > 0 ? su : 2000;
 
-              .maybeSingle();
 
+      document.getElementById(
+        "kopukMiktar"
+      ).value =
+        kopuk > 0 ? kopuk : 30;
+
+
+      document.getElementById(
+        "kktMiktar"
+      ).value =
+        kkt > 0 ? kkt : 6;
+
+
+      document.getElementById(
+        "kktAdet"
+      ).value =
+        kktAdet === 2
+          ? "2"
+          : "1";
+
+
+      mudahaleKontrol(
+        "su"
+      );
+
+      mudahaleKontrol(
+        "kopuk"
+      );
+
+      mudahaleKontrol(
+        "kkt"
+      );
+
+    }
+
+
+    /* =========================================================
+       MÜDAHALE VERİLERİNİ AL
+       ========================================================= */
+
+    function mudahaleVerileriniAl() {
+
+      const suCheck =
+        document.getElementById(
+          "suCheck"
+        ).checked;
+
+      const kopukCheck =
+        document.getElementById(
+          "kopukCheck"
+        ).checked;
+
+      const kktCheck =
+        document.getElementById(
+          "kktCheck"
+        ).checked;
+
+
+      const su =
+        suCheck
+          ? Number(
+              document.getElementById(
+                "suMiktar"
+              ).value
+            ) || 0
+          : 0;
+
+
+      const kopuk =
+        kopukCheck
+          ? Number(
+              document.getElementById(
+                "kopukMiktar"
+              ).value
+            ) || 0
+          : 0;
+
+
+      const kkt =
+        kktCheck
+          ? Number(
+              document.getElementById(
+                "kktMiktar"
+              ).value
+            ) || 0
+          : 0;
+
+
+      const kktAdet =
+        kktCheck
+          ? Number(
+              document.getElementById(
+                "kktAdet"
+              ).value
+            ) || 1
+          : 0;
+
+
+      return {
+
+        su,
+        kopuk,
+        kkt,
+        kktAdet
+
+      };
+
+    }
+
+
+    /* =========================================================
+       FOTOĞRAF GALERİSİ
+       ========================================================= */
+
+    let galeriFotograflari = [];
+
+    let galeriIndex = 0;
+
+
+    function fotoGaleriyiAc(
+      fotograflar,
+      index
+    ) {
+
+      if (
+        !fotograflar ||
+        fotograflar.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      galeriFotograflari =
+        fotograflar.slice();
+
+      galeriIndex =
+        index || 0;
+
+
+      document.getElementById(
+        "fotoModal"
+      ).classList.add(
+        "aktif"
+      );
+
+
+      galeriGoster();
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    function fotoGaleriyiKapat() {
+
+      document.getElementById(
+        "fotoModal"
+      ).classList.remove(
+        "aktif"
+      );
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+    function galeriGoster() {
+
+      if (
+        galeriFotograflari.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      const img =
+        document.getElementById(
+          "buyukFoto"
+        );
+
+
+      img.style.opacity =
+        "0.35";
+
+
+      img.onload = () => {
+
+        img.style.opacity =
+          "1";
+
+      };
+
+
+      img.src =
+        galeriFotograflari[
+          galeriIndex
+        ];
+
+
+      document.getElementById(
+        "fotoSayac"
+      ).innerText =
+
+        `${galeriIndex + 1} / ${galeriFotograflari.length}`;
+
+    }
+
+
+    function galeriOnceki() {
+
+      if (
+        galeriFotograflari.length <= 1
+      ) {
+
+        return;
+
+      }
+
+
+      galeriIndex--;
+
+      if (
+        galeriIndex < 0
+      ) {
+
+        galeriIndex =
+          galeriFotograflari.length - 1;
+
+      }
+
+
+      galeriGoster();
+
+    }
+
+
+    function galeriSonraki() {
+
+      if (
+        galeriFotograflari.length <= 1
+      ) {
+
+        return;
+
+      }
+
+
+      galeriIndex++;
+
+      if (
+        galeriIndex >=
+        galeriFotograflari.length
+      ) {
+
+        galeriIndex = 0;
+
+      }
+
+
+      galeriGoster();
+
+    }
+
+
+    /* =========================================================
+       TELEFONDA SWIPE
+       ========================================================= */
+
+    let swipeBaslangicX = 0;
+
+    let swipeBaslangicY = 0;
+
+
+    const fotoModal =
+      document.getElementById(
+        "fotoModal"
+      );
+
+
+    fotoModal.addEventListener(
+      "touchstart",
+      event => {
+
+        const touch =
+          event.changedTouches[0];
+
+        swipeBaslangicX =
+          touch.screenX;
+
+        swipeBaslangicY =
+          touch.screenY;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    fotoModal.addEventListener(
+      "touchend",
+      event => {
+
+        const touch =
+          event.changedTouches[0];
+
+        const farkX =
+          touch.screenX -
+          swipeBaslangicX;
+
+        const farkY =
+          touch.screenY -
+          swipeBaslangicY;
+
+
+        /*
+          Yatay hareket dikeyden belirgin
+          şekilde fazlaysa swipe kabul edilir.
+        */
+
+        if (
+          Math.abs(farkX) > 50 &&
+          Math.abs(farkX) >
+            Math.abs(farkY)
+        ) {
 
           if (
-            !zamanHata
-            &&
-            zamanVerisi
+            farkX < 0
           ) {
 
-            zamanlar =
-              zamanVerisi;
+            galeriSonraki();
+
+          }
+
+          else {
+
+            galeriOnceki();
 
           }
 
         }
-        catch (e) {
 
-          console.error(
-            "Zaman bilgisi okuma hatası:",
-            e
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /* =========================================================
+       KLAVYE
+       ========================================================= */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        const modal =
+          document.getElementById(
+            "fotoModal"
           );
+
+
+        if (
+          !modal.classList.contains(
+            "aktif"
+          )
+        ) {
+
+          return;
 
         }
 
 
-        /* ===================================================
-           TELEGRAM KLAVYE
-           =================================================== */
-
-        const yeniKlavye = {
-
-          inline_keyboard: [
-
-            [
-
-              {
-                text:
-                  "🚦 İstasyondan Çıkış",
-
-                callback_data:
-                  "cikis"
-              },
-
-              {
-
-                text:
-                  zamanlar.varis
-
-                    ? `✅ Olay Y. Varış ${zamanlar.varis}`
-
-                    : "📍 Olay Y. Varış",
-
-                callback_data:
-                  "varis"
-
-              }
-
-            ],
-
-            [
-
-              {
-
-                text:
-                  zamanlar.ayrilis
-
-                    ? `✅ Olay Y. Ayrılış ${zamanlar.ayrilis}`
-
-                    : "🏁 Olay Y. Ayrılış",
-
-                callback_data:
-                  "ayrilis"
-
-              },
-
-              {
-
-                text:
-                  zamanlar.donus
-
-                    ? `✅ İstasyona Dönüş ${zamanlar.donus}`
-
-                    : "🏠 İstasyona Dönüş",
-
-                callback_data:
-                  "donus"
-
-              }
-
-            ],
-
-            [
-
-              {
-
-                text:
-                  "✅ Olay Yeri Bilgileri Eklendi",
-
-                url:
-                  guncelLink
-
-              }
-
-            ],
-
-            [
-
-              {
-
-                text:
-                  "✏️ Manuel Saat Gir",
-
-                callback_data:
-                  "duzelt"
-
-              }
-
-            ]
-
-          ]
-
-        };
-
-
-        /* ===================================================
-           TELEGRAM BUTON GÜNCELLE
-           =================================================== */
-
-        const editSonucu =
-          await fetch(
-
-            `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
-
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                "Content-Type":
-                  "application/json"
-
-              },
-
-              body:
-                JSON.stringify({
-
-                  chat_id:
-                    CHAT_ID,
-
-                  message_id:
-                    Number(msgId),
-
-                  reply_markup:
-                    yeniKlavye
-
-                })
-
-            }
-
-          );
-
-
-        const editVerisi =
-          await editSonucu.json();
-
-
         if (
-          !editVerisi.ok
+          event.key === "ArrowLeft"
         ) {
 
-          console.error(
-            "Buton güncelleme hatası:",
-            editVerisi.description
-          );
+          galeriOnceki();
 
         }
 
 
-        /* ===================================================
-           SADECE İLK KAYITTA BİLDİRİM
-           =================================================== */
-
         if (
-          ilkEklemeMi
+          event.key === "ArrowRight"
         ) {
 
-          const bildirimMetni =
+          galeriSonraki();
 
-            `📸 <b>Olay Yeri Bilgileri Eklendi</b>\n\n`
-            +
-
-            `<b>Vaka No:</b> ${vakaNo}\n`
-            +
-
-            `<b>Olay:</b> ${olayTanimi}\n\n`
-            +
-
-            `Ekipler olay yeri fotoğraflarını ve detaylarını sisteme ekledi.`;
+        }
 
 
-          await fetch(
+        if (
+          event.key === "Escape"
+        ) {
 
-            `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
-
-            {
-
-              method:
-                "POST",
-
-              headers: {
-
-                "Content-Type":
-                  "application/json"
-
-              },
-
-              body:
-                JSON.stringify({
-
-                  chat_id:
-                    CHAT_ID,
-
-                  reply_to_message_id:
-                    Number(msgId),
-
-                  text:
-                    bildirimMetni,
-
-                  parse_mode:
-                    "HTML"
-
-                })
-
-            }
-
-          );
+          fotoGaleriyiKapat();
 
         }
 
       }
+    );
 
 
-      /* =====================================================
-         BAŞARILI
-         ===================================================== */
+    /* =========================================================
+       GALERİ DIŞINA TIKLAYINCA KAPAT
+       ========================================================= */
 
-      status.style.color =
-        "#69dd98";
+    fotoModal.addEventListener(
+      "click",
+      event => {
 
+        if (
+          event.target ===
+          fotoModal
+        ) {
 
-      status.innerText =
-        "✓ Bilgiler başarıyla kaydedildi.";
+          fotoGaleriyiKapat();
 
+        }
 
-      setTimeout(
-        () => tg.close(),
-        1500
-      );
-
-    }
-
-
-    catch (err) {
-
-      console.error(
-        err
-      );
+      }
+    );
 
 
-      status.style.color =
-        "#ef6c6c";
+    /* =========================================================
+       RAPOR GÖNDER
+       ========================================================= */
+
+    async function raporGonder() {
+
+      const btn =
+        document.getElementById(
+          "gonderBtn"
+        );
+
+      const status =
+        document.getElementById(
+          "status"
+        );
 
 
-      status.innerText =
-        "Hata oluştu: "
-        +
-        err.message;
+      const raporNotu =
+        document.getElementById(
+          "raporNotu"
+        ).value;
+
+
+      const secilenPersoneller =
+        Array.from(
+
+          document.querySelectorAll(
+            "#personelContainer input:checked"
+          )
+
+        ).map(
+          cb => cb.value
+        );
+
+
+      const mudahale =
+        mudahaleVerileriniAl();
+
+
+      /* EN AZ BİR BİLGİ KONTROLÜ */
+
+      if (
+
+        secilenPersoneller.length === 0 &&
+
+        secilenFotograflar.length === 0 &&
+
+        mevcutFotograflar.length === 0 &&
+
+        !raporNotu.trim() &&
+
+        mudahale.su === 0 &&
+
+        mudahale.kopuk === 0 &&
+
+        mudahale.kkt === 0
+
+      ) {
+
+        alert(
+          "Lütfen en az bir personel seçin, fotoğraf ekleyin, müdahale bilgisi girin veya açıklama yazın."
+        );
+
+        return;
+
+      }
 
 
       btn.disabled =
-        false;
+        true;
+
+
+      status.style.color =
+        "#d97706";
+
+      status.innerText =
+        "Yükleniyor, lütfen bekleyin...";
+
+
+      try {
+
+
+        /* =====================================================
+           YENİ FOTOĞRAFLAR
+           ===================================================== */
+
+        const yeniFotoUrlleri = [];
+
+
+        for (
+          let i = 0;
+          i < secilenFotograflar.length;
+          i++
+        ) {
+
+          const dosya =
+            secilenFotograflar[i];
+
+
+          const dosyaAdi =
+            `${vakaNo}_${Date.now()}_${i}.jpg`;
+
+
+          const {
+            error
+          } =
+
+            await supabaseClient
+              .storage
+              .from(
+                "olay-fotograflari"
+              )
+              .upload(
+                dosyaAdi,
+                dosya
+              );
+
+
+          if (error) {
+
+            throw error;
+
+          }
+
+
+          const publicRes =
+            supabaseClient
+
+              .storage
+
+              .from(
+                "olay-fotograflari"
+              )
+
+              .getPublicUrl(
+                dosyaAdi
+              );
+
+
+          yeniFotoUrlleri.push(
+            publicRes.data.publicUrl
+          );
+
+        }
+
+
+        /* =====================================================
+           FOTOĞRAFLAR
+           ===================================================== */
+
+        const fotoUrlleri =
+          mevcutFotograflar.concat(
+            yeniFotoUrlleri
+          );
+
+
+        /* =====================================================
+           PERSONEL
+           ===================================================== */
+
+        const personelMetni =
+          secilenPersoneller.join(
+            ", "
+          );
+
+
+        /* =====================================================
+           SUPABASE KAYIT
+           ===================================================== */
+
+        const kayitVerisi = {
+
+          vaka_no:
+            vakaNo,
+
+          olay_turu:
+            olayTanimi,
+
+          rapor_notu:
+            raporNotu,
+
+          fotograf_url:
+            fotoUrlleri[0] || "",
+
+          fotograf_urls:
+            fotoUrlleri,
+
+          "Görevli Personel":
+            personelMetni,
+
+          mudahale_su:
+            mudahale.su,
+
+          mudahale_kopuk:
+            mudahale.kopuk,
+
+          mudahale_kkt:
+            mudahale.kkt,
+
+          mudahale_kkt_adet:
+            mudahale.kktAdet
+
+        };
+
+
+        /* =====================================================
+           UPDATE / INSERT
+           ===================================================== */
+
+        if (
+          mevcutRaporId
+        ) {
+
+          const {
+            error: dbError
+          } =
+
+            await supabaseClient
+
+              .from(
+                "olay_raporlari"
+              )
+
+              .update(
+                kayitVerisi
+              )
+
+              .eq(
+                "id",
+                mevcutRaporId
+              );
+
+
+          if (dbError) {
+
+            throw dbError;
+
+          }
+
+        }
+
+        else {
+
+          const {
+            data: insData,
+            error: dbError
+          } =
+
+            await supabaseClient
+
+              .from(
+                "olay_raporlari"
+              )
+
+              .insert([
+                kayitVerisi
+              ])
+
+              .select();
+
+
+          if (dbError) {
+
+            throw dbError;
+
+          }
+
+
+          if (
+            insData &&
+            insData.length > 0
+          ) {
+
+            mevcutRaporId =
+              insData[0].id;
+
+          }
+
+        }
+
+
+        /* =====================================================
+           TELEGRAM MESAJ BUTONUNU GÜNCELLE
+           
+           ÖNEMLİ:
+           Burada sendMessage YOK.
+           İlk bilgi eklendiğinde yeni mesaj gönderilmiyor.
+           ===================================================== */
+
+        if (msgId) {
+
+          const guncelLink =
+            window.location.href;
+
+
+          let zamanlar = {};
+
+
+          try {
+
+            const {
+              data: zamanVerisi,
+              error: zamanHata
+            } =
+
+              await supabaseClient
+
+                .from(
+                  "vaka_zamanlari"
+                )
+
+                .select(
+                  "varis, ayrilis, donus"
+                )
+
+                .eq(
+                  "message_id",
+                  Number(msgId)
+                )
+
+                .maybeSingle();
+
+
+            if (
+              !zamanHata &&
+              zamanVerisi
+            ) {
+
+              zamanlar =
+                zamanVerisi;
+
+            }
+
+          }
+
+          catch (e) {
+
+            console.error(
+              "Zaman bilgisi okuma hatası:",
+              e
+            );
+
+          }
+
+
+          const yeniKlavye = {
+
+            inline_keyboard: [
+
+              [
+
+                {
+                  text:
+                    "🚦 İstasyondan Çıkış",
+
+                  callback_data:
+                    "cikis"
+
+                },
+
+                {
+
+                  text:
+                    zamanlar.varis
+
+                      ? `✅ Olay Y. Varış ${zamanlar.varis}`
+
+                      : "📍 Olay Y. Varış",
+
+                  callback_data:
+                    "varis"
+
+                }
+
+              ],
+
+              [
+
+                {
+
+                  text:
+                    zamanlar.ayrilis
+
+                      ? `✅ Olay Y. Ayrılış ${zamanlar.ayrilis}`
+
+                      : "🏁 Olay Y. Ayrılış",
+
+                  callback_data:
+                    "ayrilis"
+
+                },
+
+                {
+
+                  text:
+                    zamanlar.donus
+
+                      ? `✅ İstasyona Dönüş ${zamanlar.donus}`
+
+                      : "🏠 İstasyona Dönüş",
+
+                  callback_data:
+                    "donus"
+
+                }
+
+              ],
+
+              [
+
+                {
+
+                  text:
+                    "✅ Olay Yeri Bilgileri Eklendi",
+
+                  url:
+                    guncelLink
+
+                }
+
+              ],
+
+              [
+
+                {
+
+                  text:
+                    "✏️ Manuel Saat Gir",
+
+                  callback_data:
+                    "duzelt"
+
+                }
+
+              ]
+
+            ]
+
+          };
+
+
+          const editSonucu =
+
+            await fetch(
+
+              `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
+
+              {
+
+                method:
+                  "POST",
+
+                headers: {
+
+                  "Content-Type":
+                    "application/json"
+
+                },
+
+                body:
+                  JSON.stringify({
+
+                    chat_id:
+                      CHAT_ID,
+
+                    message_id:
+                      Number(msgId),
+
+                    reply_markup:
+                      yeniKlavye
+
+                  })
+
+                }
+
+            );
+
+
+          const editVerisi =
+            await editSonucu.json();
+
+
+          if (
+            !editVerisi.ok
+          ) {
+
+            console.error(
+              "Buton güncelleme hatası:",
+              editVerisi.description
+            );
+
+          }
+
+        }
+
+
+        /* =====================================================
+           BAŞARILI
+           ===================================================== */
+
+        status.style.color =
+          "#168a4a";
+
+        status.innerText =
+          "Bilgiler başarıyla kaydedildi.";
+
+
+        /*
+          Kaydedilen verileri hafızaya al.
+        */
+
+        mevcutFotograflar =
+          fotoUrlleri;
+
+        mevcutPersonelStr =
+          personelMetni;
+
+        mevcutMudahale =
+          mudahale;
+
+
+        setTimeout(
+          () => {
+
+            tg.close();
+
+          },
+          1200
+        );
+
+
+      }
+
+      catch (err) {
+
+        console.error(
+          err
+        );
+
+
+        status.style.color =
+          "#d32f2f";
+
+        status.innerText =
+          "Hata oluştu: " +
+          err.message;
+
+
+        btn.disabled =
+          false;
+
+      }
 
     }
 
-  }
 
+    /* =========================================================
+       SAYFA AÇILIŞI
+       ========================================================= */
 
-  /* =========================================================
-     BAŞLANGIÇ
-     ========================================================= */
+    mevcutRaporuKontrolEt();
 
-  mevcutRaporuKontrolEt();
-
-</script>
+  </script>
 
 </body>
 </html>
