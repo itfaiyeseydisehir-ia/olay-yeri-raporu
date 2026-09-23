@@ -34,6 +34,9 @@
       --turuncu: #e67e22;
       --turuncu-acik: #fff5e9;
 
+      --mor: #7c4dbd;
+      --mor-acik: #f4eefc;
+
       --arka: #f3f5f7;
       --kart: #ffffff;
       --kenar: #e1e5e9;
@@ -306,57 +309,6 @@
       margin-top: 0;
     }
 
-    /* HER FORM GRUBU AYRI KURUMSAL RENK */
-    .section-title {
-      padding: 9px 10px;
-      border-radius: 11px;
-      border: 1px solid #e5e8eb;
-      background: #f8fafb;
-    }
-
-    .personel-section { background:#eef7ff; border-color:#cfe5f8; color:#1769aa; }
-    .foto-section { background:#fff3f3; border-color:#f0d0d0; color:#b71c1c; }
-    .mudahale-section { background:#fff8e8; border-color:#f1dfb7; color:#b56a00; }
-    .rapor-section { background:#eef9f1; border-color:#cce8d5; color:#168447; }
-
-    .personel-section .section-title-icon { background:#dff0ff; color:#1769aa; }
-    .foto-section .section-title-icon { background:#ffe2e2; color:#b71c1c; }
-    .mudahale-section .section-title-icon { background:#ffedc7; color:#b56a00; }
-    .rapor-section .section-title-icon { background:#dcf3e3; color:#168447; }
-
-    .kkt-secim-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .kkt-adet-input {
-      width: 100%;
-      border: 1px solid #d6dce1;
-      background: #f9fafb;
-      color: #20252b;
-      border-radius: 9px;
-      padding: 10px;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .kkt-adet-input:focus {
-      border-color: var(--kirmizi);
-      background: #fff;
-    }
-
-    .kkt-alt-baslik {
-      display:block;
-      font-size:10px;
-      font-weight:800;
-      color:#727c85;
-      margin-bottom:5px;
-      text-transform:uppercase;
-      letter-spacing:.4px;
-    }
-
     .section-title-icon {
       width: 30px;
       height: 30px;
@@ -473,16 +425,73 @@
       background: #fff;
 
       border: 1px solid #e1e5e8;
+      border-left: 4px solid #c7ccd1;
 
       border-radius: 11px;
 
       padding: 11px;
 
       margin-bottom: 9px;
+
+      transition: 0.2s;
     }
 
     .mudahale-satir:last-child {
       margin-bottom: 0;
+    }
+
+    /* Gruplara özel renklendirme */
+
+    .mudahale-satir--su {
+      border-left-color: var(--mavi);
+      background: var(--mavi-acik);
+    }
+
+    .mudahale-satir--kopuk {
+      border-left-color: var(--turuncu);
+      background: var(--turuncu-acik);
+    }
+
+    .mudahale-satir--kkt {
+      border-left-color: var(--kirmizi);
+      background: #fdecec;
+    }
+
+    .mudahale-satir--mahalle {
+      border-left-color: var(--yesil);
+      background: var(--yesil-acik);
+    }
+
+    .mudahale-satir--su .mudahale-sec {
+      accent-color: var(--mavi);
+    }
+
+    .mudahale-satir--kopuk .mudahale-sec {
+      accent-color: var(--turuncu);
+    }
+
+    .mudahale-satir--kkt .mudahale-sec {
+      accent-color: var(--kirmizi);
+    }
+
+    .mudahale-satir--mahalle .mudahale-sec {
+      accent-color: var(--yesil);
+    }
+
+    .mudahale-satir--su .mudahale-ad {
+      color: var(--mavi);
+    }
+
+    .mudahale-satir--kopuk .mudahale-ad {
+      color: #b1600f;
+    }
+
+    .mudahale-satir--kkt .mudahale-ad {
+      color: var(--kirmizi);
+    }
+
+    .mudahale-satir--mahalle .mudahale-ad {
+      color: var(--yesil);
     }
 
     .mudahale-ust {
@@ -550,6 +559,52 @@
       border-color: var(--kirmizi);
 
       background: #fff;
+    }
+
+    /* KKT ağırlık (kg) çoktan seçmeli grup */
+
+    .kg-secim-grubu {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      align-content: flex-start;
+
+      gap: 6px;
+    }
+
+    .kg-chip {
+      background: #fff;
+
+      border: 1.5px solid #e3b9b9;
+
+      color: #8e2f2f;
+
+      padding: 7px 11px;
+
+      border-radius: 20px;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: 0.15s;
+    }
+
+    .kg-chip:active {
+      transform: scale(0.95);
+    }
+
+    .kg-chip.secili {
+      background: var(--kirmizi);
+
+      border-color: var(--kirmizi);
+
+      color: #fff;
+
+      box-shadow: 0 3px 8px rgba(183,28,28,0.3);
     }
 
     .birim {
@@ -974,12 +1029,33 @@
       background: #fff;
 
       border: 1px solid #eadfd4;
+      border-top: 3px solid #d9c9b3;
 
       border-radius: 9px;
 
       padding: 10px 7px;
 
       text-align: center;
+    }
+
+    .mudahale-goruntu-item--su {
+      border-top-color: var(--mavi);
+      background: var(--mavi-acik);
+    }
+
+    .mudahale-goruntu-item--kopuk {
+      border-top-color: var(--turuncu);
+      background: var(--turuncu-acik);
+    }
+
+    .mudahale-goruntu-item--kkt {
+      border-top-color: var(--kirmizi);
+      background: #fdecec;
+    }
+
+    .mudahale-goruntu-item--mahalle {
+      border-top-color: var(--yesil);
+      background: var(--yesil-acik);
     }
 
     .mudahale-goruntu-item strong {
@@ -1157,7 +1233,7 @@
 
       justify-content: center;
 
-      touch-action: pan-y;
+      touch-action: none;
     }
 
     .galeri.aktif {
@@ -1166,19 +1242,19 @@
 
     .galeri-img {
       max-width: 94vw;
-
       max-height: 84vh;
-
+      width: auto;
+      height: auto;
       object-fit: contain;
-
       user-select: none;
-
       -webkit-user-drag: none;
-
+      touch-action: none;
+      cursor: zoom-in;
       border-radius: 6px;
-
-      box-shadow:
-        0 15px 45px rgba(0,0,0,0.5);
+      transform-origin: center center;
+      will-change: transform;
+      transition: transform 0.08s ease-out;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.5);
     }
 
     .galeri-kapat {
@@ -1402,7 +1478,7 @@
 
     <!-- PERSONEL -->
 
-    <div class="section-title personel-section">
+    <div class="section-title">
 
       <div class="section-title-icon">
         👨‍🚒
@@ -1435,7 +1511,7 @@
 
     <!-- FOTOĞRAF -->
 
-    <div class="section-title foto-section">
+    <div class="section-title">
 
       <div class="section-title-icon">
         📷
@@ -1476,7 +1552,7 @@
 
     <!-- MÜDAHALE TİPİ -->
 
-    <div class="section-title mudahale-section">
+    <div class="section-title">
 
       <div class="section-title-icon">
         🚒
@@ -1492,7 +1568,7 @@
 
       <!-- SU -->
 
-      <div class="mudahale-satir">
+      <div class="mudahale-satir mudahale-satir--su">
 
         <div class="mudahale-ust">
 
@@ -1532,7 +1608,7 @@
 
       <!-- KÖPÜK -->
 
-      <div class="mudahale-satir">
+      <div class="mudahale-satir mudahale-satir--kopuk">
 
         <div class="mudahale-ust">
 
@@ -1572,7 +1648,7 @@
 
       <!-- KKT -->
 
-      <div class="mudahale-satir">
+      <div class="mudahale-satir mudahale-satir--kkt">
 
         <div class="mudahale-ust">
 
@@ -1591,35 +1667,70 @@
 
         <div
           class="miktar-alani"
-          id="kktAlan"
-          style="display:none; grid-template-columns:1fr;">
+          id="kktAlan">
 
-          <div class="kkt-secim-grid">
-            <div>
-              <span class="kkt-alt-baslik">KKT Tüp Ağırlığı</span>
-              <select class="miktar-select" id="kktMiktar">
-                <option value="1">1 KG</option>
-                <option value="2">2 KG</option>
-                <option value="4">4 KG</option>
-                <option value="6">6 KG</option>
-                <option value="9">9 KG</option>
-                <option value="12">12 KG</option>
-                <option value="25">25 KG</option>
-                <option value="50">50 KG</option>
-              </select>
-            </div>
+          <div
+            class="kg-secim-grubu"
+            id="kktKgGrubu">
 
-            <div>
-              <span class="kkt-alt-baslik">Kullanılan Adet</span>
-              <input
-                class="kkt-adet-input"
-                id="kktAdet"
-                type="number"
-                min="1"
-                step="1"
-                inputmode="numeric"
-                placeholder="Adet">
-            </div>
+            <button type="button" class="kg-chip" data-kg="1" onclick="kktKgSec(this)">1 kg</button>
+            <button type="button" class="kg-chip" data-kg="2" onclick="kktKgSec(this)">2 kg</button>
+            <button type="button" class="kg-chip" data-kg="4" onclick="kktKgSec(this)">4 kg</button>
+            <button type="button" class="kg-chip" data-kg="6" onclick="kktKgSec(this)">6 kg</button>
+            <button type="button" class="kg-chip" data-kg="9" onclick="kktKgSec(this)">9 kg</button>
+            <button type="button" class="kg-chip" data-kg="12" onclick="kktKgSec(this)">12 kg</button>
+            <button type="button" class="kg-chip" data-kg="25" onclick="kktKgSec(this)">25 kg</button>
+            <button type="button" class="kg-chip" data-kg="50" onclick="kktKgSec(this)">50 kg</button>
+
+          </div>
+
+          <input
+            class="miktar-input"
+            id="kktAdet"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="Adet">
+
+        </div>
+
+        <input type="hidden" id="kktMiktar" value="">
+
+      </div>
+
+
+      <!-- MAHALLE TANKERİ -->
+
+      <div class="mudahale-satir mudahale-satir--mahalle">
+
+        <div class="mudahale-ust">
+
+          <div class="mudahale-ad">
+            🚒 Mahalle Tankeri
+          </div>
+
+          <input
+            class="mudahale-sec"
+            type="checkbox"
+            id="mahalleTankeriSec"
+            onchange="mudahaleAlaniniAc('mahalleTankeri')">
+
+        </div>
+
+        <div
+          class="miktar-alani"
+          id="mahalleTankeriAlan">
+
+          <input
+            class="miktar-input"
+            id="mahalleTankeriMiktar"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Kullanılan su">
+
+          <div class="birim">
+            Litre
           </div>
 
         </div>
@@ -1627,20 +1738,8 @@
       </div>
 
 
-      <!-- MAHALLE TANKERİ -->
-      <div class="mudahale-satir">
-        <div class="mudahale-ust">
-          <div class="mudahale-ad">🚒 Mahalle Tankeri</div>
-          <input class="mudahale-sec" type="checkbox" id="tankerSec" onchange="mudahaleAlaniniAc('tanker')">
-        </div>
-        <div class="miktar-alani" id="tankerAlan">
-          <input class="miktar-input" id="tankerMiktar" type="number" min="0" step="1" inputmode="numeric" placeholder="Kullanılan su">
-          <div class="birim">Litre</div>
-        </div>
-      </div>
-
       <div class="mudahale-ozet">
-        Kullanılan müdahale türlerini işaretleyin. KKT için tüp ağırlığını seçip kullanılan adet sayısını yazın. Mahalle Tankeri seçilirse kullanılan su miktarını litre olarak girin.
+        Kullanılan müdahale malzemelerini işaretleyerek miktarlarını giriniz. Mahalle Tankeri seçildiğinde kullanılan su miktarını litre olarak belirtiniz.
       </div>
 
     </div>
@@ -1648,7 +1747,7 @@
 
     <!-- RAPOR -->
 
-    <div class="section-title rapor-section">
+    <div class="section-title">
 
       <div class="section-title-icon">
         📝
@@ -2033,18 +2132,22 @@
 
     function mudahaleVerisiniAl(rapor) {
 
+      /* Yeni kayıtlar JSONB alanından okunur.
+         Eski kayıtlar için mevcut kolonlara geri dönüş korunur. */
       let json = rapor.mudahale_tipi;
+
       if (typeof json === "string") {
-        try { json = JSON.parse(json); } catch (e) { json = {}; }
+        try { json = JSON.parse(json); } catch (e) { json = null; }
       }
+
       json = json || {};
 
       return {
-        su: json.su?.litre ?? rapor.mudahale_su ?? "",
-        kopuk: json.kopuk?.litre ?? rapor.mudahale_kopuk ?? "",
-        kkt: json.kkt?.kg ?? rapor.mudahale_kkt ?? "",
-        kktAdet: json.kkt?.adet ?? rapor.mudahale_kkt_adet ?? "",
-        mahalleTankeri: json.mahalle_tankeri?.su_litre ?? rapor.mudahale_mahalle_tankeri ?? ""
+        su: json.su ?? rapor.mudahale_su ?? "",
+        kopuk: json.kopuk ?? rapor.mudahale_kopuk ?? "",
+        kkt: json.kkt ?? rapor.mudahale_kkt ?? "",
+        kktAdet: json.kktAdet ?? rapor.mudahale_kkt_adet ?? "",
+        mahalleTankeri: json.mahalleTankeri ?? rapor.mahalle_tankeri_su ?? ""
       };
     }
 
@@ -2392,7 +2495,8 @@
           "Su",
           Number(m.su).toLocaleString("tr-TR") +
           " Litre",
-          grid
+          grid,
+          "su"
         );
 
       }
@@ -2404,7 +2508,8 @@
           "Köpük",
           Number(m.kopuk).toLocaleString("tr-TR") +
           " Litre",
-          grid
+          grid,
+          "kopuk"
         );
 
       }
@@ -2423,17 +2528,23 @@
           " KG / " +
           adet +
           " Adet",
-          grid
+          grid,
+          "kkt"
         );
 
       }
 
+
       if (m.mahalleTankeri !== "") {
+
         mudahaleGoruntuEkle(
           "Mahalle Tankeri",
-          Number(m.mahalleTankeri).toLocaleString("tr-TR") + " Litre Su",
-          grid
+          Number(m.mahalleTankeri).toLocaleString("tr-TR") +
+          " Litre Su",
+          grid,
+          "mahalle"
         );
+
       }
 
     }
@@ -2442,7 +2553,8 @@
     function mudahaleGoruntuEkle(
       baslik,
       deger,
-      grid
+      grid,
+      tip
     ) {
 
       const item =
@@ -2452,7 +2564,8 @@
 
 
       item.className =
-        "mudahale-goruntu-item";
+        "mudahale-goruntu-item" +
+        (tip ? " mudahale-goruntu-item--" + tip : "");
 
 
       item.innerHTML =
@@ -2580,9 +2693,6 @@
       const kktVar =
         m.kkt !== "";
 
-      const tankerVar =
-        m.mahalleTankeri !== "";
-
 
       document.getElementById(
         "suSec"
@@ -2600,11 +2710,6 @@
         "kktSec"
       ).checked =
         kktVar;
-
-      document.getElementById(
-        "tankerSec"
-      ).checked =
-        tankerVar;
 
 
       document.getElementById(
@@ -2634,20 +2739,46 @@
         ?
         m.kkt
         :
-        "1";
+        "";
 
 
       document.getElementById(
         "kktAdet"
       ).value =
+        kktVar && m.kktAdet
+        ?
         m.kktAdet
-        ||
+        :
         "";
 
+      document
+        .querySelectorAll(
+          "#kktKgGrubu .kg-chip"
+        )
+        .forEach(
+          b => {
+
+            b.classList.toggle(
+              "secili",
+              kktVar
+              &&
+              String(b.dataset.kg) === String(m.kkt)
+            );
+
+          }
+        );
+
       document.getElementById(
-        "tankerMiktar"
+        "mahalleTankeriSec"
+      ).checked =
+        m.mahalleTankeri !== "";
+
+      document.getElementById(
+        "mahalleTankeriMiktar"
       ).value =
-        tankerVar ? m.mahalleTankeri : "";
+        m.mahalleTankeri !== ""
+        ? m.mahalleTankeri
+        : "";
 
 
       mudahaleAlaniniAc(
@@ -2665,7 +2796,7 @@
       );
 
       mudahaleAlaniniAc(
-        "tanker"
+        "mahalleTankeri"
       );
 
     }
@@ -2823,10 +2954,10 @@
 
       }
 
-      if (tip === "tanker") {
+      if (tip === "mahalleTankeri") {
 
-        checkboxId = "tankerSec";
-        alanId = "tankerAlan";
+        checkboxId = "mahalleTankeriSec";
+        alanId = "mahalleTankeriAlan";
 
       }
 
@@ -2862,6 +2993,29 @@
         );
 
       }
+
+    }
+
+
+    /* =========================================================
+       KKT KG SEÇİMİ (ÇOKTAN SEÇMELİ)
+    ========================================================= */
+
+    function kktKgSec(btn) {
+
+      document
+        .querySelectorAll(
+          "#kktKgGrubu .kg-chip"
+        )
+        .forEach(
+          b => b.classList.remove("secili")
+        );
+
+      btn.classList.add("secili");
+
+      document.getElementById(
+        "kktMiktar"
+      ).value = btn.dataset.kg;
 
     }
 
@@ -3151,6 +3305,7 @@
       galeriIndex =
         index;
 
+      galeriTransformSifirla();
 
       galeriGuncelle();
 
@@ -3185,6 +3340,8 @@
         );
 
 
+      galeriTransformSifirla();
+
       img.src =
         galeriFotolari[
           galeriIndex
@@ -3216,6 +3373,8 @@
 
       document.body.style.overflow =
         "";
+
+      galeriTransformSifirla();
 
     }
 
@@ -3278,74 +3437,114 @@
 
 
     /*
-      Telefonda sağa-sola kaydırma
+      Telefonda sağa-sola kaydırma + iki parmak pinch zoom
+      + çift dokunma ile zoom.
     */
 
     let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let pinchStartDistance = 0;
+    let galeriZoom = 1;
+    let galeriPanX = 0;
+    let galeriPanY = 0;
+    let galeriPinching = false;
+    let galeriMoving = false;
+    let sonDokunmaZamani = 0;
 
-    let touchEndX = 0;
+    function galeriTransformSifirla() {
+      galeriZoom = 1;
+      galeriPanX = 0;
+      galeriPanY = 0;
+      galeriPinching = false;
+      galeriMoving = false;
+      const img = document.getElementById("galeriImg");
+      img.style.transform = "translate3d(0,0,0) scale(1)";
+      img.style.cursor = "zoom-in";
+    }
 
+    function galeriTransformUygula() {
+      const img = document.getElementById("galeriImg");
+      img.style.transform = `translate3d(${galeriPanX}px, ${galeriPanY}px, 0) scale(${galeriZoom})`;
+      img.style.cursor = galeriZoom > 1 ? "grab" : "zoom-in";
+    }
 
-    const galeriEl =
-      document.getElementById(
-        "galeri"
-      );
+    function ikiParmakMesafe(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
 
+    const galeriEl = document.getElementById("galeri");
+    const galeriImg = document.getElementById("galeriImg");
 
-    galeriEl.addEventListener(
-      "touchstart",
-      e => {
+    galeriImg.addEventListener("dblclick", e => {
+      e.preventDefault();
+      galeriZoom = galeriZoom > 1 ? 1 : 2;
+      if (galeriZoom === 1) { galeriPanX = 0; galeriPanY = 0; }
+      galeriTransformUygula();
+    });
 
-        touchStartX =
-          e.changedTouches[0].screenX;
+    /*
+      ÖNEMLİ: Dokunma olayları fotoğrafın kendisine değil,
+      tüm galeri katmanına (galeriEl) bağlanıyor. Fotoğraf
+      dikey/yatay olduğuna göre ekranı tam doldurmayabilir;
+      ikinci parmak fotoğrafın dışına (boşluğa) denk gelirse
+      eskiden pinch algılanmıyordu. Artık iki parmak ekranın
+      neresine değerse değsin yakınlaştırma çalışır.
+    */
 
-      },
-      {
-        passive: true
+    galeriEl.addEventListener("touchstart", e => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        galeriPinching = true;
+        pinchStartDistance = ikiParmakMesafe(e.touches);
+        return;
       }
-    );
-
-
-    galeriEl.addEventListener(
-      "touchend",
-      e => {
-
-        touchEndX =
-          e.changedTouches[0].screenX;
-
-
-        const fark =
-          touchEndX -
-          touchStartX;
-
-
-        if (
-          Math.abs(fark) < 45
-        ) {
-
-          return;
-
-        }
-
-
-        if (fark < 0) {
-
-          galeriSonraki();
-
-        }
-
-        else {
-
-          galeriOnceki();
-
-        }
-
-      },
-      {
-        passive: true
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+        galeriMoving = galeriZoom > 1;
       }
-    );
+    }, { passive: false });
 
+    galeriEl.addEventListener("touchmove", e => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const yeniMesafe = ikiParmakMesafe(e.touches);
+        if (!pinchStartDistance) pinchStartDistance = yeniMesafe;
+        const oran = yeniMesafe / pinchStartDistance;
+        galeriZoom = Math.max(1, Math.min(5, galeriZoom * oran));
+        pinchStartDistance = yeniMesafe;
+        if (galeriZoom === 1) { galeriPanX = 0; galeriPanY = 0; }
+        galeriTransformUygula();
+        return;
+      }
+
+      if (e.touches.length === 1 && galeriZoom > 1) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - touchStartX;
+        const dy = e.touches[0].clientY - touchStartY;
+        galeriPanX += dx;
+        galeriPanY += dy;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        galeriTransformUygula();
+      }
+    }, { passive: false });
+
+    galeriEl.addEventListener("touchend", e => {
+      if (e.touches.length < 2) galeriPinching = false;
+      if (galeriZoom > 1) return;
+      if (galeriMoving) return;
+      if (Date.now() - touchStartTime > 500) return;
+      const endTouch = e.changedTouches[0];
+      const fark = endTouch.clientX - touchStartX;
+      if (Math.abs(fark) >= 45) {
+        if (fark < 0) galeriSonraki(); else galeriOnceki();
+      }
+    }, { passive: false });
 
     /*
       Klavye desteği
@@ -3493,14 +3692,14 @@
           "kktAdet"
         ).value;
 
-      const tankerSecili =
+      const mahalleTankeriSecili =
         document.getElementById(
-          "tankerSec"
+          "mahalleTankeriSec"
         ).checked;
 
-      const tankerMiktar =
+      const mahalleTankeriMiktar =
         document.getElementById(
-          "tankerMiktar"
+          "mahalleTankeriMiktar"
         ).value;
 
 
@@ -3547,23 +3746,49 @@
       if (
         kktSecili
         &&
-        !kktAdet
-        ||
-        (kktSecili && Number(kktAdet) <= 0)
+        (
+          !kktMiktar
+          ||
+          Number(kktMiktar) <= 0
+        )
       ) {
 
         alert(
-          "Lütfen kullanılan KKT adetini girin."
+          "Lütfen kullanılan KKT ağırlığını (kg) seçin."
         );
 
         return;
 
       }
 
+
       if (
-        tankerSecili
+        kktSecili
         &&
-        (!tankerMiktar || Number(tankerMiktar) <= 0)
+        (
+          !kktAdet
+          ||
+          Number(kktAdet) <= 0
+        )
+      ) {
+
+        alert(
+          "Lütfen kullanılan KKT adedini girin."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        mahalleTankeriSecili
+        &&
+        (
+          !mahalleTankeriMiktar
+          ||
+          Number(mahalleTankeriMiktar) <= 0
+        )
       ) {
 
         alert(
@@ -3750,39 +3975,24 @@
             :
             null,
 
-          mudahale_kkt_adet:
-            kktSecili
-            ?
-            Number(kktAdet)
-            :
-            null,
-
-          mudahale_mahalle_tankeri:
-            tankerSecili
-            ?
-            Number(tankerMiktar)
-            :
-            null,
-
+          /* Yeni standart kayıt: Supabase JSONB */
           mudahale_tipi: {
-            su: {
-              aktif: suSecili,
-              litre: suSecili ? Number(suMiktar) : 0
-            },
-            kopuk: {
-              aktif: kopukSecili,
-              litre: kopukSecili ? Number(kopukMiktar) : 0
-            },
-            kkt: {
-              aktif: kktSecili,
-              kg: kktSecili ? Number(kktMiktar) : 0,
-              adet: kktSecili ? Number(kktAdet) : 0
-            },
-            mahalle_tankeri: {
-              aktif: tankerSecili,
-              su_litre: tankerSecili ? Number(tankerMiktar) : 0
-            }
-          }
+            su: suSecili ? Number(suMiktar) : "",
+            kopuk: kopukSecili ? Number(kopukMiktar) : "",
+            kkt: kktSecili ? Number(kktMiktar) : "",
+            kktAdet: kktSecili ? Number(kktAdet) : "",
+            mahalleTankeri: mahalleTankeriSecili ? Number(mahalleTankeriMiktar) : ""
+          },
+
+          /* Eski sürüm kolonları korunuyor; eski kod/veriler bozulmasın. */
+          mudahale_su:
+            suSecili ? Number(suMiktar) : null,
+          mudahale_kopuk:
+            kopukSecili ? Number(kopukMiktar) : null,
+          mudahale_kkt:
+            kktSecili ? Number(kktMiktar) : null,
+          mudahale_kkt_adet:
+            kktSecili ? Number(kktAdet) : null
 
         };
 
@@ -4125,9 +4335,9 @@
               "",
 
             mahalleTankeri:
-              tankerSecili
+              mahalleTankeriSecili
               ?
-              Number(tankerMiktar)
+              Number(mahalleTankeriMiktar)
               :
               ""
 
@@ -4160,15 +4370,8 @@
           mudahale_kkt_adet:
             mevcutMudahale.kktAdet,
 
-          mudahale_mahalle_tankeri:
-            mevcutMudahale.mahalleTankeri,
-
-          mudahale_tipi: {
-            su: { aktif: mevcutMudahale.su !== "", litre: Number(mevcutMudahale.su || 0) },
-            kopuk: { aktif: mevcutMudahale.kopuk !== "", litre: Number(mevcutMudahale.kopuk || 0) },
-            kkt: { aktif: mevcutMudahale.kkt !== "", kg: Number(mevcutMudahale.kkt || 0), adet: Number(mevcutMudahale.kktAdet || 0) },
-            mahalle_tankeri: { aktif: mevcutMudahale.mahalleTankeri !== "", su_litre: Number(mevcutMudahale.mahalleTankeri || 0) }
-          },
+          mudahale_tipi:
+            mevcutMudahale,
 
           created_at:
             new Date().toISOString()
