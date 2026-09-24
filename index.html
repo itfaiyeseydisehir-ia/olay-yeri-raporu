@@ -3275,7 +3275,11 @@
             </td>
             <td>
               <span class="icap-toplam">
-                ${escapeHtml(icapSureMetni(item.toplam_dakika))}
+                ${escapeHtml(
+                  item.baslama && item.bitis
+                    ? icapSureMetni(item.toplam_dakika)
+                    : "Bitiş bekleniyor"
+                )}
               </span>
             </td>
             <td>
@@ -5189,37 +5193,34 @@
         const icap of icapGorevlileri
       ) {
 
-        if (!icap.baslama || !icap.bitis) {
-
-          showToast(
-            `${icap.personel} için icap başlama ve bitiş saatlerini girin.`
-          );
-
-          return;
-
-        }
-
+        /*
+           İcap başlama ve bitiş saatleri birbirinden bağımsızdır.
+           Personel icaba geldiğinde yalnızca BAŞLAMA saati girilebilir.
+           İcap bittikten sonra BİTİŞ saati ayrıca girilir.
+           İki saat de girilmeden kayıt engellenmez.
+        */
         const toplam =
           icapToplamDakikaHesapla(
             icap.baslama,
             icap.bitis
           );
 
+        icap.toplam_dakika =
+          toplam === null ? 0 : toplam;
+
         if (
-          toplam === null ||
-          toplam <= 0
+          icap.baslama &&
+          icap.bitis &&
+          (toplam === null || toplam <= 0)
         ) {
 
           showToast(
-            `${icap.personel} için geçerli bir icap süresi girin.`
+            `${icap.personel} için icap başlangıç ve bitiş saatlerini kontrol edin.`
           );
 
           return;
 
         }
-
-        icap.toplam_dakika =
-          toplam;
 
       }
 
