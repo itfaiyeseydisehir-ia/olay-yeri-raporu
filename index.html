@@ -1747,6 +1747,28 @@
 
     </div>
 
+
+    <div class="info-row">
+
+      <strong>Görevli Vardiya</strong>
+
+      <span id="gorevliVardiya">
+        -
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <strong>Tarih / Saat</strong>
+
+      <span id="olayTarihSaat">
+        -
+      </span>
+
+    </div>
+
   </div>
 
 
@@ -2541,6 +2563,96 @@
 
     document.getElementById("olayTanimi").innerText =
       olayTanimi;
+
+
+    /* =========================================================
+       GÖREVLİ VARDİYA VE TARİH/SAAT
+
+       Sabit 3 vardiya döngüsü: 24 Eylül 2026 -> 2. Vardiya,
+       25 Eylül 2026 -> 3. Vardiya, 26 Eylül 2026 -> 1. Vardiya,
+       sonra baştan başlar. Bu referansa göre herhangi bir günün
+       vardiyası hesaplanır.
+    ========================================================= */
+
+    const VARDIYA_REFERANS_TARIHI =
+      new Date(2026, 8, 24);
+
+    const VARDIYA_REFERANS_NO =
+      2;
+
+    function gorevliVardiyayiHesapla(tarih) {
+
+      const referans =
+        new Date(
+          VARDIYA_REFERANS_TARIHI.getFullYear(),
+          VARDIYA_REFERANS_TARIHI.getMonth(),
+          VARDIYA_REFERANS_TARIHI.getDate()
+        );
+
+      const hedef =
+        new Date(
+          tarih.getFullYear(),
+          tarih.getMonth(),
+          tarih.getDate()
+        );
+
+      const gunFarki =
+        Math.round(
+          (hedef - referans)
+          /
+          86400000
+        );
+
+      const index =
+        (
+          (
+            (gunFarki + (VARDIYA_REFERANS_NO - 1)) % 3
+          )
+          + 3
+        )
+        % 3;
+
+      return index + 1;
+
+    }
+
+    function vardiyaVeSaatiGuncelle() {
+
+      const simdi =
+        new Date();
+
+      const vardiya =
+        gorevliVardiyayiHesapla(simdi);
+
+      document.getElementById("gorevliVardiya").innerText =
+        vardiya + ". Vardiya";
+
+      const gun =
+        String(simdi.getDate()).padStart(2, "0");
+
+      const ay =
+        String(simdi.getMonth() + 1).padStart(2, "0");
+
+      const yil =
+        simdi.getFullYear();
+
+      const saat =
+        String(simdi.getHours()).padStart(2, "0");
+
+      const dakika =
+        String(simdi.getMinutes()).padStart(2, "0");
+
+      document.getElementById("olayTarihSaat").innerText =
+        `${gun}.${ay}.${yil} ${saat}:${dakika}`;
+
+    }
+
+    vardiyaVeSaatiGuncelle();
+
+    setInterval(
+      vardiyaVeSaatiGuncelle,
+      30000
+    );
 
 
     /* =========================================================
