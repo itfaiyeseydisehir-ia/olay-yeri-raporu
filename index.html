@@ -21,35 +21,35 @@
     ========================================================= */
 
     :root {
-      --kirmizi: #b71c1c;
-      --kirmizi-koyu: #8e0000;
-      --kirmizi-acik: #d32f2f;
+      --kirmizi: #9c2b2b;
+      --kirmizi-koyu: #6f1d1d;
+      --kirmizi-acik: #b13a3a;
 
-      --yesil: #168447;
-      --yesil-acik: #eaf7ef;
+      --yesil: #2f7a52;
+      --yesil-acik: #eef6f1;
 
-      --mavi: #1769aa;
-      --mavi-acik: #edf6fd;
+      --mavi: #35618a;
+      --mavi-acik: #eef3f7;
 
-      --turuncu: #e67e22;
-      --turuncu-acik: #fff5e9;
+      --turuncu: #b5721f;
+      --turuncu-acik: #faf3e8;
 
-      --mor: #7c4dbd;
-      --mor-acik: #f4eefc;
+      --mor: #6a5590;
+      --mor-acik: #f1eef6;
 
-      --arka: #f3f5f7;
+      --arka: #f4f5f6;
       --kart: #ffffff;
-      --kenar: #e1e5e9;
+      --kenar: #e4e6e9;
 
-      --metin: #20252b;
-      --ikincil: #68727d;
-      --soluk: #929aa3;
+      --metin: #23262b;
+      --ikincil: #6b7178;
+      --soluk: #979da3;
 
       --golge:
-        0 5px 18px rgba(0,0,0,0.07);
+        0 2px 10px rgba(20,22,26,0.05);
 
       --golge-guclu:
-        0 12px 35px rgba(0,0,0,0.16);
+        0 10px 28px rgba(20,22,26,0.14);
     }
 
     * {
@@ -83,6 +83,10 @@
 
       color: var(--metin);
       padding: 14px;
+
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
     button,
@@ -117,7 +121,7 @@
       margin-bottom: 14px;
 
       box-shadow:
-        0 7px 20px rgba(142,0,0,0.18);
+        0 4px 14px rgba(111,29,29,0.16);
 
       position: relative;
 
@@ -203,7 +207,7 @@
       align-items: center;
       justify-content: center;
 
-      background: #fff0f0;
+      background: #f7ecec;
 
       color: var(--kirmizi);
 
@@ -421,6 +425,159 @@
       margin-top: 8px;
     }
 
+    /* =========================================================
+       GÖREV GRUPLARI (AKORDEON)
+    ========================================================= */
+
+    .gorev-grubu {
+      background: #fff;
+
+      border: 1px solid var(--kenar);
+      border-left: 4px solid #c7ccd1;
+
+      border-radius: 13px;
+
+      margin-bottom: 10px;
+
+      overflow: hidden;
+
+      transition: border-color 0.2s;
+    }
+
+    .gorev-grubu:last-child {
+      margin-bottom: 0;
+    }
+
+    .gorev-grubu--yangin {
+      border-left-color: var(--kirmizi);
+    }
+
+    .gorev-grubu--arama {
+      border-left-color: var(--mavi);
+    }
+
+    .gorev-grubu--diger {
+      border-left-color: var(--mor);
+    }
+
+    .gorev-grubu-baslik {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 13px 14px;
+
+      cursor: pointer;
+
+      user-select: none;
+    }
+
+    .gorev-grubu-baslik-sol {
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      color: var(--metin);
+    }
+
+    .gorev-grubu-baslik-sag {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      flex-shrink: 0;
+    }
+
+    .gorev-grubu-simge {
+      width: 30px;
+      height: 30px;
+
+      border-radius: 9px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+    }
+
+    .gorev-grubu--yangin .gorev-grubu-simge {
+      background: #f7ecec;
+      color: var(--kirmizi);
+    }
+
+    .gorev-grubu--arama .gorev-grubu-simge {
+      background: var(--mavi-acik);
+      color: var(--mavi);
+    }
+
+    .gorev-grubu--diger .gorev-grubu-simge {
+      background: var(--mor-acik);
+      color: var(--mor);
+    }
+
+    .gorev-grubu-durum {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--soluk);
+      background: #f1f3f5;
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .gorev-grubu.dolu .gorev-grubu-durum {
+      color: var(--yesil);
+      background: var(--yesil-acik);
+    }
+
+    .gorev-grubu-ok {
+      color: var(--soluk);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .gorev-grubu.acik .gorev-grubu-ok {
+      transform: rotate(180deg);
+    }
+
+    .gorev-grubu-govde-dis {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s ease;
+    }
+
+    .gorev-grubu.acik .gorev-grubu-govde-dis {
+      grid-template-rows: 1fr;
+    }
+
+    .gorev-grubu-govde {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .gorev-grubu-govde-ic {
+      padding: 0 14px 15px 14px;
+    }
+
+    .gorev-grubu-govde textarea {
+      margin-top: 0;
+    }
+
     .mudahale-satir {
       background: #fff;
 
@@ -462,20 +619,52 @@
       background: var(--yesil-acik);
     }
 
-    .mudahale-satir--su .mudahale-sec {
-      accent-color: var(--mavi);
+    .mudahale-sec {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 40px;
+      height: 23px;
+      background: #d9dce0;
+      border: none;
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      flex-shrink: 0;
+      transition: background 0.18s ease;
     }
 
-    .mudahale-satir--kopuk .mudahale-sec {
-      accent-color: var(--turuncu);
+    .mudahale-sec::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 17px;
+      height: 17px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.18s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.22);
     }
 
-    .mudahale-satir--kkt .mudahale-sec {
-      accent-color: var(--kirmizi);
+    .mudahale-sec:checked::after {
+      transform: translateX(17px);
     }
 
-    .mudahale-satir--mahalle .mudahale-sec {
-      accent-color: var(--yesil);
+    .mudahale-satir--su .mudahale-sec:checked {
+      background: var(--mavi);
+    }
+
+    .mudahale-satir--kopuk .mudahale-sec:checked {
+      background: var(--turuncu);
+    }
+
+    .mudahale-satir--kkt .mudahale-sec:checked {
+      background: var(--kirmizi);
+    }
+
+    .mudahale-satir--mahalle .mudahale-sec:checked {
+      background: var(--yesil);
     }
 
     .mudahale-satir--su .mudahale-ad {
@@ -576,9 +765,9 @@
     .kg-chip {
       background: #fff;
 
-      border: 1.5px solid #e3b9b9;
+      border: 1.5px solid #d9c2c2;
 
-      color: #8e2f2f;
+      color: #8e4b4b;
 
       padding: 7px 11px;
 
@@ -604,7 +793,7 @@
 
       color: #fff;
 
-      box-shadow: 0 3px 8px rgba(183,28,28,0.3);
+      box-shadow: 0 2px 6px rgba(111,29,29,0.22);
     }
 
     .birim {
@@ -656,8 +845,8 @@
       background:
         linear-gradient(
           135deg,
-          #1769aa,
-          #14578d
+          #3d688f,
+          #2f5474
         );
 
       color: white;
@@ -675,7 +864,7 @@
       cursor: pointer;
 
       box-shadow:
-        0 5px 12px rgba(23,105,170,0.15);
+        0 2px 8px rgba(53,97,138,0.14);
     }
 
     input[type="file"] {
@@ -799,7 +988,7 @@
       background: #fff;
 
       box-shadow:
-        0 0 0 3px rgba(183,28,28,0.08);
+        0 0 0 3px rgba(111,29,29,0.08);
     }
 
     textarea::placeholder {
@@ -818,7 +1007,7 @@
         linear-gradient(
           135deg,
           var(--yesil),
-          #116b39
+          #245f42
         );
 
       color: white;
@@ -838,7 +1027,7 @@
       cursor: pointer;
 
       box-shadow:
-        0 6px 15px rgba(22,132,71,0.18);
+        0 3px 10px rgba(47,122,82,0.16);
     }
 
     .submit-btn:active {
@@ -1104,6 +1293,18 @@
       justify-content: center;
 
       padding: 14px;
+
+      animation: modalArkaGiris 0.18s ease;
+    }
+
+    @keyframes modalArkaGiris {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalIcerikGiris {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal-content {
@@ -1124,6 +1325,8 @@
       flex-direction: column;
 
       box-shadow: var(--golge-guclu);
+
+      animation: modalIcerikGiris 0.2s ease;
     }
 
     .modal-header {
@@ -1144,13 +1347,13 @@
       grid-template-columns:
         1fr 1fr;
 
-      gap: 8px;
+      gap: 5px;
 
       overflow-y: auto;
 
       background: #f5f7f8;
 
-      padding: 10px;
+      padding: 8px;
 
       border-radius: 11px;
 
@@ -1166,7 +1369,7 @@
 
       font-size: 12px;
 
-      gap: 7px;
+      gap: 6px;
 
       cursor: pointer;
 
@@ -1174,11 +1377,22 @@
 
       border: 1px solid #e2e6e9;
 
-      border-radius: 9px;
+      border-radius: 8px;
 
-      padding: 9px 7px;
+      padding: 7px 8px;
 
-      line-height: 1.2;
+      line-height: 1.15;
+
+      transition: background 0.12s, border-color 0.12s;
+    }
+
+    .personel-item:active {
+      background: #f6f7f8;
+    }
+
+    .personel-item:has(input:checked) {
+      background: var(--kirmizi-acik-bg, #fbefef);
+      border-color: #e3c6c6;
     }
 
     .personel-item input {
@@ -1218,7 +1432,7 @@
     ========================================================= */
 
     .galeri {
-      display: none;
+      display: flex;
 
       position: fixed;
 
@@ -1234,10 +1448,16 @@
       justify-content: center;
 
       touch-action: none;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: opacity 0.2s ease, visibility 0.2s ease;
     }
 
     .galeri.aktif {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
     }
 
     .galeri-img {
@@ -1397,10 +1617,80 @@
       }
     }
 
+    /* TOAST BİLDİRİM */
+
+    #toastKapsayici {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(12px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      pointer-events: none;
+      width: calc(100% - 32px);
+      max-width: 420px;
+    }
+
+    .toast {
+      background: #292d33;
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.4;
+      padding: 11px 16px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      max-width: 100%;
+    }
+
+    .toast.gorunur {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast--hata {
+      background: #6f1d1d;
+    }
+
+    .toast--basari {
+      background: #245f42;
+    }
+
+    .toast-simge {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .buton-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: -2px;
+      margin-right: 7px;
+    }
+
   </style>
 </head>
 
 <body>
+
+  <div id="toastKapsayici"></div>
 
 
   <!-- =======================================================
@@ -1429,7 +1719,7 @@
     <div class="olay-baslik">
 
       <div class="olay-icon">
-        🚨
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="M5 8a7 7 0 0 1 14 0c0 4 1.5 6 2 7H3c.5-1 2-3 2-7Z"/><path d="M9 20a3 3 0 0 0 6 0"/></svg>
       </div>
 
       <div class="olay-baslik-metin">
@@ -1481,7 +1771,7 @@
     <div class="section-title">
 
       <div class="section-title-icon">
-        👨‍🚒
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3A3.5 3.5 0 0 0 7 18.5V20"/><circle cx="12" cy="8" r="3.3"/><path d="M20 20v-1a3 3 0 0 0-2.2-2.9"/><path d="M15.3 5.2A3.3 3.3 0 0 1 17.5 8a3.3 3.3 0 0 1-1.8 2.9"/></svg>
       </div>
 
       Görevdeki Personeller
@@ -1493,7 +1783,7 @@
       class="secim-btn"
       onclick="modalAc()">
 
-      ➕ Görevli Personel Seç
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><path d="M12 5v14M5 12h14"/></svg>Görevli Personel Seç
 
     </button>
 
@@ -1514,7 +1804,7 @@
     <div class="section-title">
 
       <div class="section-title-icon">
-        📷
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.4"/></svg>
       </div>
 
       Olay Yeri Fotoğrafları
@@ -1526,7 +1816,7 @@
       for="fotoInput"
       class="file-btn">
 
-      📷 Fotoğraf Ekle
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.4"/></svg>Fotoğraf Ekle
 
     </label>
 
@@ -1550,37 +1840,65 @@
     </div>
 
 
-    <!-- MÜDAHALE TİPİ -->
+    <!-- GÖREV GRUPLARI -->
 
     <div class="section-title">
 
       <div class="section-title-icon">
-        🚒
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M8 4v5"/></svg>
       </div>
 
-      Yangına Müdahale Tipi
+      Görev Çeşidi ve Olay Yeri Bilgileri
 
     </div>
 
+    <div style="font-size:11.5px;color:var(--ikincil);margin-top:-4px;margin-bottom:10px;">
+      Olayın türüne uyan grubu açarak ilgili bilgileri girin. Birden fazla grup aynı anda doldurulabilir.
+    </div>
 
-    <div class="mudahale-panel">
 
+    <!-- GRUP 1: YANGIN MÜDAHALESİ -->
 
-      <!-- SU -->
+    <div class="gorev-grubu gorev-grubu--yangin" id="grupYangin">
 
-      <div class="mudahale-satir mudahale-satir--su">
+      <div class="gorev-grubu-baslik" onclick="gorevGrubuAcKapa('grupYangin')">
 
-        <div class="mudahale-ust">
-
-          <div class="mudahale-ad">
-            💧 Su
+        <div class="gorev-grubu-baslik-sol">
+          <div class="gorev-grubu-simge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1.2 2 1.6 3.4.7 5-1 1.7-2.7 1.4-2.9 3.2-.2 1.6.9 2.3 1.9 2.3 1.7 0 2.8-1.4 2.8-3 1.4 1.2 2 2.9 2 4.3a5.5 5.5 0 0 1-11 0c0-4 2.6-6 3.7-8 .7-1.3.9-2.6-.2-3.8Z"/></svg>
           </div>
+          Yangın Müdahalesi
+        </div>
 
-          <input
-            class="mudahale-sec"
-            type="checkbox"
-            id="suSec"
-            onchange="mudahaleAlaniniAc('su')">
+        <div class="gorev-grubu-baslik-sag">
+          <span class="gorev-grubu-durum" id="grupYanginDurum">Boş</span>
+          <svg class="gorev-grubu-ok" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+
+      </div>
+
+      <div class="gorev-grubu-govde-dis">
+        <div class="gorev-grubu-govde">
+          <div class="gorev-grubu-govde-ic">
+
+            <div class="mudahale-panel">
+
+
+              <!-- SU -->
+
+              <div class="mudahale-satir mudahale-satir--su">
+
+                <div class="mudahale-ust">
+
+                  <div class="mudahale-ad">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg>Su
+                  </div>
+
+                  <input
+                    class="mudahale-sec"
+                    type="checkbox"
+                    id="suSec"
+                    onchange="mudahaleAlaniniAc('su')">
 
         </div>
 
@@ -1613,7 +1931,7 @@
         <div class="mudahale-ust">
 
           <div class="mudahale-ad">
-            🫧 Köpük
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="8" r="2.2"/><circle cx="12" cy="15" r="3.6"/></svg>Köpük
           </div>
 
           <input
@@ -1653,7 +1971,7 @@
         <div class="mudahale-ust">
 
           <div class="mudahale-ad">
-            🧯 KKT
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="8" y="7" width="8" height="14" rx="2.5"/><path d="M11 7V4h2v3"/><path d="M9 3h6"/></svg>KKT
           </div>
 
           <input
@@ -1706,7 +2024,7 @@
         <div class="mudahale-ust">
 
           <div class="mudahale-ad">
-            🚒 Mahalle Tankeri
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="2" y="9" width="12" height="7" rx="1.2"/><path d="M14 11h4l3 3v2h-7v-5Z"/><circle cx="6" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>Mahalle Tankeri
           </div>
 
           <input
@@ -1744,13 +2062,91 @@
 
     </div>
 
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- GRUP 2: ARAMA KURTARMA MÜDAHALESİ -->
+
+    <div class="gorev-grubu gorev-grubu--arama" id="grupArama">
+
+      <div class="gorev-grubu-baslik" onclick="gorevGrubuAcKapa('grupArama')">
+
+        <div class="gorev-grubu-baslik-sol">
+          <div class="gorev-grubu-simge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          Arama Kurtarma Müdahalesi
+        </div>
+
+        <div class="gorev-grubu-baslik-sag">
+          <span class="gorev-grubu-durum" id="grupAramaDurum">Boş</span>
+          <svg class="gorev-grubu-ok" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+
+      </div>
+
+      <div class="gorev-grubu-govde-dis">
+        <div class="gorev-grubu-govde">
+          <div class="gorev-grubu-govde-ic">
+
+            <textarea
+              id="aramaKurtarmaNotu"
+              oninput="gorevGrubuDurumGuncelle('grupArama', this.value)"
+              placeholder="Arama kurtarma müdahalesi ile ilgili olay yeri bilgilerini yazın..."></textarea>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- GRUP 3: DİĞER GÖREV -->
+
+    <div class="gorev-grubu gorev-grubu--diger" id="grupDiger">
+
+      <div class="gorev-grubu-baslik" onclick="gorevGrubuAcKapa('grupDiger')">
+
+        <div class="gorev-grubu-baslik-sol">
+          <div class="gorev-grubu-simge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          Diğer Görev
+        </div>
+
+        <div class="gorev-grubu-baslik-sag">
+          <span class="gorev-grubu-durum" id="grupDigerDurum">Boş</span>
+          <svg class="gorev-grubu-ok" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+
+      </div>
+
+      <div class="gorev-grubu-govde-dis">
+        <div class="gorev-grubu-govde">
+          <div class="gorev-grubu-govde-ic">
+
+            <textarea
+              id="digerGorevNotu"
+              oninput="gorevGrubuDurumGuncelle('grupDiger', this.value)"
+              placeholder="Görev detaylarını ve açıklamasını yazın..."></textarea>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
     <!-- RAPOR -->
 
     <div class="section-title">
 
       <div class="section-title-icon">
-        📝
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v5h5"/><path d="M8 13h8M8 17h5"/></svg>
       </div>
 
       Rapor Notu / Açıklama
@@ -1770,7 +2166,7 @@
       class="submit-btn"
       onclick="raporGonder()">
 
-      ✓ Bilgileri Kaydet
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M20 6 9 17l-5-5"/></svg>Bilgileri Kaydet
 
     </button>
 
@@ -1793,7 +2189,7 @@
     <div class="kayitli-baslik">
 
       <div class="kayitli-icon">
-        ✓
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
       </div>
 
       <div>
@@ -1808,7 +2204,7 @@
     <div class="goruntu-kutu">
 
       <div class="goruntu-kutu-baslik">
-        👨‍🚒 GÖREVLİ EKİP
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M17 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3A3.5 3.5 0 0 0 7 18.5V20"/><circle cx="12" cy="8" r="3.3"/></svg>GÖREVLİ EKİP
       </div>
 
       <div
@@ -1835,7 +2231,7 @@
       style="display:none;">
 
       <div class="goruntu-kutu-baslik">
-        🚒 YANGINA MÜDAHALE TİPİ
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M12 3c1.2 2 1.6 3.4.7 5-1 1.7-2.7 1.4-2.9 3.2-.2 1.6.9 2.3 1.9 2.3 1.7 0 2.8-1.4 2.8-3 1.4 1.2 2 2.9 2 4.3a5.5 5.5 0 0 1-11 0c0-4 2.6-6 3.7-8 .7-1.3.9-2.6-.2-3.8Z"/></svg>YANGINA MÜDAHALE TİPİ
       </div>
 
       <div
@@ -1846,12 +2242,50 @@
     </div>
 
 
+    <!-- ARAMA KURTARMA -->
+
+    <div
+      class="neon-kutu"
+      id="goruntuAramaKutu"
+      style="display:none;">
+
+      <div class="neon-kutu-baslik">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>ARAMA KURTARMA MÜDAHALESİ
+      </div>
+
+      <div
+        class="neon-not-icerik"
+        id="goruntuAramaNot">
+      </div>
+
+    </div>
+
+
+    <!-- DİĞER GÖREV -->
+
+    <div
+      class="neon-kutu"
+      id="goruntuDigerKutu"
+      style="display:none;">
+
+      <div class="neon-kutu-baslik">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>DİĞER GÖREV
+      </div>
+
+      <div
+        class="neon-not-icerik"
+        id="goruntuDigerNot">
+      </div>
+
+    </div>
+
+
     <!-- RAPOR -->
 
     <div class="neon-kutu">
 
       <div class="neon-kutu-baslik">
-        📝 RAPOR / AÇIKLAMA
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v5h5"/><path d="M8 13h8M8 17h5"/></svg>RAPOR / AÇIKLAMA
       </div>
 
       <div
@@ -1860,6 +2294,7 @@
       </div>
 
     </div>
+
 
 
     <div
@@ -1873,7 +2308,7 @@
       style="margin-top:16px;"
       onclick="duzenlemeModunaGec()">
 
-      ✏️ Düzenle / Bilgi Ekle
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Düzenle / Bilgi Ekle
 
     </button>
 
@@ -1891,7 +2326,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        👨‍🚒 Görevli Personel Seçimi
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M17 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-3A3.5 3.5 0 0 0 7 18.5V20"/><circle cx="12" cy="8" r="3.3"/></svg>Görevli Personel Seçimi
       </div>
 
       <div
@@ -1932,7 +2367,7 @@
       class="galeri-kapat"
       onclick="galeriKapat()">
 
-      ×
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
 
     </button>
 
@@ -1941,7 +2376,7 @@
       class="galeri-sol"
       onclick="galeriOnceki()">
 
-      ‹
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></svg>
 
     </button>
 
@@ -1957,7 +2392,7 @@
       class="galeri-sag"
       onclick="galeriSonraki()">
 
-      ›
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 
     </button>
 
@@ -1974,6 +2409,43 @@
 
 
   <script>
+
+    /* =========================================================
+       TOAST BİLDİRİM
+    ========================================================= */
+
+    function showToast(mesaj, tip = "hata", sure = 3600) {
+
+      const kapsayici =
+        document.getElementById("toastKapsayici");
+
+      const toast =
+        document.createElement("div");
+
+      toast.className =
+        "toast" + (tip === "hata" ? " toast--hata" : tip === "basari" ? " toast--basari" : "");
+
+      const simgeSvg =
+        tip === "basari"
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>';
+
+      toast.innerHTML =
+        '<span class="toast-simge">' + simgeSvg + '</span><span>' + mesaj + '</span>';
+
+      kapsayici.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.add("gorunur");
+      });
+
+      setTimeout(() => {
+        toast.classList.remove("gorunur");
+        setTimeout(() => toast.remove(), 250);
+      }, sure);
+
+    }
+
 
     /* =========================================================
        TELEGRAM
@@ -2091,6 +2563,10 @@
     let mevcutPersonelStr = "";
 
     let mevcutMudahale = {};
+
+    let mevcutAramaKurtarmaNotu = "";
+
+    let mevcutDigerGorevNotu = "";
 
     let secilenFotograflar = [];
 
@@ -2407,6 +2883,52 @@
       );
 
 
+      /* ARAMA KURTARMA */
+
+      mevcutAramaKurtarmaNotu =
+        rapor.arama_kurtarma_notu
+        || "";
+
+      const aramaKutu =
+        document.getElementById("goruntuAramaKutu");
+
+      if (mevcutAramaKurtarmaNotu.trim()) {
+
+        aramaKutu.style.display = "block";
+
+        document.getElementById("goruntuAramaNot").innerText =
+          mevcutAramaKurtarmaNotu;
+
+      } else {
+
+        aramaKutu.style.display = "none";
+
+      }
+
+
+      /* DİĞER GÖREV */
+
+      mevcutDigerGorevNotu =
+        rapor.diger_gorev_notu
+        || "";
+
+      const digerKutu =
+        document.getElementById("goruntuDigerKutu");
+
+      if (mevcutDigerGorevNotu.trim()) {
+
+        digerKutu.style.display = "block";
+
+        document.getElementById("goruntuDigerNot").innerText =
+          mevcutDigerGorevNotu;
+
+      } else {
+
+        digerKutu.style.display = "none";
+
+      }
+
+
       /* RAPOR */
 
       document.getElementById(
@@ -2667,6 +3189,41 @@
       mudahaleFormunuDoldur(
         mevcutMudahale
       );
+
+
+      /* ARAMA KURTARMA / DİĞER GÖREV */
+
+      document.getElementById(
+        "aramaKurtarmaNotu"
+      ).value =
+        mevcutAramaKurtarmaNotu;
+
+      document.getElementById(
+        "digerGorevNotu"
+      ).value =
+        mevcutDigerGorevNotu;
+
+      gorevGrubuDurumGuncelle(
+        "grupArama",
+        mevcutAramaKurtarmaNotu
+      );
+
+      gorevGrubuDurumGuncelle(
+        "grupDiger",
+        mevcutDigerGorevNotu
+      );
+
+      if (mevcutAramaKurtarmaNotu.trim()) {
+        gorevGrubuAc("grupArama");
+      }
+
+      if (mevcutDigerGorevNotu.trim()) {
+        gorevGrubuAc("grupDiger");
+      }
+
+      if (mudahaleVarMi(mevcutMudahale)) {
+        gorevGrubuAc("grupYangin");
+      }
 
 
       document.getElementById(
@@ -2993,6 +3550,80 @@
         );
 
       }
+
+      gorevGrubuYanginDurumGuncelle();
+
+    }
+
+
+    /* =========================================================
+       GÖREV GRUPLARI (AKORDEON)
+    ========================================================= */
+
+    function gorevGrubuAcKapa(grupId) {
+
+      document
+        .getElementById(grupId)
+        .classList.toggle("acik");
+
+    }
+
+
+    function gorevGrubuAc(grupId) {
+
+      document
+        .getElementById(grupId)
+        .classList.add("acik");
+
+    }
+
+
+    function gorevGrubuDurumAyarla(grupId, doluMu) {
+
+      const grup =
+        document.getElementById(grupId);
+
+      const durum =
+        document.getElementById(grupId + "Durum");
+
+      if (!grup || !durum) return;
+
+      grup.classList.toggle("dolu", !!doluMu);
+
+      durum.innerText =
+        doluMu ? "Dolduruldu" : "Boş";
+
+    }
+
+
+    function gorevGrubuDurumGuncelle(grupId, deger) {
+
+      gorevGrubuDurumAyarla(
+        grupId,
+        !!(deger && deger.trim())
+      );
+
+    }
+
+
+    function gorevGrubuYanginDurumGuncelle() {
+
+      const su =
+        document.getElementById("suSec").checked;
+
+      const kopuk =
+        document.getElementById("kopukSec").checked;
+
+      const kkt =
+        document.getElementById("kktSec").checked;
+
+      const mahalle =
+        document.getElementById("mahalleTankeriSec").checked;
+
+      gorevGrubuDurumAyarla(
+        "grupYangin",
+        su || kopuk || kkt || mahalle
+      );
 
     }
 
@@ -3638,6 +4269,18 @@
         ).value;
 
 
+      const aramaKurtarmaNotu =
+        document.getElementById(
+          "aramaKurtarmaNotu"
+        ).value;
+
+
+      const digerGorevNotu =
+        document.getElementById(
+          "digerGorevNotu"
+        ).value;
+
+
       const secilenPersoneller =
         Array.from(
           document.querySelectorAll(
@@ -3715,7 +4358,7 @@
         )
       ) {
 
-        alert(
+        showToast(
           "Lütfen kullanılan Su miktarını litre olarak girin."
         );
 
@@ -3734,7 +4377,7 @@
         )
       ) {
 
-        alert(
+        showToast(
           "Lütfen kullanılan Köpük miktarını litre olarak girin."
         );
 
@@ -3753,7 +4396,7 @@
         )
       ) {
 
-        alert(
+        showToast(
           "Lütfen kullanılan KKT ağırlığını (kg) seçin."
         );
 
@@ -3772,7 +4415,7 @@
         )
       ) {
 
-        alert(
+        showToast(
           "Lütfen kullanılan KKT adedini girin."
         );
 
@@ -3791,7 +4434,7 @@
         )
       ) {
 
-        alert(
+        showToast(
           "Lütfen Mahalle Tankeri ile kullanılan su miktarını litre olarak girin."
         );
 
@@ -3818,6 +4461,14 @@
 
         &&
 
+        !aramaKurtarmaNotu.trim()
+
+        &&
+
+        !digerGorevNotu.trim()
+
+        &&
+
         !suSecili
 
         &&
@@ -3830,7 +4481,7 @@
 
       ) {
 
-        alert(
+        showToast(
           "Lütfen en az bir personel seçin, fotoğraf ekleyin, müdahale bilgisi girin veya açıklama yazın."
         );
 
@@ -3839,8 +4490,16 @@
       }
 
 
+      const btnOrijinalIcerik =
+        btn.innerHTML;
+
+
       btn.disabled =
         true;
+
+
+      btn.innerHTML =
+        '<span class="buton-spinner"></span>Kaydediliyor...';
 
 
       status.style.color =
@@ -3942,6 +4601,12 @@
 
           rapor_notu:
             raporNotu,
+
+          arama_kurtarma_notu:
+            aramaKurtarmaNotu,
+
+          diger_gorev_notu:
+            digerGorevNotu,
 
           fotograf_url:
             fotoUrlleri[0]
@@ -4282,7 +4947,7 @@
         ====================================================== */
 
         status.style.color =
-          "#168447";
+          "#2f7a52";
 
 
         status.innerText =
@@ -4358,6 +5023,12 @@
           rapor_notu:
             raporNotu,
 
+          arama_kurtarma_notu:
+            aramaKurtarmaNotu,
+
+          diger_gorev_notu:
+            digerGorevNotu,
+
           mudahale_su:
             mevcutMudahale.su,
 
@@ -4412,7 +5083,7 @@
 
 
         status.style.color =
-          "#d32f2f";
+          "#a33a3a";
 
 
         status.innerText =
@@ -4427,6 +5098,10 @@
 
         btn.disabled =
           false;
+
+
+        btn.innerHTML =
+          btnOrijinalIcerik;
 
       }
 
