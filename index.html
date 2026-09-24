@@ -409,6 +409,216 @@
     }
 
 
+
+    /* =========================================================
+       İCAP GÖREVLİ PERSONEL
+    ========================================================= */
+
+    .icap-bolum {
+      margin-top: 12px;
+      background: #f8f5ff;
+      border: 1px solid #ddd2f4;
+      border-left: 4px solid #7656b8;
+      border-radius: 13px;
+      padding: 12px;
+    }
+
+    .icap-bolum-baslik {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #5b3f95;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 9px;
+    }
+
+    .icap-bolum-baslik-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #e9e1fa;
+      color: #7656b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icap-secim-btn {
+      width: 100%;
+      background: #fff;
+      color: #5b3f95;
+      border: 1px dashed #bca9df;
+      padding: 11px;
+      border-radius: 10px;
+      font-weight: 750;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .icap-secim-btn:active {
+      transform: scale(0.985);
+      background: #f4effc;
+    }
+
+    .icap-tablo-wrap {
+      margin-top: 10px;
+      overflow-x: auto;
+      border: 1px solid #ded5ef;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .icap-tablo {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+
+    .icap-tablo th {
+      background: #eee8fa;
+      color: #5b3f95;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .25px;
+      padding: 9px 8px;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid #ded5ef;
+    }
+
+    .icap-tablo td {
+      padding: 7px 8px;
+      border-bottom: 1px solid #eeeaf5;
+      vertical-align: middle;
+    }
+
+    .icap-tablo tr:last-child td {
+      border-bottom: none;
+    }
+
+    .icap-personel-adi {
+      font-weight: 750;
+      color: #303039;
+      min-width: 165px;
+    }
+
+    .icap-saat {
+      width: 112px;
+      height: 36px;
+      border: 1px solid #d7d1e4;
+      background: #fbfaff;
+      color: #2f2a38;
+      border-radius: 8px;
+      padding: 6px 8px;
+      box-sizing: border-box;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .icap-saat:focus {
+      outline: none;
+      border-color: #7656b8;
+      box-shadow: 0 0 0 3px rgba(118,86,184,.10);
+    }
+
+    .icap-toplam {
+      min-width: 105px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 9px;
+      border-radius: 8px;
+      background: #eaf7ef;
+      color: #197044;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .icap-sil {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 8px;
+      background: #fff0f0;
+      color: #b33b3b;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .icap-bos {
+      color: #8b829b;
+      font-size: 11.5px;
+      font-style: italic;
+      padding: 9px 2px 2px;
+    }
+
+    .icap-modal-content {
+      max-width: 460px;
+    }
+
+    .icap-modal-header {
+      color: #5b3f95;
+    }
+
+    .icap-modal-header .modal-header-icon {
+      background: #e9e1fa;
+      color: #7656b8;
+    }
+
+    .goruntu-icap {
+      background: #faf7ff;
+      border: 1px solid #ded5ef;
+      border-left: 4px solid #7656b8;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .goruntu-icap-baslik {
+      color: #5b3f95;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .goruntu-icap-tablo {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+
+    .goruntu-icap-tablo th {
+      color: #786e89;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 6px 5px;
+      border-bottom: 1px solid #e4def0;
+    }
+
+    .goruntu-icap-tablo td {
+      padding: 8px 5px;
+      border-bottom: 1px solid #eeeaf5;
+      color: #34303d;
+    }
+
+    .goruntu-icap-tablo tr:last-child td {
+      border-bottom: none;
+    }
+
+    .goruntu-icap-toplam {
+      color: #197044;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
     /* =========================================================
        MÜDAHALE TİPİ
     ========================================================= */
@@ -1812,6 +2022,41 @@
     </div>
 
 
+    <!-- İCAP GÖREVLİ PERSONEL -->
+
+    <div class="icap-bolum">
+
+      <div class="icap-bolum-baslik">
+
+        <div class="icap-bolum-baslik-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
+          </svg>
+        </div>
+
+        İcap Görevli Personel
+
+      </div>
+
+      <button
+        type="button"
+        class="icap-secim-btn"
+        onclick="icapModalAc()">
+
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+
+        İcap Görevli Personel Seç
+
+      </button>
+
+      <div id="icapTabloAlani"></div>
+
+    </div>
+
+
     <!-- FOTOĞRAF -->
 
     <div class="section-title">
@@ -2228,6 +2473,26 @@
     </div>
 
 
+    <!-- İCAP GÖREVLİ PERSONEL -->
+
+    <div
+      class="goruntu-icap"
+      id="goruntuIcap"
+      style="display:none;">
+
+      <div class="goruntu-icap-baslik">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 2"/>
+        </svg>
+        İCAP GÖREVLİ PERSONEL
+      </div>
+
+      <div id="goruntuIcapTablo"></div>
+
+    </div>
+
+
     <!-- FOTOĞRAFLAR -->
 
     <div
@@ -2361,6 +2626,48 @@
 
 
   <!-- =======================================================
+       İCAP PERSONEL MODALI
+  ======================================================== -->
+
+  <div
+    id="icapModal"
+    class="modal">
+
+    <div class="modal-content icap-modal-content">
+
+      <div class="modal-header icap-modal-header">
+
+        <span class="modal-header-icon" style="display:inline-flex;width:28px;height:28px;border-radius:8px;align-items:center;justify-content:center;margin-right:6px;vertical-align:-8px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
+          </svg>
+        </span>
+        İcap Görevli Personel Seçimi
+
+      </div>
+
+      <div
+        class="personel-grid"
+        id="icapPersonelContainer">
+      </div>
+
+      <button
+        type="button"
+        class="modal-confirm-btn"
+        style="background:#7656b8;"
+        onclick="icapModalKapat()">
+
+        Seçimi Tamamla
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
        FOTOĞRAF GALERİSİ
   ======================================================== -->
 
@@ -2423,9 +2730,22 @@
 
   <script>
 
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
     /* =========================================================
        TOAST BİLDİRİM
     ========================================================= */
+
 
     function showToast(mesaj, tip = "hata", sure = 3600) {
 
@@ -2679,6 +2999,8 @@
 
     let mevcutPersonelStr = "";
 
+    let mevcutIcapGorevlileri = [];
+
     let mevcutMudahale = {};
 
     let mevcutAramaKurtarmaNotu = "";
@@ -2720,8 +3042,378 @@
 
 
     /* =========================================================
+       İCAP GÖREVLİ PERSONEL
+    ========================================================= */
+
+    function icapVerisiniNormalizeEt(veri) {
+
+      if (!Array.isArray(veri)) {
+        return [];
+      }
+
+      return veri
+        .map(item => ({
+          personel: String(item?.personel || "").trim(),
+          baslama: String(item?.baslama || "").trim(),
+          bitis: String(item?.bitis || "").trim(),
+          toplam_dakika: Number(item?.toplam_dakika || 0)
+        }))
+        .filter(item => item.personel);
+
+    }
+
+
+    function icapToplamDakikaHesapla(baslama, bitis) {
+
+      if (!baslama || !bitis) {
+        return null;
+      }
+
+      const [bh, bm] = baslama.split(":").map(Number);
+      const [eh, em] = bitis.split(":").map(Number);
+
+      if (
+        !Number.isFinite(bh) ||
+        !Number.isFinite(bm) ||
+        !Number.isFinite(eh) ||
+        !Number.isFinite(em)
+      ) {
+        return null;
+      }
+
+      let bas = (bh * 60) + bm;
+      let bit = (eh * 60) + em;
+
+      /* Bitiş saati başlangıçtan küçükse olay gece yarısını geçmiştir. */
+      if (bit < bas) {
+        bit += 24 * 60;
+      }
+
+      return bit - bas;
+
+    }
+
+
+    function icapSureMetni(dakika) {
+
+      if (
+        dakika === null ||
+        dakika === undefined ||
+        !Number.isFinite(Number(dakika)) ||
+        Number(dakika) <= 0
+      ) {
+        return "—";
+      }
+
+      const d = Number(dakika);
+      const saat = Math.floor(d / 60);
+      const dk = d % 60;
+
+      if (saat > 0 && dk > 0) {
+        return `${saat} saat ${dk} dk`;
+      }
+
+      if (saat > 0) {
+        return `${saat} saat`;
+      }
+
+      return `${dk} dk`;
+
+    }
+
+
+    function icapKaydiniGuncelle(index, alan, deger) {
+
+      if (!mevcutIcapGorevlileri[index]) {
+        return;
+      }
+
+      mevcutIcapGorevlileri[index][alan] = deger;
+
+      const toplam =
+        icapToplamDakikaHesapla(
+          mevcutIcapGorevlileri[index].baslama,
+          mevcutIcapGorevlileri[index].bitis
+        );
+
+      mevcutIcapGorevlileri[index].toplam_dakika =
+        toplam === null ? 0 : toplam;
+
+      icapTablosunuCiz();
+
+    }
+
+
+    function icapSatiriniSil(index) {
+
+      mevcutIcapGorevlileri.splice(index, 1);
+
+      /*
+        Liste yeniden çizildiği için checkbox durumları
+        aşağıdaki yardımcı fonksiyonla senkronize edilir.
+      */
+      icapPersonelSecimleriniSenkronizeEt();
+      icapTablosunuCiz();
+
+    }
+
+
+    function icapPersonelSecimleriniSenkronizeEt() {
+
+      const seciliSet =
+        new Set(
+          mevcutIcapGorevlileri.map(
+            x => x.personel
+          )
+        );
+
+      document
+        .querySelectorAll(
+          "#icapPersonelContainer input[type='checkbox']"
+        )
+        .forEach(cb => {
+
+          cb.checked =
+            seciliSet.has(cb.value);
+
+        });
+
+    }
+
+
+    function icapPersonelSecimGuncelle() {
+
+      const secilenler =
+        Array.from(
+          document.querySelectorAll(
+            "#icapPersonelContainer input:checked"
+          )
+        )
+        .map(cb => cb.value);
+
+      const eskiMap =
+        new Map(
+          mevcutIcapGorevlileri.map(
+            x => [x.personel, x]
+          )
+        );
+
+      mevcutIcapGorevlileri =
+        secilenler.map(isim => {
+
+          const eski = eskiMap.get(isim);
+
+          return eski
+            ? { ...eski }
+            : {
+                personel: isim,
+                baslama: "",
+                bitis: "",
+                toplam_dakika: 0
+              };
+
+        });
+
+      icapTablosunuCiz();
+
+    }
+
+
+    function icapTablosunuCiz() {
+
+      const alan =
+        document.getElementById(
+          "icapTabloAlani"
+        );
+
+      if (!alan) {
+        return;
+      }
+
+      if (!mevcutIcapGorevlileri.length) {
+
+        alan.innerHTML =
+          '<div class="icap-bos">Henüz icap görevlisi seçilmedi.</div>';
+
+        return;
+
+      }
+
+      let html = `
+        <div class="icap-tablo-wrap">
+          <table class="icap-tablo">
+            <thead>
+              <tr>
+                <th>İcap Görevli Personel</th>
+                <th>İcap Başlama</th>
+                <th>İcap Bitiş</th>
+                <th>Toplam İcap</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      mevcutIcapGorevlileri.forEach((item, index) => {
+
+        html += `
+          <tr>
+            <td class="icap-personel-adi">${escapeHtml(item.personel)}</td>
+            <td>
+              <input
+                class="icap-saat"
+                type="time"
+                value="${escapeHtml(item.baslama)}"
+                onchange="icapKaydiniGuncelle(${index}, 'baslama', this.value)">
+            </td>
+            <td>
+              <input
+                class="icap-saat"
+                type="time"
+                value="${escapeHtml(item.bitis)}"
+                onchange="icapKaydiniGuncelle(${index}, 'bitis', this.value)">
+            </td>
+            <td>
+              <span class="icap-toplam">
+                ${escapeHtml(icapSureMetni(item.toplam_dakika))}
+              </span>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="icap-sil"
+                title="Personeli çıkar"
+                onclick="icapSatiriniSil(${index})">✕</button>
+            </td>
+          </tr>
+        `;
+
+      });
+
+      html += `
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      alan.innerHTML = html;
+
+    }
+
+
+    function icapModalAc() {
+
+      icapPersonelSecimleriniSenkronizeEt();
+
+      document.getElementById(
+        "icapModal"
+      ).style.display = "flex";
+
+    }
+
+
+    function icapModalKapat() {
+
+      icapPersonelSecimGuncelle();
+
+      document.getElementById(
+        "icapModal"
+      ).style.display = "none";
+
+    }
+
+
+    function icapFormunuDoldur(veri) {
+
+      mevcutIcapGorevlileri =
+        icapVerisiniNormalizeEt(
+          veri
+        );
+
+      icapPersonelSecimleriniSenkronizeEt();
+      icapTablosunuCiz();
+
+    }
+
+
+    function goruntuIcapGoster(veri) {
+
+      const kutu =
+        document.getElementById(
+          "goruntuIcap"
+        );
+
+      const alan =
+        document.getElementById(
+          "goruntuIcapTablo"
+        );
+
+      const liste =
+        icapVerisiniNormalizeEt(
+          veri
+        );
+
+      if (!liste.length) {
+
+        kutu.style.display = "none";
+        alan.innerHTML = "";
+        return;
+
+      }
+
+      kutu.style.display = "block";
+
+      let html = `
+        <table class="goruntu-icap-tablo">
+          <thead>
+            <tr>
+              <th>Personel</th>
+              <th>Başlama</th>
+              <th>Bitiş</th>
+              <th>Toplam</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      liste.forEach(item => {
+
+        const toplam =
+          icapToplamDakikaHesapla(
+            item.baslama,
+            item.bitis
+          );
+
+        const dakika =
+          toplam === null
+          ? Number(item.toplam_dakika || 0)
+          : toplam;
+
+        html += `
+          <tr>
+            <td><strong>${escapeHtml(item.personel)}</strong></td>
+            <td>${escapeHtml(item.baslama || "—")}</td>
+            <td>${escapeHtml(item.bitis || "—")}</td>
+            <td class="goruntu-icap-toplam">${escapeHtml(icapSureMetni(dakika))}</td>
+          </tr>
+        `;
+
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      alan.innerHTML = html;
+
+    }
+
+
+    /* =========================================================
        MÜDAHALE DEĞERLERİ
     ========================================================= */
+
 
     function mudahaleVerisiniAl(rapor) {
 
@@ -2859,6 +3551,12 @@
         );
 
 
+      mevcutIcapGorevlileri =
+        icapVerisiniNormalizeEt(
+          rapor.icap_gorevlileri
+        );
+
+
       document.getElementById(
         "formCard"
       ).style.display = "none";
@@ -2925,6 +3623,13 @@
           '</span>';
 
       }
+
+
+      /* İCAP GÖREVLİ PERSONEL */
+
+      goruntuIcapGoster(
+        mevcutIcapGorevlileri
+      );
 
 
       /* FOTOĞRAFLAR */
@@ -3277,6 +3982,13 @@
       guncelleOzet();
 
 
+      /* İCAP */
+
+      icapFormunuDoldur(
+        mevcutIcapGorevlileri
+      );
+
+
       /* RAPOR */
 
       document.getElementById(
@@ -3515,6 +4227,42 @@
     );
 
 
+    /* =========================================================
+       İCAP PERSONEL MODALI
+    ========================================================= */
+
+    const icapContainer =
+      document.getElementById(
+        "icapPersonelContainer"
+      );
+
+
+    PERSONEL_LISTESI.forEach(
+      isim => {
+
+        const item =
+          document.createElement(
+            "label"
+          );
+
+        item.className =
+          "personel-item";
+
+        item.innerHTML =
+          `<input
+             type="checkbox"
+             value="${escapeHtml(isim)}"
+             onchange="icapPersonelSecimGuncelle()">
+           <span>${escapeHtml(isim)}</span>`;
+
+        icapContainer.appendChild(
+          item
+        );
+
+      }
+    );
+
+
     function modalAc() {
 
       document.getElementById(
@@ -3597,9 +4345,13 @@
     }
 
 
+    icapTablosunuCiz();
+
+
     /* =========================================================
        MÜDAHALE SEÇİMİ
     ========================================================= */
+
 
     function mudahaleAlaniniAc(tip) {
 
@@ -4409,6 +5161,69 @@
         );
 
 
+      /* İCAP GÖREVLİLERİ */
+
+      const icapGorevlileri =
+        mevcutIcapGorevlileri.map(
+          item => {
+
+            const toplam =
+              icapToplamDakikaHesapla(
+                item.baslama,
+                item.bitis
+              );
+
+            return {
+              personel: item.personel,
+              baslama: item.baslama,
+              bitis: item.bitis,
+              toplam_dakika:
+                toplam === null ? 0 : toplam
+            };
+
+          }
+        );
+
+
+      for (
+        const icap of icapGorevlileri
+      ) {
+
+        if (!icap.baslama || !icap.bitis) {
+
+          showToast(
+            `${icap.personel} için icap başlama ve bitiş saatlerini girin.`
+          );
+
+          return;
+
+        }
+
+        const toplam =
+          icapToplamDakikaHesapla(
+            icap.baslama,
+            icap.bitis
+          );
+
+        if (
+          toplam === null ||
+          toplam <= 0
+        ) {
+
+          showToast(
+            `${icap.personel} için geçerli bir icap süresi girin.`
+          );
+
+          return;
+
+        }
+
+        icap.toplam_dakika =
+          toplam;
+
+      }
+
+
       /* MÜDAHALE */
 
       const suSecili =
@@ -4586,6 +5401,10 @@
 
         &&
 
+        icapGorevlileri.length === 0
+
+        &&
+
         !suSecili
 
         &&
@@ -4735,6 +5554,9 @@
 
           "Görevli Personel":
             personelMetni,
+
+          icap_gorevlileri:
+            icapGorevlileri,
 
           mudahale_su:
             suSecili
@@ -5084,6 +5906,11 @@
         mevcutPersonelStr =
           personelMetni;
 
+        mevcutIcapGorevlileri =
+          icapVerisiniNormalizeEt(
+            icapGorevlileri
+          );
+
 
         mevcutMudahale =
           {
@@ -5133,6 +5960,9 @@
 
           "Görevli Personel":
             mevcutPersonelStr,
+
+          icap_gorevlileri:
+            mevcutIcapGorevlileri,
 
           fotograf_urls:
             mevcutFotograflar,
