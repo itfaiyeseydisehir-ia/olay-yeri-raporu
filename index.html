@@ -1761,7 +1761,7 @@
 
     <div class="info-row">
 
-      <strong>Tarih / Saat</strong>
+      <strong>Tarih</strong>
 
       <span id="olayTarihSaat">
         -
@@ -2566,12 +2566,15 @@
 
 
     /* =========================================================
-       GÖREVLİ VARDİYA VE TARİH/SAAT
+       GÖREVLİ VARDİYA VE TARİH
 
-       Sabit 3 vardiya döngüsü: 24 Eylül 2026 -> 2. Vardiya,
-       25 Eylül 2026 -> 3. Vardiya, 26 Eylül 2026 -> 1. Vardiya,
-       sonra baştan başlar. Bu referansa göre herhangi bir günün
-       vardiyası hesaplanır.
+       Nöbetler 24-48 sistemine göre sabah 09:00'dan ertesi gün
+       sabah 09:00'a kadar sürer. Bu yüzden saat 09:00'dan önceki
+       saatler hâlâ BİR ÖNCEKİ takvim gününün vardiyasına aittir.
+
+       Sabit 3 vardiya döngüsü: 24 Eylül 2026 (09:00-09:00 dilimi)
+       -> 2. Vardiya, 25 Eylül 2026 -> 3. Vardiya, 26 Eylül 2026 ->
+       1. Vardiya, sonra baştan başlar.
     ========================================================= */
 
     const VARDIYA_REFERANS_TARIHI =
@@ -2579,6 +2582,27 @@
 
     const VARDIYA_REFERANS_NO =
       2;
+
+    function vardiyaGununeCevir(zaman) {
+
+      const gun =
+        new Date(
+          zaman.getFullYear(),
+          zaman.getMonth(),
+          zaman.getDate()
+        );
+
+      if (zaman.getHours() < 9) {
+
+        gun.setDate(
+          gun.getDate() - 1
+        );
+
+      }
+
+      return gun;
+
+    }
 
     function gorevliVardiyayiHesapla(tarih) {
 
@@ -2589,16 +2613,12 @@
           VARDIYA_REFERANS_TARIHI.getDate()
         );
 
-      const hedef =
-        new Date(
-          tarih.getFullYear(),
-          tarih.getMonth(),
-          tarih.getDate()
-        );
+      const vardiyaGunu =
+        vardiyaGununeCevir(tarih);
 
       const gunFarki =
         Math.round(
-          (hedef - referans)
+          (vardiyaGunu - referans)
           /
           86400000
         );
@@ -2636,14 +2656,8 @@
       const yil =
         simdi.getFullYear();
 
-      const saat =
-        String(simdi.getHours()).padStart(2, "0");
-
-      const dakika =
-        String(simdi.getMinutes()).padStart(2, "0");
-
       document.getElementById("olayTarihSaat").innerText =
-        `${gun}.${ay}.${yil} ${saat}:${dakika}`;
+        `${gun}.${ay}.${yil}`;
 
     }
 
@@ -2651,7 +2665,7 @@
 
     setInterval(
       vardiyaVeSaatiGuncelle,
-      30000
+      60000
     );
 
 
