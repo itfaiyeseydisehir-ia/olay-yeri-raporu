@@ -2956,37 +2956,47 @@
 
     }
 
-    function vardiyaVeSaatiGuncelle() {
+    function vardiyaVeSaatiniGuncelle(tarih) {
 
-      const simdi =
+      const hedefTarih =
+        tarih
+        ||
         new Date();
 
       const vardiya =
-        gorevliVardiyayiHesapla(simdi);
+        gorevliVardiyayiHesapla(hedefTarih);
 
       document.getElementById("gorevliVardiya").innerText =
         vardiya + ". Vardiya";
 
       const gun =
-        String(simdi.getDate()).padStart(2, "0");
+        String(hedefTarih.getDate()).padStart(2, "0");
 
       const ay =
-        String(simdi.getMonth() + 1).padStart(2, "0");
+        String(hedefTarih.getMonth() + 1).padStart(2, "0");
 
       const yil =
-        simdi.getFullYear();
+        hedefTarih.getFullYear();
 
       document.getElementById("olayTarihSaat").innerText =
         `${gun}.${ay}.${yil}`;
 
     }
 
-    vardiyaVeSaatiGuncelle();
+    /*
+      ÖNEMLİ:
 
-    setInterval(
-      vardiyaVeSaatiGuncelle,
-      60000
-    );
+      Vardiya, vakanın OLUŞTUĞU güne göre hesaplanır ve
+      bir kere belirlendikten sonra SABİT kalır. Sayfa ilk
+      açıldığında (henüz kayıt yokken) "şu an" baz alınır,
+      çünkü vaka o an başlıyordur. Kayıt daha önce açılmış
+      ve Supabase'de bulunmuşsa, mevcutRaporuKontrolEt()
+      içinde bu değer kaydın created_at tarihine göre YENİDEN
+      hesaplanıp üzerine yazılır; böylece daha sonra hangi gün
+      bu sayfa tekrar açılırsa açılsın vardiya numarası değişmez.
+    */
+
+    vardiyaVeSaatiniGuncelle();
 
 
     /* =========================================================
@@ -3507,6 +3517,22 @@
           &&
           data.length > 0
         ) {
+
+          /*
+            Bu vaka için daha önce açılmış bir kayıt var.
+            Vardiya numarasını "şu an"a göre değil, bu kaydın
+            İLK OLUŞTUĞU tarihe (created_at) göre yeniden
+            hesaplayıp sabitliyoruz. Böylece rapor hangi gün
+            tekrar açılırsa açılsın vardiya numarası değişmez.
+          */
+
+          if (data[0].created_at) {
+
+            vardiyaVeSaatiniGuncelle(
+              new Date(data[0].created_at)
+            );
+
+          }
 
           goruntuModunuGoster(
             data[0]
