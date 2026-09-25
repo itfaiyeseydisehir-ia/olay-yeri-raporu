@@ -1089,6 +1089,10 @@
       width: 100%;
 
       aspect-ratio: 1 / 1;
+
+      border-radius: 10px;
+
+      overflow: hidden;
     }
 
     .foto-thumb {
@@ -1106,6 +1110,53 @@
       border: 1px solid #dfe3e7;
 
       background: #f0f2f4;
+    }
+
+    /* Video thumbnail'leri */
+
+    .foto-thumb-wrap video.foto-thumb {
+      background: #000;
+      cursor: pointer;
+    }
+
+    .video-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(0,0,0,0.15);
+      border-radius: 10px;
+    }
+
+    .video-thumb-play {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+    }
+
+    .video-thumb-play svg {
+      margin-left: 2px;
+    }
+
+    .video-sure-rozet {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 7px;
+      border-radius: 999px;
+      z-index: 2;
+      letter-spacing: 0.3px;
     }
 
     .foto-sil-btn {
@@ -1773,6 +1824,54 @@
 
 
     /* =========================================================
+       VİDEO OYNATICI (TAM EKRAN)
+    ========================================================= */
+
+    .video-oynatici {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,10,0.96);
+      z-index: 3500;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .video-oynatici.aktif {
+      display: flex;
+    }
+
+    .video-oynatici video {
+      max-width: 100%;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      border-radius: 10px;
+      background: #000;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.55);
+    }
+
+    .video-oynatici-kapat {
+      position: absolute;
+      top: 16px;
+      right: 17px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    /* =========================================================
        MOBİL
     ========================================================= */
 
@@ -1886,6 +1985,369 @@
       margin-right: 7px;
     }
 
+
+    /* =========================================================
+       HIZLI OLAY YERİ MEDYASI (FOTOĞRAF + VİDEO)
+    ========================================================= */
+
+    .hizli-medya-kart {
+      background: linear-gradient(135deg, #6f1d1d, #9c2b2b);
+      color: #fff;
+      border-radius: 16px;
+      padding: 16px 15px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(111,29,29,0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hizli-medya-kart::after {
+      content: "";
+      position: absolute;
+      width: 110px; height: 110px;
+      right: -40px; top: -50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.09);
+    }
+
+    .hizli-medya-baslik {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hizli-medya-alt {
+      font-size: 11.5px;
+      margin-top: 4px;
+      opacity: 0.85;
+      position: relative;
+      z-index: 1;
+      line-height: 1.4;
+    }
+
+    .hizli-medya-btn {
+      width: 100%;
+      margin-top: 12px;
+      background: #fff;
+      color: #6f1d1d;
+      border: none;
+      padding: 14px;
+      border-radius: 11px;
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.14);
+      transition: 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .hizli-medya-btn:active {
+      transform: scale(0.985);
+    }
+
+    .hizli-medya-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,18,22,0.72);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      animation: modalArkaGiris 0.18s ease;
+    }
+
+    .hizli-medya-modal.aktif {
+      display: flex;
+    }
+
+    .hizli-medya-icerik {
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 520px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: hizliMedyaGiris 0.22s ease;
+    }
+
+    @keyframes hizliMedyaGiris {
+      from { transform: translateY(24px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .hizli-medya-ust {
+      padding: 15px 17px 12px 17px;
+      border-bottom: 1px solid #eef0f3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .hizli-medya-ust-baslik {
+      font-size: 15px;
+      font-weight: 800;
+      color: #23262b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hizli-medya-kapat {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: #f1f3f5;
+      color: #6b7178;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hizli-medya-kapat:active {
+      background: #e4e7ea;
+    }
+
+    .hizli-medya-govde {
+      padding: 15px 17px;
+      overflow-y: auto;
+      flex: 1;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .hizli-medya-secenekler {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .hizli-medya-secenek {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #f8fafb;
+      border: 1.5px dashed #c7cdd3;
+      border-radius: 12px;
+      padding: 12px 6px;
+      cursor: pointer;
+      transition: 0.15s;
+      font-size: 11px;
+      font-weight: 800;
+      color: #3a4046;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .hizli-medya-secenek:active {
+      transform: scale(0.97);
+      background: #eef2f5;
+    }
+
+    .hizli-medya-secenek-ikon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .hizli-medya-secenek--foto {
+      border-color: #b7cde0;
+      background: #eef3f7;
+      color: #2f5474;
+    }
+
+    .hizli-medya-secenek--video {
+      border-color: #e0b7b7;
+      background: #fbefef;
+      color: #8e2b2b;
+    }
+
+    .hizli-medya-secenek--galeri {
+      border-color: #c9b7e0;
+      background: #f5effc;
+      color: #6a5590;
+    }
+
+    .hizli-medya-bolum-baslik {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #7a8189;
+      margin-bottom: 9px;
+      margin-top: 4px;
+    }
+
+    .hizli-medya-liste {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .hizli-medya-bos {
+      color: #979da3;
+      font-size: 12px;
+      font-style: italic;
+      padding: 22px 10px;
+      text-align: center;
+      background: #fafbfc;
+      border: 1px dashed #dde2e6;
+      border-radius: 11px;
+      margin-bottom: 4px;
+    }
+
+    .hizli-medya-thumb-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f0f2f4;
+      border: 1px solid #dfe3e7;
+    }
+
+    .hizli-medya-thumb-wrap img,
+    .hizli-medya-thumb-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+
+    .hizli-medya-thumb-sil {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #d32f2f;
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      z-index: 3;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .hizli-medya-video-rozet {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      background: rgba(0,0,0,0.72);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 7px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      z-index: 2;
+      letter-spacing: 0.3px;
+    }
+
+    .hizli-medya-tur-rozet {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 999px;
+      z-index: 2;
+    }
+
+    .hizli-medya-footer {
+      padding: 13px 17px 17px 17px;
+      border-top: 1px solid #eef0f3;
+      background: #fafbfc;
+      flex-shrink: 0;
+    }
+
+    .hizli-medya-gonder {
+      width: 100%;
+      background: linear-gradient(135deg, #2f7a52, #245f42);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(47,122,82,0.18);
+      transition: 0.15s;
+    }
+
+    .hizli-medya-gonder:active {
+      transform: scale(0.99);
+    }
+
+    .hizli-medya-gonder:disabled {
+      background: #aeb5bb;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .hizli-medya-ilerleme {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #35618a;
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .hizli-medya-ilerleme--ok {
+      color: #2f7a52;
+    }
+
+    .hizli-medya-ilerleme--hata {
+      color: #a33a3a;
+    }
+
+    @media (max-width: 430px) {
+      .hizli-medya-secenekler {
+        gap: 6px;
+      }
+      .hizli-medya-secenek {
+        padding: 10px 4px;
+        font-size: 10.5px;
+      }
+      .hizli-medya-liste {
+        gap: 6px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1983,6 +2445,39 @@
 
 
   <!-- =======================================================
+       HIZLI OLAY YERİ MEDYASI (FOTOĞRAF + VİDEO)
+  ======================================================== -->
+
+  <div class="hizli-medya-kart">
+
+    <div class="hizli-medya-baslik">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/>
+      </svg>
+      Hızlı Olay Yeri Medyası
+    </div>
+
+    <div class="hizli-medya-alt">
+      Olay yerindeyken hızlıca fotoğraf/video çekip gönderin. Formu daha sonra doldurabilirsiniz.
+    </div>
+
+    <button
+      type="button"
+      class="hizli-medya-btn"
+      onclick="hizliMedyaModalAc()">
+
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
+        <circle cx="12" cy="13.5" r="3.4"/>
+      </svg>
+      Olay Yeri Hızlı Fotoğraf / Video Çek - Gönder
+
+    </button>
+
+  </div>
+
+
+  <!-- =======================================================
        FORM KARTI
   ======================================================== -->
 
@@ -2065,7 +2560,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.4"/></svg>
       </div>
 
-      Olay Yeri Fotoğrafları
+      Olay Yeri Fotoğraf / Video
 
     </div>
 
@@ -2074,7 +2569,7 @@
       for="fotoInput"
       class="file-btn">
 
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.4"/></svg>Fotoğraf Ekle
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.4"/></svg>Fotoğraf / Video Ekle
 
     </label>
 
@@ -2082,7 +2577,7 @@
     <input
       type="file"
       id="fotoInput"
-      accept="image/*"
+      accept="image/*,video/*"
       multiple>
 
 
@@ -2493,7 +2988,7 @@
     </div>
 
 
-    <!-- FOTOĞRAFLAR -->
+    <!-- MEDYA (FOTOĞRAF + VİDEO) -->
 
     <div
       class="foto-grid"
@@ -2722,6 +3217,125 @@
       class="galeri-sayac">
 
       1 / 1
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       VİDEO OYNATICI (TAM EKRAN)
+  ======================================================== -->
+
+  <div
+    id="videoOynatici"
+    class="video-oynatici">
+
+    <button
+      class="video-oynatici-kapat"
+      onclick="videoOynaticiKapat()">
+      ✕
+    </button>
+
+    <video
+      id="videoOynaticiEl"
+      controls
+      playsinline
+      preload="metadata">
+    </video>
+
+  </div>
+
+
+  <!-- =======================================================
+       HIZLI MEDYA MODALI
+  ======================================================== -->
+
+  <div
+    id="hizliMedyaModal"
+    class="hizli-medya-modal">
+
+    <div class="hizli-medya-icerik">
+
+      <div class="hizli-medya-ust">
+
+        <div class="hizli-medya-ust-baslik">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/>
+          </svg>
+          Hızlı Olay Yeri Medyası
+        </div>
+
+        <button
+          type="button"
+          class="hizli-medya-kapat"
+          onclick="hizliMedyaModalKapat()">
+          ✕
+        </button>
+
+      </div>
+
+      <div class="hizli-medya-govde">
+
+        <div class="hizli-medya-secenekler">
+
+          <label
+            for="hizliFotoInput"
+            class="hizli-medya-secenek hizli-medya-secenek--foto">
+
+            <div class="hizli-medya-secenek-ikon">📸</div>
+            Fotoğraf Çek
+
+          </label>
+
+          <label
+            for="hizliVideoInput"
+            class="hizli-medya-secenek hizli-medya-secenek--video">
+
+            <div class="hizli-medya-secenek-ikon">🎥</div>
+            Video Çek
+
+          </label>
+
+          <label
+            for="hizliGaleriInput"
+            class="hizli-medya-secenek hizli-medya-secenek--galeri">
+
+            <div class="hizli-medya-secenek-ikon">🖼️</div>
+            Galeriden Seç
+
+          </label>
+
+        </div>
+
+        <input type="file" id="hizliFotoInput" accept="image/*" capture="environment" multiple>
+        <input type="file" id="hizliVideoInput" accept="video/*" capture="environment" multiple>
+        <input type="file" id="hizliGaleriInput" accept="image/*,video/*" multiple>
+
+        <div class="hizli-medya-bolum-baslik">
+          Gönderilecek Medya
+        </div>
+
+        <div id="hizliMedyaListeAlani"></div>
+
+      </div>
+
+      <div class="hizli-medya-footer">
+
+        <button
+          type="button"
+          id="hizliMedyaGonderBtn"
+          class="hizli-medya-gonder"
+          onclick="hizliMedyaGonder()">
+          🟢 0 MEDYAYI GÖNDER
+        </button>
+
+        <div
+          id="hizliMedyaIlerleme"
+          class="hizli-medya-ilerleme">
+        </div>
+
+      </div>
 
     </div>
 
@@ -3007,6 +3621,8 @@
 
     let mevcutFotograflar = [];
 
+    let mevcutVideolar = [];
+
     let mevcutPersonelStr = "";
 
     let mevcutIcapGorevlileri = [];
@@ -3019,9 +3635,11 @@
 
     let secilenFotograflar = [];
 
+    let secilenVideolar = [];
+
 
     /* =========================================================
-       FOTOĞRAF LİSTESİ
+       MEDYA YARDIMCILARI
     ========================================================= */
 
     function raporFotograflari(rapor) {
@@ -3047,6 +3665,32 @@
 
 
       return [];
+
+    }
+
+
+    function raporVideolari(rapor) {
+
+      if (
+        Array.isArray(rapor.video_urls)
+        &&
+        rapor.video_urls.length > 0
+      ) {
+
+        return rapor.video_urls;
+
+      }
+
+      return [];
+
+    }
+
+
+    function urlVideoMi(url) {
+
+      if (!url) return false;
+
+      return /\.(mp4|mov|m4v|webm|3gp|avi|mkv)(\?|$)/i.test(url);
 
     }
 
@@ -3570,6 +4214,12 @@
         );
 
 
+      mevcutVideolar =
+        raporVideolari(
+          rapor
+        );
+
+
       mevcutPersonelStr =
         rapor["Görevli Personel"]
         || "";
@@ -3662,7 +4312,7 @@
       );
 
 
-      /* FOTOĞRAFLAR */
+      /* MEDYA (FOTOĞRAF + VİDEO) */
 
       const grid =
         document.getElementById(
@@ -3672,6 +4322,8 @@
 
       grid.innerHTML = "";
 
+
+      /* Önce fotoğraflar */
 
       mevcutFotograflar.forEach(
         (url, index) => {
@@ -3722,6 +4374,21 @@
 
           grid.appendChild(
             wrap
+          );
+
+        }
+      );
+
+
+      /* Sonra videolar */
+
+      mevcutVideolar.forEach(
+        (url) => {
+
+          grid.appendChild(
+            videoThumbOlustur(url, {
+              tiklamaFn: () => videoOynat(url)
+            })
           );
 
         }
@@ -3819,6 +4486,158 @@
         ).innerText = "";
 
       }
+
+    }
+
+
+    /* =========================================================
+       VİDEO THUMBNAIL OLUŞTUR
+    ========================================================= */
+
+    function videoThumbOlustur(url, secenekler) {
+
+      const opts = secenekler || {};
+
+      const wrap =
+        document.createElement("div");
+
+      wrap.className = "foto-thumb-wrap";
+
+      const v =
+        document.createElement("video");
+
+      v.src = url;
+      v.className = "foto-thumb";
+      v.muted = true;
+      v.playsInline = true;
+      v.preload = "metadata";
+
+      /* İlk kareyi göstermeye çalış */
+      v.addEventListener("loadedmetadata", () => {
+
+        try {
+          v.currentTime = 0.1;
+        } catch (e) {}
+
+      });
+
+      if (opts.tiklamaFn) {
+
+        v.addEventListener("click", () => {
+
+          if (opts.tiklamaFn) opts.tiklamaFn();
+
+        });
+
+      }
+
+      wrap.appendChild(v);
+
+      const overlay =
+        document.createElement("div");
+
+      overlay.className = "video-thumb-overlay";
+
+      overlay.innerHTML =
+        '<div class="video-thumb-play">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="#2f7a52">' +
+            '<path d="M8 5v14l11-7z"/>' +
+          '</svg>' +
+        '</div>';
+
+      wrap.appendChild(overlay);
+
+      const sureRozet =
+        document.createElement("div");
+
+      sureRozet.className = "video-sure-rozet";
+
+      sureRozet.innerText = "00:00";
+
+      v.addEventListener("loadedmetadata", () => {
+
+        if (Number.isFinite(v.duration) && v.duration > 0) {
+
+          const s = Math.round(v.duration);
+          const dk = Math.floor(s / 60);
+          const sn = s % 60;
+
+          sureRozet.innerText =
+            String(dk).padStart(2, "0") + ":" + String(sn).padStart(2, "0");
+
+        }
+
+      });
+
+      wrap.appendChild(sureRozet);
+
+      /* Sil butonu (opsiyonel) */
+
+      if (typeof opts.silmeFn === "function") {
+
+        const silBtn =
+          document.createElement("button");
+
+        silBtn.className = "foto-sil-btn";
+        silBtn.type = "button";
+        silBtn.innerText = "×";
+
+        silBtn.addEventListener("click", ev => {
+
+          ev.stopPropagation();
+
+          opts.silmeFn();
+
+        });
+
+        wrap.appendChild(silBtn);
+
+      }
+
+      return wrap;
+
+    }
+
+
+    /* =========================================================
+       VİDEO OYNATICI
+    ========================================================= */
+
+    function videoOynat(url) {
+
+      const modal =
+        document.getElementById("videoOynatici");
+
+      const v =
+        document.getElementById("videoOynaticiEl");
+
+      v.src = url;
+
+      modal.classList.add("aktif");
+
+      document.body.style.overflow = "hidden";
+
+      try { v.play(); } catch (e) {}
+
+    }
+
+
+    function videoOynaticiKapat() {
+
+      const modal =
+        document.getElementById("videoOynatici");
+
+      const v =
+        document.getElementById("videoOynaticiEl");
+
+      try { v.pause(); } catch (e) {}
+
+      v.removeAttribute("src");
+      v.load();
+
+      modal.classList.remove("aktif");
+
+      document.body.style.overflow = "";
 
     }
 
@@ -4036,7 +4855,7 @@
         ).innerText;
 
 
-      /* FOTOĞRAF */
+      /* FOTOĞRAF / VİDEO */
 
       secilenFotograflar = [];
 
@@ -4551,7 +5370,7 @@
 
 
     /* =========================================================
-       FOTOĞRAF SEÇİMİ
+       MEDYA SEÇİMİ (FOTOĞRAF + VİDEO)
     ========================================================= */
 
     const fotoInput =
@@ -4668,6 +5487,29 @@
 
 
       /*
+        Önceden kayıtlı videolar
+      */
+
+      mevcutVideolar.forEach(
+        (url, vIndex) => {
+
+          onizlemeGrid.appendChild(
+            videoThumbOlustur(url, {
+              tiklamaFn: () => videoOynat(url),
+              silmeFn: () => {
+
+                mevcutVideolar.splice(vIndex, 1);
+                onizlemeleriCiz();
+
+              }
+            })
+          );
+
+        }
+      );
+
+
+      /*
         Yeni seçilen fotoğraflar
       */
 
@@ -4754,10 +5596,39 @@
       );
 
 
+      /*
+        Yeni seçilen videolar
+      */
+
+      secilenVideolar.forEach(
+        (dosya, index) => {
+
+          const url = URL.createObjectURL(dosya);
+
+          onizlemeGrid.appendChild(
+            videoThumbOlustur(url, {
+              tiklamaFn: () => videoOynat(url),
+              silmeFn: () => {
+
+                secilenVideolar.splice(index, 1);
+                onizlemeleriCiz();
+
+              }
+            })
+          );
+
+        }
+      );
+
+
       const toplam =
         mevcutFotograflar.length
         +
-        secilenFotograflar.length;
+        mevcutVideolar.length
+        +
+        secilenFotograflar.length
+        +
+        secilenVideolar.length;
 
 
       const sayac =
@@ -4770,7 +5641,7 @@
 
         sayac.innerText =
           toplam +
-          " fotoğraf seçildi";
+          " medya seçildi";
 
       }
 
@@ -4787,11 +5658,18 @@
       "change",
       e => {
 
-        secilenFotograflar.push(
-          ...Array.from(
-            e.target.files
-          )
-        );
+        const dosyalar = Array.from(e.target.files);
+
+        dosyalar.forEach(dosya => {
+
+          if (dosya.type && dosya.type.startsWith("video/")) {
+            secilenVideolar.push(dosya);
+          }
+          else {
+            secilenFotograflar.push(dosya);
+          }
+
+        });
 
 
         onizlemeleriCiz();
@@ -5144,6 +6022,37 @@
     );
 
 
+    /* Video oynatıcı arka planına tıklayınca kapat */
+
+    (function videoOynaticiArkaPlani() {
+
+      const modal = document.getElementById("videoOynatici");
+
+      if (!modal) return;
+
+      modal.addEventListener("click", e => {
+
+        if (e.target === modal) {
+
+          videoOynaticiKapat();
+
+        }
+
+      });
+
+      document.addEventListener("keydown", e => {
+
+        if (e.key === "Escape" && modal.classList.contains("aktif")) {
+
+          videoOynaticiKapat();
+
+        }
+
+      });
+
+    })();
+
+
     /* =========================================================
        RAPOR GÖNDER
     ========================================================= */
@@ -5412,7 +6321,15 @@
 
         &&
 
+        secilenVideolar.length === 0
+
+        &&
+
         mevcutFotograflar.length === 0
+
+        &&
+
+        mevcutVideolar.length === 0
 
         &&
 
@@ -5445,7 +6362,7 @@
       ) {
 
         showToast(
-          "Lütfen en az bir personel seçin, fotoğraf ekleyin, müdahale bilgisi girin veya açıklama yazın."
+          "Lütfen en az bir personel seçin, medya ekleyin, müdahale bilgisi girin veya açıklama yazın."
         );
 
         return;
@@ -5538,9 +6455,76 @@
         }
 
 
+        /* =====================================================
+           VİDEOLARI YÜKLE
+        ====================================================== */
+
+        const yeniVideoUrlleri = [];
+
+
+        for (
+          let i = 0;
+          i < secilenVideolar.length;
+          i++
+        ) {
+
+          const dosya =
+            secilenVideolar[i];
+
+
+          const dosyaAdi =
+            `${vakaNo}_video_${Date.now()}_${i}.mp4`;
+
+
+          const {
+            error
+          } =
+            await supabaseClient
+              .storage
+              .from(
+                "olay-videolari"
+              )
+              .upload(
+                dosyaAdi,
+                dosya
+              );
+
+
+          if (error) {
+
+            throw error;
+
+          }
+
+
+          const publicRes =
+            supabaseClient
+              .storage
+              .from(
+                "olay-videolari"
+              )
+              .getPublicUrl(
+                dosyaAdi
+              );
+
+
+          yeniVideoUrlleri.push(
+            publicRes
+              .data
+              .publicUrl
+          );
+
+        }
+
+
         const fotoUrlleri =
           mevcutFotograflar.concat(
             yeniFotoUrlleri
+          );
+
+        const videoUrlleri =
+          mevcutVideolar.concat(
+            yeniVideoUrlleri
           );
 
 
@@ -5578,6 +6562,9 @@
 
           fotograf_urls:
             fotoUrlleri,
+
+          video_urls:
+            videoUrlleri,
 
           "Görevli Personel":
             personelMetni,
@@ -5922,12 +6909,15 @@
 
         /*
           Görüntüleme kartını yeniden oluştur.
-          Böylece yeni eklenen personel/fotoğraf/
+          Böylece yeni eklenen personel/fotoğraf/video/
           müdahale bilgileri hemen görünür.
         */
 
         mevcutFotograflar =
           fotoUrlleri;
+
+        mevcutVideolar =
+          videoUrlleri;
 
 
         mevcutPersonelStr =
@@ -5993,6 +6983,9 @@
 
           fotograf_urls:
             mevcutFotograflar,
+
+          video_urls:
+            mevcutVideolar,
 
           rapor_notu:
             raporNotu,
@@ -6087,6 +7080,513 @@
     ========================================================= */
 
     mevcutRaporuKontrolEt();
+
+
+    /* =========================================================
+       HIZLI OLAY YERİ MEDYASI (FOTOĞRAF + VİDEO)
+    ========================================================= */
+
+    let hizliMedyaListesi = [];
+
+    const HIZLI_VIDEO_BUCKET = "olay-videolari";
+    const HIZLI_FOTO_BUCKET  = "olay-fotograflari";
+
+
+    function hizliMedyaModalAc() {
+
+      hizliMedyaListesi = [];
+
+      document.getElementById("hizliMedyaIlerleme").innerText = "";
+      document.getElementById("hizliMedyaIlerleme").className = "hizli-medya-ilerleme";
+
+      hizliMedyaListesiniCiz();
+
+      document.getElementById("hizliMedyaModal").classList.add("aktif");
+      document.body.style.overflow = "hidden";
+
+    }
+
+
+    function hizliMedyaModalKapat() {
+
+      document.getElementById("hizliMedyaModal").classList.remove("aktif");
+      document.body.style.overflow = "";
+
+    }
+
+
+    function hizliMedyaDosyaTuru(dosya) {
+
+      if (dosya.type && dosya.type.startsWith("video/")) return "video";
+      if (dosya.type && dosya.type.startsWith("image/")) return "foto";
+
+      const ad = (dosya.name || "").toLowerCase();
+
+      if (/\.(mp4|mov|m4v|webm|3gp|avi|mkv|quicktime)$/.test(ad)) return "video";
+
+      return "foto";
+
+    }
+
+
+    function hizliMedyaSureFormatla(saniye) {
+
+      if (!Number.isFinite(saniye) || saniye <= 0) return "00:00";
+
+      const s = Math.round(saniye);
+      const dk = Math.floor(s / 60);
+      const sn = s % 60;
+
+      return String(dk).padStart(2, "0") + ":" + String(sn).padStart(2, "0");
+
+    }
+
+
+    function hizliMedyaDosyaEkle(dosyalar) {
+
+      if (!dosyalar || !dosyalar.length) return;
+
+      const yeni = Array.from(dosyalar).map(dosya => ({
+
+        dosya: dosya,
+        tur: hizliMedyaDosyaTuru(dosya),
+        url: URL.createObjectURL(dosya),
+        sure: 0,
+        id: "hm_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8)
+
+      }));
+
+      hizliMedyaListesi.push(...yeni);
+
+      hizliMedyaListesiniCiz();
+
+      /* Video sürelerini asenkron yükle */
+
+      yeni.forEach(item => {
+
+        if (item.tur === "video") {
+
+          const v = document.createElement("video");
+
+          v.preload = "metadata";
+
+          v.onloadedmetadata = () => {
+
+            item.sure = v.duration || 0;
+            hizliMedyaListesiniCiz();
+
+          };
+
+          v.onerror = () => { /* sessizce geç */ };
+
+          v.src = item.url;
+
+        }
+
+      });
+
+    }
+
+
+    function hizliMedyaCikar(id) {
+
+      const i = hizliMedyaListesi.findIndex(x => x.id === id);
+
+      if (i === -1) return;
+
+      try { URL.revokeObjectURL(hizliMedyaListesi[i].url); } catch (e) {}
+
+      hizliMedyaListesi.splice(i, 1);
+
+      hizliMedyaListesiniCiz();
+
+    }
+
+
+    function hizliMedyaListesiniCiz() {
+
+      const alan =
+        document.getElementById("hizliMedyaListeAlani");
+
+      const btn =
+        document.getElementById("hizliMedyaGonderBtn");
+
+      if (!hizliMedyaListesi.length) {
+
+        alan.innerHTML =
+          '<div class="hizli-medya-bos">Henüz medya eklenmedi. Yukarıdan fotoğraf, video çekin veya galeriden seçin.</div>';
+
+      }
+
+      else {
+
+        let html = '<div class="hizli-medya-liste">';
+
+        hizliMedyaListesi.forEach(item => {
+
+          html += '<div class="hizli-medya-thumb-wrap">';
+
+          if (item.tur === "video") {
+
+            html += '<video src="' + item.url + '" muted playsinline preload="metadata"></video>';
+
+            html += '<div class="hizli-medya-video-rozet">▶ ' + escapeHtml(hizliMedyaSureFormatla(item.sure)) + '</div>';
+
+            html += '<div class="hizli-medya-tur-rozet">🎥</div>';
+
+          }
+
+          else {
+
+            html += '<img src="' + item.url + '" alt="Önizleme">';
+
+            html += '<div class="hizli-medya-tur-rozet">📸</div>';
+
+          }
+
+          html +=
+            '<button type="button" class="hizli-medya-thumb-sil" ' +
+            'onclick="hizliMedyaCikar(\'' + item.id + '\')" ' +
+            'title="Çıkar">×</button>';
+
+          html += '</div>';
+
+        });
+
+        html += '</div>';
+
+        alan.innerHTML = html;
+
+      }
+
+      btn.innerText =
+        "🟢 " + hizliMedyaListesi.length + " MEDYAYI GÖNDER";
+
+      btn.disabled = hizliMedyaListesi.length === 0;
+
+    }
+
+
+    /* =========================================================
+       INPUT DİNLEYİCİLERİ
+    ========================================================= */
+
+    (function hizliMedyaInputlariniBagla() {
+
+      const fotoInput   = document.getElementById("hizliFotoInput");
+      const videoInput  = document.getElementById("hizliVideoInput");
+      const galeriInput = document.getElementById("hizliGaleriInput");
+
+      if (fotoInput) {
+        fotoInput.addEventListener("change", e => {
+          hizliMedyaDosyaEkle(e.target.files);
+          fotoInput.value = "";
+        });
+      }
+
+      if (videoInput) {
+        videoInput.addEventListener("change", e => {
+          hizliMedyaDosyaEkle(e.target.files);
+          videoInput.value = "";
+        });
+      }
+
+      if (galeriInput) {
+        galeriInput.addEventListener("change", e => {
+          hizliMedyaDosyaEkle(e.target.files);
+          galeriInput.value = "";
+        });
+      }
+
+    })();
+
+
+    /* =========================================================
+       HIZLI MEDYA GÖNDER
+    ========================================================= */
+
+    async function hizliMedyaGonder() {
+
+      const btn =
+        document.getElementById("hizliMedyaGonderBtn");
+
+      const ilerleme =
+        document.getElementById("hizliMedyaIlerleme");
+
+      if (!hizliMedyaListesi.length) {
+        return;
+      }
+
+
+      /* Önce hızlı medya için boş kayıt var mı kontrol et.
+         Yoksa oluştur (A seçeneği). */
+
+      btn.disabled = true;
+
+      ilerleme.className = "hizli-medya-ilerleme";
+
+      ilerleme.innerText = "Kayıt hazırlanıyor...";
+
+
+      try {
+
+        /* --- 1) Eğer mevcut kayıt yoksa boş bir kayıt oluştur --- */
+
+        if (!mevcutRaporId) {
+
+          const bosKayit = {
+
+            vaka_no: vakaNo,
+            olay_turu: olayTanimi,
+
+            fotograf_url: "",
+            fotograf_urls: [],
+            video_urls: [],
+
+            "Görevli Personel": "",
+            icap_gorevlileri: [],
+
+            rapor_notu: "",
+            arama_kurtarma_notu: "",
+            diger_gorev_notu: ""
+
+          };
+
+          const { data: insData, error: insErr } =
+            await supabaseClient
+              .from("olay_raporlari")
+              .insert([bosKayit])
+              .select();
+
+          if (insErr) throw insErr;
+
+          if (insData && insData.length > 0) {
+            mevcutRaporId = insData[0].id;
+          }
+
+        }
+
+
+        /* --- 2) Mevcut video_urls'u oku, üzerine ekle --- */
+
+        let mevcutVideoUrls = [];
+
+        try {
+
+          const { data: vData, error: vErr } =
+            await supabaseClient
+              .from("olay_raporlari")
+              .select("video_urls, fotograf_urls, fotograf_url")
+              .eq("id", mevcutRaporId)
+              .maybeSingle();
+
+          if (!vErr && vData) {
+
+            if (Array.isArray(vData.video_urls)) {
+              mevcutVideoUrls = vData.video_urls;
+            }
+
+            if (
+              !mevcutFotograflar ||
+              !mevcutFotograflar.length
+            ) {
+              if (Array.isArray(vData.fotograf_urls) && vData.fotograf_urls.length) {
+                mevcutFotograflar = vData.fotograf_urls.slice();
+              }
+              else if (vData.fotograf_url) {
+                mevcutFotograflar = [vData.fotograf_url];
+              }
+            }
+
+          }
+
+        }
+
+        catch (e) {
+          console.error("Mevcut medya okuma hatası:", e);
+        }
+
+
+        /* --- 3) Dosyaları sırayla yükle --- */
+
+        const toplam = hizliMedyaListesi.length;
+
+        const yeniFotoUrls = [];
+        const yeniVideoUrls = [];
+
+
+        for (let i = 0; i < toplam; i++) {
+
+          const item = hizliMedyaListesi[i];
+
+          ilerleme.innerText =
+            (i + 1) + " / " + toplam + " yükleniyor...";
+
+
+          const uzanti =
+            item.tur === "video" ? "mp4" : "jpg";
+
+          const dosyaAdi =
+            vakaNo + "_" + item.tur + "_" + Date.now() + "_" + i + "." + uzanti;
+
+          const bucket =
+            item.tur === "video"
+              ? HIZLI_VIDEO_BUCKET
+              : HIZLI_FOTO_BUCKET;
+
+
+          const { error: upErr } =
+            await supabaseClient
+              .storage
+              .from(bucket)
+              .upload(dosyaAdi, item.dosya);
+
+
+          if (upErr) throw upErr;
+
+
+          const publicRes =
+            supabaseClient
+              .storage
+              .from(bucket)
+              .getPublicUrl(dosyaAdi);
+
+
+          const publicUrl = publicRes.data.publicUrl;
+
+          if (item.tur === "video") {
+            yeniVideoUrls.push(publicUrl);
+          }
+          else {
+            yeniFotoUrls.push(publicUrl);
+          }
+
+        }
+
+
+        /* --- 4) DB güncelle --- */
+
+        const tumFotoUrls =
+          (mevcutFotograflar || []).concat(yeniFotoUrls);
+
+        const tumVideoUrls =
+          (mevcutVideoUrls || []).concat(yeniVideoUrls);
+
+
+        const guncelleme = {
+
+          fotograf_url: tumFotoUrls[0] || "",
+          fotograf_urls: tumFotoUrls,
+          video_urls: tumVideoUrls
+
+        };
+
+
+        const { error: dbErr } =
+          await supabaseClient
+            .from("olay_raporlari")
+            .update(guncelleme)
+            .eq("id", mevcutRaporId);
+
+
+        if (dbErr) throw dbErr;
+
+
+        /* --- 5) Belleği güncelle --- */
+
+        mevcutFotograflar = tumFotoUrls;
+        mevcutVideolar = tumVideoUrls;
+
+
+        /* --- 6) Başarı --- */
+
+        ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--ok";
+
+        ilerleme.innerText =
+          "✅ " + toplam + " medya olay kaydına eklendi";
+
+
+        /* Temizle */
+
+        hizliMedyaListesi.forEach(item => {
+          try { URL.revokeObjectURL(item.url); } catch (e) {}
+        });
+
+        hizliMedyaListesi = [];
+
+        hizliMedyaListesiniCiz();
+
+
+        /* Ana sayfayı yenile: mevcut kayıt varsa
+           görüntüleme modunu yeniden yükle */
+
+        setTimeout(async () => {
+
+          if (mevcutRaporId) {
+
+            try {
+
+              const { data, error } = await supabaseClient
+                .from("olay_raporlari")
+                .select("*")
+                .eq("id", mevcutRaporId)
+                .maybeSingle();
+
+              if (!error && data) {
+
+                goruntuModunuGoster(data);
+
+              }
+
+            }
+
+            catch (e) {
+              console.error(e);
+            }
+
+          }
+
+          hizliMedyaModalKapat();
+
+        }, 900);
+
+      }
+
+      catch (err) {
+
+        console.error("Hızlı medya hatası:", err);
+
+        ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--hata";
+
+        ilerleme.innerText =
+          "Hata: " + (err.message || "Bilinmeyen hata");
+
+        btn.disabled = false;
+
+      }
+
+    }
+
+
+    /* Modal arka planına tıklayınca kapat */
+
+    (function hizliMedyaModalArkaPlani() {
+
+      const modal = document.getElementById("hizliMedyaModal");
+
+      if (!modal) return;
+
+      modal.addEventListener("click", e => {
+
+        if (e.target === modal) {
+
+          hizliMedyaModalKapat();
+
+        }
+
+      });
+
+    })();
 
   </script>
 
