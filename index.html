@@ -825,67 +825,6 @@
       .hizli-medya-secenek { padding: 10px 4px; font-size: 10.5px; }
       .hizli-medya-liste { gap: 6px; }
     }
-
-    /* =========================================================
-       UYGULAMA İÇİ KAMERA (SERİ ÇEKİM)
-    ========================================================= */
-
-    .kamera-modal {
-      display: none; position: fixed; inset: 0;
-      background: #000; z-index: 4000;
-      flex-direction: column;
-    }
-    .kamera-modal.aktif { display: flex; }
-    .kamera-video {
-      flex: 1; width: 100%; height: 100%;
-      object-fit: cover; background: #000;
-    }
-    .kamera-ust {
-      position: absolute; top: 0; left: 0; right: 0;
-      padding: 16px; display: flex; justify-content: flex-end;
-      z-index: 5;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
-    }
-    .kamera-kapat {
-      width: 42px; height: 42px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(0,0,0,0.5); color: #fff;
-      font-size: 20px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .kamera-alt {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 24px 20px 32px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-      z-index: 5;
-    }
-    .kamera-cek {
-      width: 78px; height: 78px; border-radius: 50%;
-      border: 5px solid #fff; background: rgba(255,255,255,0.25);
-      cursor: pointer; transition: transform 0.1s;
-      box-shadow: 0 0 0 3px rgba(0,0,0,0.3);
-    }
-    .kamera-cek:active {
-      transform: scale(0.92); background: rgba(255,255,255,0.5);
-    }
-    .kamera-sayac {
-      color: #fff; font-size: 13px; font-weight: 700;
-      background: rgba(0,0,0,0.55);
-      padding: 8px 14px; border-radius: 999px;
-      min-width: 130px; text-align: center;
-    }
-    .kamera-flash {
-      position: absolute; inset: 0; background: #fff;
-      opacity: 0; pointer-events: none; z-index: 4;
-    }
-    .kamera-flash.aktif { opacity: 0.85; }
-    .kamera-yukleniyor {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 14px; font-weight: 700; z-index: 6;
-    }
   </style>
 </head>
 <body>
@@ -1230,7 +1169,7 @@
 
       <div class="hizli-medya-govde">
         <div class="hizli-medya-secenekler">
-          <button type="button" class="hizli-medya-secenek hizli-medya-secenek--foto" onclick="fotoCekBaslat()">
+          <button type="button" class="hizli-medya-secenek hizli-medya-secenek--foto" onclick="seriFotoCekBaslat()">
             <div class="hizli-medya-secenek-ikon">📸</div>
             Fotoğraf Çek
           </button>
@@ -1258,26 +1197,6 @@
         </button>
         <div id="hizliMedyaIlerleme" class="hizli-medya-ilerleme"></div>
       </div>
-    </div>
-  </div>
-
-  <div id="kameraModal" class="kamera-modal">
-    <video id="kameraVideo" class="kamera-video" autoplay playsinline muted></video>
-    <div class="kamera-flash" id="kameraFlash"></div>
-    <canvas id="kameraCanvas" style="display:none;"></canvas>
-
-    <div class="kamera-ust">
-      <button type="button" class="kamera-kapat" onclick="kameraKapat()">✕</button>
-    </div>
-
-    <div class="kamera-alt">
-      <div class="kamera-sayac" id="kameraSayac">0 fotoğraf</div>
-      <button type="button" class="kamera-cek" onclick="kameraCek()"></button>
-      <div style="width:130px;"></div>
-    </div>
-
-    <div class="kamera-yukleniyor" id="kameraYukleniyor" style="display:none;">
-      Kamera başlatılıyor...
     </div>
   </div>
 
@@ -2458,102 +2377,45 @@
     })();
 
     /* =========================================================
-       UYGULAMA İÇİ KAMERA (SERİ ÇEKİM)
+       SERİ FOTOĞRAF ÇEKİMİ (NATIVE KAMERA DÖNGÜSÜ)
+       
+       Fotoğraf Çek butonuna basıldığında native kamera açılır.
+       Fotoğraf onaylandıktan sonra otomatik olarak tekrar açılır.
+       Kullanıcı "Geri" veya "İptal" tuşuna basana kadar döngü
+       devam eder. Bu sayede seri çekim kesintisiz yapılır.
     ========================================================= */
 
-    let kameraStream = null;
-    let kameraCekimSayaci = 0;
-    let kameraAktifMi = false;
+    let seriCekimAktif = false;
 
-    async function fotoCekBaslat() {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        document.getElementById("hizliFotoInput").click();
-        return;
+    function seriFotoCekBaslat() {
+      seriCekimAktif = true;
+      document.getElementById("hizliFotoInput").click();
+    }
+
+    // Fotoğraf input'unun change olayını dinle
+    document.getElementById("hizliFotoInput").addEventListener("change", function(e) {
+      if (!seriCekimAktif) return;
+
+      const dosyalar = Array.from(e.target.files);
+      if (dosyalar.length > 0) {
+        hizliMedyaDosyaEkle(dosyalar);
       }
 
-      const yukleniyor = document.getElementById("kameraYukleniyor");
-      yukleniyor.style.display = "flex";
-
-      try {
-        kameraStream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: { ideal: "environment" },
-            width: { ideal: 1920 },
-            height: { ideal: 1080 }
-          },
-          audio: false
-        });
-
-        const v = document.getElementById("kameraVideo");
-        v.srcObject = kameraStream;
-
-        kameraCekimSayaci = 0;
-        kameraSayacGuncelle();
-        kameraAktifMi = true;
-
-        yukleniyor.style.display = "none";
-        document.getElementById("kameraModal").classList.add("aktif");
-        document.body.style.overflow = "hidden";
-
-      } catch (err) {
-        yukleniyor.style.display = "none";
-        console.warn("Kamera açılamadı, native input kullanılıyor:", err);
-        document.getElementById("hizliFotoInput").click();
+      // Input'u temizle ve tekrar aç (seri çekim devam eder)
+      this.value = "";
+      if (seriCekimAktif) {
+        setTimeout(() => {
+          if (seriCekimAktif) this.click();
+        }, 300);
       }
-    }
+    });
 
-    function kameraKapat() {
-      kameraAktifMi = false;
-      if (kameraStream) {
-        kameraStream.getTracks().forEach(t => t.stop());
-        kameraStream = null;
-      }
-      const v = document.getElementById("kameraVideo");
-      if (v) v.srcObject = null;
-      document.getElementById("kameraModal").classList.remove("aktif");
-      document.body.style.overflow = "";
-    }
-
-    function kameraSayacGuncelle() {
-      const el = document.getElementById("kameraSayac");
-      if (!el) return;
-      if (kameraCekimSayaci === 0) el.innerText = "0 fotoğraf";
-      else if (kameraCekimSayaci === 1) el.innerText = "1 fotoğraf çekildi";
-      else el.innerText = kameraCekimSayaci + " fotoğraf çekildi";
-    }
-
-    function kameraCek() {
-      if (!kameraAktifMi || !kameraStream) return;
-      const v = document.getElementById("kameraVideo");
-      const c = document.getElementById("kameraCanvas");
-      if (!v.videoWidth || !v.videoHeight) return;
-
-      c.width = v.videoWidth;
-      c.height = v.videoHeight;
-      const ctx = c.getContext("2d");
-      ctx.drawImage(v, 0, 0, c.width, c.height);
-
-      const flash = document.getElementById("kameraFlash");
-      flash.classList.add("aktif");
-      setTimeout(() => flash.classList.remove("aktif"), 120);
-
-      if (navigator.vibrate) { try { navigator.vibrate(40); } catch (e) {} }
-
-      c.toBlob(blob => {
-        if (!blob) return;
-        const dosya = new File([blob], "kamera_" + Date.now() + ".jpg", { type: "image/jpeg" });
-        hizliMedyaListesi.push({
-          dosya: dosya,
-          tur: "foto",
-          url: URL.createObjectURL(dosya),
-          sure: 0,
-          id: "hm_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8)
-        });
-        hizliMedyaListesiniCiz();
-        kameraCekimSayaci++;
-        kameraSayacGuncelle();
-      }, "image/jpeg", 0.88);
-    }
+    // Kullanıcı "Geri" veya "İptal" tuşuna basarsa (change olayı tetiklenmez)
+    // seri çekimi durdurmak için bir yol: "Bitti" butonu ekle
+    // Ancak native kamerada "İptal" tuşuna basıldığında change olayı
+    // tetiklenmez, bu yüzden döngü kendiliğinden durur.
+    // Sorun olursa diye, kullanıcıya "Durdur" butonu ekleyebiliriz.
+    // Şimdilik native davranışa bırakıyoruz.
 
     if (urlParams.get("hizliMedya") === "1") {
       setTimeout(() => {
