@@ -1,48 +1,25 @@
-html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width,
-        initial-scale=1.0,
-        maximum-scale=1.0,
-        user-scalable=no">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Seydişehir İtfaiyesi - Olay Yeri Bilgileri</title>
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
-
     :root {
-      --kirmizi: #9c2b2b;
-      --kirmizi-koyu: #6f1d1d;
-      --kirmizi-acik: #b13a3a;
-      --yesil: #2f7a52;
-      --yesil-acik: #eef6f1;
-      --mavi: #35618a;
-      --mavi-acik: #eef3f7;
-      --turuncu: #b5721f;
-      --turuncu-acik: #faf3e8;
-      --mor: #6a5590;
-      --mor-acik: #f1eef6;
-      --arka: #f4f5f6;
-      --kart: #ffffff;
-      --kenar: #e4e6e9;
-      --metin: #23262b;
-      --ikincil: #6b7178;
-      --soluk: #979da3;
+      --kirmizi: #9c2b2b; --kirmizi-koyu: #6f1d1d; --kirmizi-acik: #b13a3a;
+      --yesil: #2f7a52; --yesil-acik: #eef6f1;
+      --mavi: #35618a; --mavi-acik: #eef3f7;
+      --turuncu: #b5721f; --turuncu-acik: #faf3e8;
+      --mor: #6a5590; --mor-acik: #f1eef6;
+      --arka: #f4f5f6; --kart: #ffffff; --kenar: #e4e6e9;
+      --metin: #23262b; --ikincil: #6b7178; --soluk: #979da3;
       --golge: 0 2px 10px rgba(20,22,26,0.05);
       --golge-guclu: 0 10px 28px rgba(20,22,26,0.14);
     }
-
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
     html, body { margin: 0; padding: 0; min-height: 100%; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: linear-gradient(180deg, #f7f8fa 0%, #eef1f4 100%);
@@ -52,74 +29,53 @@ html
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
     }
-
     button, input, textarea { font-family: inherit; }
     button { -webkit-appearance: none; }
 
     .ust-baslik {
       background: linear-gradient(135deg, var(--kirmizi-koyu), var(--kirmizi));
-      color: #fff;
-      border-radius: 18px;
-      padding: 19px 18px;
+      color: #fff; border-radius: 18px; padding: 19px 18px;
       margin-bottom: 14px;
       box-shadow: 0 4px 14px rgba(111,29,29,0.16);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .ust-baslik::after {
-      content: "";
-      position: absolute;
+      content: ""; position: absolute;
       width: 120px; height: 120px;
       right: -45px; top: -55px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
+      border-radius: 50%; background: rgba(255,255,255,0.08);
     }
-
     .ust-baslik-baslik {
-      font-size: 20px; font-weight: 800;
-      letter-spacing: 0.2px;
+      font-size: 20px; font-weight: 800; letter-spacing: 0.2px;
       position: relative; z-index: 1;
     }
-
     .ust-baslik-alt {
-      font-size: 12px; margin-top: 4px;
-      opacity: 0.86;
+      font-size: 12px; margin-top: 4px; opacity: 0.86;
       position: relative; z-index: 1;
     }
 
     .card {
-      background: var(--kart);
-      border: 1px solid var(--kenar);
-      border-radius: 16px;
-      padding: 17px;
-      margin-bottom: 14px;
+      background: var(--kart); border: 1px solid var(--kenar);
+      border-radius: 16px; padding: 17px; margin-bottom: 14px;
       box-shadow: var(--golge);
     }
 
     .olay-baslik {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
     }
-
     .olay-icon {
-      width: 40px; height: 40px;
-      border-radius: 12px;
+      width: 40px; height: 40px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      background: #f7ecec;
-      color: var(--kirmizi);
-      font-size: 20px;
-      flex-shrink: 0;
+      background: #f7ecec; color: var(--kirmizi);
+      font-size: 20px; flex-shrink: 0;
     }
-
     .olay-baslik-metin { min-width: 0; }
     .olay-baslik-metin strong { display: block; font-size: 16px; font-weight: 800; }
     .olay-baslik-metin span { display: block; margin-top: 2px; font-size: 11px; color: var(--ikincil); }
 
     .info-row {
       display: flex; flex-direction: column; gap: 3px;
-      padding: 11px 0;
-      border-bottom: 1px solid #edf0f2;
+      padding: 11px 0; border-bottom: 1px solid #edf0f2;
     }
     .info-row:last-child { border-bottom: none; padding-bottom: 0; }
     .info-row strong {
@@ -132,522 +88,357 @@ html
     }
 
     label {
-      display: block;
-      margin-top: 16px; margin-bottom: 7px;
-      color: #30363d;
-      font-size: 13px; font-weight: 800;
+      display: block; margin-top: 16px; margin-bottom: 7px;
+      color: #30363d; font-size: 13px; font-weight: 800;
     }
 
     .section-title {
       display: flex; align-items: center; gap: 8px;
       margin-top: 20px; margin-bottom: 9px;
-      font-size: 14px; font-weight: 800;
-      color: #242a30;
+      font-size: 14px; font-weight: 800; color: #242a30;
     }
     .section-title:first-child { margin-top: 0; }
     .section-title-icon {
       width: 30px; height: 30px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 9px;
-      background: #f1f3f5;
-      font-size: 16px;
+      border-radius: 9px; background: #f1f3f5; font-size: 16px;
     }
 
     .secim-btn {
-      width: 100%;
-      background: #fff;
-      color: #30363d;
-      border: 1px dashed #b9c1c9;
-      padding: 13px;
-      border-radius: 11px;
+      width: 100%; background: #fff; color: #30363d;
+      border: 1px dashed #b9c1c9; padding: 13px; border-radius: 11px;
       font-weight: 700; font-size: 14px;
-      cursor: pointer; text-align: center;
-      transition: 0.2s;
+      cursor: pointer; text-align: center; transition: 0.2s;
     }
     .secim-btn:active { transform: scale(0.985); background: #f6f7f8; }
 
     .secilen-ozet {
-      margin-top: 10px;
-      background: #f8fafb;
+      margin-top: 10px; background: #f8fafb;
       border: 1px solid #e3e7ea;
       padding: 11px; border-radius: 11px;
-      min-height: 47px;
-      display: flex; flex-wrap: wrap; gap: 7px;
+      min-height: 47px; display: flex; flex-wrap: wrap; gap: 7px;
     }
-
     .secilen-ozet-bos { color: var(--soluk); font-size: 12px; font-style: italic; }
-
     .personel-tag {
-      background: var(--yesil-acik);
-      color: #126c3a;
-      border: 1px solid #c7ead5;
-      padding: 7px 10px; border-radius: 20px;
-      font-size: 11px; font-weight: 700;
-      display: inline-block;
+      background: var(--yesil-acik); color: #126c3a;
+      border: 1px solid #c7ead5; padding: 7px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; display: inline-block;
     }
 
     .icap-bolum {
-      margin-top: 12px;
-      background: #f8f5ff;
-      border: 1px solid #ddd2f4;
-      border-left: 4px solid #7656b8;
-      border-radius: 13px;
-      padding: 12px;
+      margin-top: 12px; background: #f8f5ff;
+      border: 1px solid #ddd2f4; border-left: 4px solid #7656b8;
+      border-radius: 13px; padding: 12px;
     }
-
     .icap-bolum-baslik {
       display: flex; align-items: center; gap: 8px;
-      color: #5b3f95; font-size: 13px; font-weight: 800;
-      margin-bottom: 9px;
+      color: #5b3f95; font-size: 13px; font-weight: 800; margin-bottom: 9px;
     }
-
     .icap-bolum-baslik-icon {
-      width: 28px; height: 28px;
-      border-radius: 8px;
+      width: 28px; height: 28px; border-radius: 8px;
       background: #e9e1fa; color: #7656b8;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-
     .icap-secim-btn {
-      width: 100%;
-      background: #fff;
-      color: #5b3f95;
-      border: 1px dashed #bca9df;
-      padding: 11px; border-radius: 10px;
+      width: 100%; background: #fff; color: #5b3f95;
+      border: 1px dashed #bca9df; padding: 11px; border-radius: 10px;
       font-weight: 750; font-size: 13px;
-      cursor: pointer; text-align: center;
-      transition: 0.2s;
+      cursor: pointer; text-align: center; transition: 0.2s;
     }
     .icap-secim-btn:active { transform: scale(0.985); background: #f4effc; }
-
     .icap-tablo-wrap {
-      margin-top: 10px;
-      overflow-x: auto;
-      border: 1px solid #ded5ef;
-      border-radius: 10px;
-      background: #fff;
+      margin-top: 10px; overflow-x: auto;
+      border: 1px solid #ded5ef; border-radius: 10px; background: #fff;
     }
-
     .icap-tablo {
       width: 100%; min-width: 620px;
-      border-collapse: collapse;
-      font-size: 11.5px;
+      border-collapse: collapse; font-size: 11.5px;
     }
-
     .icap-tablo th {
-      background: #eee8fa; color: #5b3f95;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .25px;
-      padding: 9px 8px; text-align: left;
-      white-space: nowrap;
+      background: #eee8fa; color: #5b3f95; font-size: 10px;
+      text-transform: uppercase; letter-spacing: .25px;
+      padding: 9px 8px; text-align: left; white-space: nowrap;
       border-bottom: 1px solid #ded5ef;
     }
-
     .icap-tablo td {
-      padding: 7px 8px;
-      border-bottom: 1px solid #eeeaf5;
+      padding: 7px 8px; border-bottom: 1px solid #eeeaf5;
       vertical-align: middle;
     }
     .icap-tablo tr:last-child td { border-bottom: none; }
-
     .icap-personel-adi { font-weight: 750; color: #303039; min-width: 165px; }
-
     .icap-saat {
       width: 112px; height: 36px;
-      border: 1px solid #d7d1e4;
-      background: #fbfaff;
-      color: #2f2a38;
-      border-radius: 8px;
-      padding: 6px 8px;
-      box-sizing: border-box;
-      font-size: 13px; font-weight: 700;
+      border: 1px solid #d7d1e4; background: #fbfaff; color: #2f2a38;
+      border-radius: 8px; padding: 6px 8px;
+      box-sizing: border-box; font-size: 13px; font-weight: 700;
     }
     .icap-saat:focus {
-      outline: none;
-      border-color: #7656b8;
+      outline: none; border-color: #7656b8;
       box-shadow: 0 0 0 3px rgba(118,86,184,.10);
     }
-
     .icap-toplam {
-      min-width: 105px;
-      display: inline-flex;
+      min-width: 105px; display: inline-flex;
       align-items: center; justify-content: center;
       padding: 8px 9px; border-radius: 8px;
       background: #eaf7ef; color: #197044;
       font-weight: 800; white-space: nowrap;
     }
-
     .icap-sil {
-      width: 30px; height: 30px;
-      border: 0; border-radius: 8px;
-      background: #fff0f0; color: #b33b3b;
-      cursor: pointer; font-weight: 800;
+      width: 30px; height: 30px; border: 0; border-radius: 8px;
+      background: #fff0f0; color: #b33b3b; cursor: pointer; font-weight: 800;
     }
-
     .icap-bos {
-      color: #8b829b; font-size: 11.5px;
-      font-style: italic;
+      color: #8b829b; font-size: 11.5px; font-style: italic;
       padding: 9px 2px 2px;
     }
-
     .icap-modal-content { max-width: 460px; }
     .icap-modal-header { color: #5b3f95; }
     .icap-modal-header .modal-header-icon { background: #e9e1fa; color: #7656b8; }
-
     .goruntu-icap {
-      background: #faf7ff;
-      border: 1px solid #ded5ef;
-      border-left: 4px solid #7656b8;
-      border-radius: 12px;
+      background: #faf7ff; border: 1px solid #ded5ef;
+      border-left: 4px solid #7656b8; border-radius: 12px;
       padding: 12px; margin-top: 10px;
     }
-
     .goruntu-icap-baslik {
       color: #5b3f95; font-size: 11px; font-weight: 800;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      margin-bottom: 9px;
+      letter-spacing: .5px; text-transform: uppercase; margin-bottom: 9px;
     }
-
     .goruntu-icap-tablo { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-
     .goruntu-icap-tablo th {
       color: #786e89; font-size: 9.5px;
-      text-transform: uppercase;
-      text-align: left;
-      padding: 6px 5px;
-      border-bottom: 1px solid #e4def0;
+      text-transform: uppercase; text-align: left;
+      padding: 6px 5px; border-bottom: 1px solid #e4def0;
     }
-
     .goruntu-icap-tablo td {
-      padding: 8px 5px;
-      border-bottom: 1px solid #eeeaf5;
-      color: #34303d;
+      padding: 8px 5px; border-bottom: 1px solid #eeeaf5; color: #34303d;
     }
     .goruntu-icap-tablo tr:last-child td { border-bottom: none; }
-
     .goruntu-icap-toplam { color: #197044; font-weight: 800; white-space: nowrap; }
 
     .mudahale-panel {
-      background: #f8fafb;
-      border: 1px solid #e0e5e9;
-      border-radius: 13px;
-      padding: 12px;
-      margin-top: 8px;
+      background: #f8fafb; border: 1px solid #e0e5e9;
+      border-radius: 13px; padding: 12px; margin-top: 8px;
     }
-
     .gorev-grubu {
-      background: #fff;
-      border: 1px solid var(--kenar);
-      border-left: 4px solid #c7ccd1;
-      border-radius: 13px;
-      margin-bottom: 10px;
-      overflow: hidden;
+      background: #fff; border: 1px solid var(--kenar);
+      border-left: 4px solid #c7ccd1; border-radius: 13px;
+      margin-bottom: 10px; overflow: hidden;
       transition: border-color 0.2s;
     }
     .gorev-grubu:last-child { margin-bottom: 0; }
-
     .gorev-grubu--yangin { border-left-color: var(--kirmizi); }
     .gorev-grubu--arama { border-left-color: var(--mavi); }
     .gorev-grubu--diger { border-left-color: var(--mor); }
-
     .gorev-grubu-baslik {
       display: flex; align-items: center; justify-content: space-between;
       gap: 10px; padding: 13px 14px;
       cursor: pointer; user-select: none;
     }
-
     .gorev-grubu-baslik-sol {
       display: flex; align-items: center; gap: 9px;
-      font-size: 14px; font-weight: 800;
-      color: var(--metin);
+      font-size: 14px; font-weight: 800; color: var(--metin);
     }
-
     .gorev-grubu-baslik-sag {
-      display: flex; align-items: center; gap: 8px;
-      flex-shrink: 0;
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     }
-
     .gorev-grubu-simge {
-      width: 30px; height: 30px;
-      border-radius: 9px;
+      width: 30px; height: 30px; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-
     .gorev-grubu--yangin .gorev-grubu-simge { background: #f7ecec; color: var(--kirmizi); }
     .gorev-grubu--arama .gorev-grubu-simge { background: var(--mavi-acik); color: var(--mavi); }
     .gorev-grubu--diger .gorev-grubu-simge { background: var(--mor-acik); color: var(--mor); }
-
     .gorev-grubu-durum {
       font-size: 10.5px; font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      color: var(--soluk);
-      background: #f1f3f5;
-      padding: 3px 8px; border-radius: 999px;
-      white-space: nowrap;
+      text-transform: uppercase; letter-spacing: 0.4px;
+      color: var(--soluk); background: #f1f3f5;
+      padding: 3px 8px; border-radius: 999px; white-space: nowrap;
     }
-
-    .gorev-grubu.dolu .gorev-grubu-durum { color: var(--yesil); background: var(--yesil-acik); }
-
+    .gorev-grubu.dolu .gorev-grubu-durum {
+      color: var(--yesil); background: var(--yesil-acik);
+    }
     .gorev-grubu-ok {
       color: var(--soluk); flex-shrink: 0;
       transition: transform 0.2s ease;
     }
-
     .gorev-grubu.acik .gorev-grubu-ok { transform: rotate(180deg); }
-
     .gorev-grubu-govde-dis {
-      display: grid;
-      grid-template-rows: 0fr;
+      display: grid; grid-template-rows: 0fr;
       transition: grid-template-rows 0.25s ease;
     }
-
     .gorev-grubu.acik .gorev-grubu-govde-dis { grid-template-rows: 1fr; }
-
     .gorev-grubu-govde { min-height: 0; overflow: hidden; }
     .gorev-grubu-govde-ic { padding: 0 14px 15px 14px; }
     .gorev-grubu-govde textarea { margin-top: 0; }
 
     .mudahale-satir {
-      background: #fff;
-      border: 1px solid #e1e5e8;
-      border-left: 4px solid #c7ccd1;
-      border-radius: 11px;
-      padding: 11px; margin-bottom: 9px;
-      transition: 0.2s;
+      background: #fff; border: 1px solid #e1e5e8;
+      border-left: 4px solid #c7ccd1; border-radius: 11px;
+      padding: 11px; margin-bottom: 9px; transition: 0.2s;
     }
     .mudahale-satir:last-child { margin-bottom: 0; }
-
     .mudahale-satir--su { border-left-color: var(--mavi); background: var(--mavi-acik); }
     .mudahale-satir--kopuk { border-left-color: var(--turuncu); background: var(--turuncu-acik); }
     .mudahale-satir--kkt { border-left-color: var(--kirmizi); background: #fdecec; }
     .mudahale-satir--mahalle { border-left-color: var(--yesil); background: var(--yesil-acik); }
-
     .mudahale-sec {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 40px; height: 23px;
-      background: #d9dce0;
+      appearance: none; -webkit-appearance: none;
+      width: 40px; height: 23px; background: #d9dce0;
       border: none; border-radius: 999px;
-      position: relative; cursor: pointer;
-      outline: none; flex-shrink: 0;
-      transition: background 0.18s ease;
+      position: relative; cursor: pointer; outline: none;
+      flex-shrink: 0; transition: background 0.18s ease;
     }
-
     .mudahale-sec::after {
-      content: "";
-      position: absolute;
+      content: ""; position: absolute;
       top: 3px; left: 3px;
-      width: 17px; height: 17px;
-      background: #fff;
-      border-radius: 50%;
-      transition: transform 0.18s ease;
+      width: 17px; height: 17px; background: #fff;
+      border-radius: 50%; transition: transform 0.18s ease;
       box-shadow: 0 1px 3px rgba(0,0,0,0.22);
     }
-
     .mudahale-sec:checked::after { transform: translateX(17px); }
     .mudahale-satir--su .mudahale-sec:checked { background: var(--mavi); }
     .mudahale-satir--kopuk .mudahale-sec:checked { background: var(--turuncu); }
     .mudahale-satir--kkt .mudahale-sec:checked { background: var(--kirmizi); }
     .mudahale-satir--mahalle .mudahale-sec:checked { background: var(--yesil); }
-
     .mudahale-satir--su .mudahale-ad { color: var(--mavi); }
     .mudahale-satir--kopuk .mudahale-ad { color: #b1600f; }
     .mudahale-satir--kkt .mudahale-ad { color: var(--kirmizi); }
     .mudahale-satir--mahalle .mudahale-ad { color: var(--yesil); }
-
     .mudahale-ust {
       display: flex; align-items: center; justify-content: space-between;
       gap: 10px;
     }
-
     .mudahale-ad { font-size: 14px; font-weight: 800; color: #252b31; }
-
     .miktar-alani {
-      display: none;
-      margin-top: 10px;
-      grid-template-columns: 1fr 95px;
-      gap: 8px;
+      display: none; margin-top: 10px;
+      grid-template-columns: 1fr 95px; gap: 8px;
     }
     .miktar-alani.aktif { display: grid; }
-
     .miktar-input, .miktar-select {
-      width: 100%;
-      border: 1px solid #d6dce1;
-      background: #f9fafb;
-      color: #20252b;
-      border-radius: 9px;
-      padding: 10px; font-size: 13px;
-      outline: none;
+      width: 100%; border: 1px solid #d6dce1;
+      background: #f9fafb; color: #20252b;
+      border-radius: 9px; padding: 10px;
+      font-size: 13px; outline: none;
     }
-    .miktar-input:focus, .miktar-select:focus { border-color: var(--kirmizi); background: #fff; }
-
+    .miktar-input:focus, .miktar-select:focus {
+      border-color: var(--kirmizi); background: #fff;
+    }
     .kg-secim-grubu {
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 6px;
+      display: flex; flex-wrap: wrap;
+      align-content: flex-start; gap: 6px;
     }
-
     .kg-chip {
-      background: #fff;
-      border: 1.5px solid #d9c2c2;
-      color: #8e4b4b;
-      padding: 7px 11px; border-radius: 20px;
-      font-size: 12px; font-weight: 800;
-      cursor: pointer; transition: 0.15s;
+      background: #fff; border: 1.5px solid #d9c2c2;
+      color: #8e4b4b; padding: 7px 11px;
+      border-radius: 20px; font-size: 12px;
+      font-weight: 800; cursor: pointer; transition: 0.15s;
     }
     .kg-chip:active { transform: scale(0.95); }
     .kg-chip.secili {
-      background: var(--kirmizi);
-      border-color: var(--kirmizi);
-      color: #fff;
-      box-shadow: 0 2px 6px rgba(111,29,29,0.22);
+      background: var(--kirmizi); border-color: var(--kirmizi);
+      color: #fff; box-shadow: 0 2px 6px rgba(111,29,29,0.22);
     }
-
     .birim {
       display: flex; align-items: center; justify-content: center;
-      background: #f0f2f4;
-      border: 1px solid #dce1e5;
-      border-radius: 9px;
-      font-size: 12px; font-weight: 700;
-      color: #5f6871;
+      background: #f0f2f4; border: 1px solid #dce1e5;
+      border-radius: 9px; font-size: 12px;
+      font-weight: 700; color: #5f6871;
     }
-
     .mudahale-ozet {
-      margin-top: 9px;
-      font-size: 11px;
-      color: var(--ikincil);
-      line-height: 1.5;
+      margin-top: 9px; font-size: 11px;
+      color: var(--ikincil); line-height: 1.5;
     }
 
     .file-btn {
       display: flex; align-items: center; justify-content: center;
       gap: 8px; text-align: center;
       background: linear-gradient(135deg, #3d688f, #2f5474);
-      color: white;
-      padding: 13px; border-radius: 11px;
-      margin-top: 8px;
-      font-weight: 800; font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(53,97,138,0.14);
+      color: white; padding: 13px; border-radius: 11px;
+      margin-top: 8px; font-weight: 800; font-size: 14px;
+      cursor: pointer; box-shadow: 0 2px 8px rgba(53,97,138,0.14);
     }
-
     input[type="file"] { display: none; }
 
     .foto-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px; margin-top: 10px;
     }
-
     .foto-thumb-wrap {
-      position: relative;
-      width: 100%; aspect-ratio: 1 / 1;
-      border-radius: 10px; overflow: hidden;
+      position: relative; width: 100%;
+      aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden;
     }
-
     .foto-thumb {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
-      cursor: pointer;
-      display: block;
-      border: 1px solid #dfe3e7;
-      background: #f0f2f4;
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 10px; cursor: pointer; display: block;
+      border: 1px solid #dfe3e7; background: #f0f2f4;
     }
-
     .foto-thumb-wrap video.foto-thumb { background: #000; cursor: pointer; }
-
     .video-thumb-overlay {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      pointer-events: none;
-      background: rgba(0,0,0,0.15);
+      pointer-events: none; background: rgba(0,0,0,0.15);
       border-radius: 10px;
     }
-
     .video-thumb-play {
-      width: 44px; height: 44px;
-      border-radius: 50%;
+      width: 44px; height: 44px; border-radius: 50%;
       background: rgba(255,255,255,0.92);
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 3px 10px rgba(0,0,0,0.35);
     }
-
     .video-thumb-play svg { margin-left: 2px; }
-
     .video-sure-rozet {
-      position: absolute;
-      bottom: 5px; right: 5px;
-      background: rgba(0,0,0,0.75);
-      color: #fff;
+      position: absolute; bottom: 5px; right: 5px;
+      background: rgba(0,0,0,0.75); color: #fff;
       font-size: 10px; font-weight: 800;
       padding: 3px 7px; border-radius: 999px;
       z-index: 2; letter-spacing: 0.3px;
     }
-
     .foto-sil-btn {
-      position: absolute;
-      top: -6px; right: -6px;
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      background: #d32f2f;
-      color: white;
-      border: 2px solid #fff;
-      font-size: 12px; font-weight: bold;
-      line-height: 20px; text-align: center;
-      cursor: pointer;
+      position: absolute; top: -6px; right: -6px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #d32f2f; color: white;
+      border: 2px solid #fff; font-size: 12px;
+      font-weight: bold; line-height: 20px;
+      text-align: center; cursor: pointer;
       padding: 0; z-index: 3;
     }
-
     .foto-sayac {
       margin-top: 7px; text-align: right;
       font-size: 11px; color: var(--soluk);
     }
 
     textarea {
-      width: 100%; height: 125px;
-      margin-top: 4px;
-      border-radius: 11px;
-      border: 1px solid #d7dde2;
-      background: #fafbfc;
-      color: #22282e;
+      width: 100%; height: 125px; margin-top: 4px;
+      border-radius: 11px; border: 1px solid #d7dde2;
+      background: #fafbfc; color: #22282e;
       padding: 13px; box-sizing: border-box;
       font-size: 14px; line-height: 1.5;
       resize: vertical; outline: none;
     }
-
     textarea:focus {
-      border-color: var(--kirmizi);
-      background: #fff;
+      border-color: var(--kirmizi); background: #fff;
       box-shadow: 0 0 0 3px rgba(111,29,29,0.08);
     }
-
     textarea::placeholder { color: #a2a9b0; }
 
     .submit-btn {
       width: 100%;
       background: linear-gradient(135deg, var(--yesil), #245f42);
-      color: white;
-      border: none;
+      color: white; border: none;
       padding: 15px; border-radius: 11px;
       font-size: 15px; font-weight: 800;
-      margin-top: 18px;
-      cursor: pointer;
+      margin-top: 18px; cursor: pointer;
       box-shadow: 0 3px 10px rgba(47,122,82,0.16);
     }
     .submit-btn:active { transform: scale(0.99); }
-    .submit-btn:disabled { background: #aeb5bb; box-shadow: none; cursor: not-allowed; }
-
+    .submit-btn:disabled {
+      background: #aeb5bb; box-shadow: none; cursor: not-allowed;
+    }
     #status {
       margin-top: 11px; text-align: center;
-      font-size: 12px; font-weight: 700;
-      min-height: 18px;
+      font-size: 12px; font-weight: 700; min-height: 18px;
     }
 
     .kayitli-baslik {
@@ -655,220 +446,155 @@ html
       color: var(--yesil); font-size: 15px; font-weight: 800;
       margin-bottom: 13px;
     }
-
     .kayitli-icon {
-      width: 34px; height: 34px;
-      border-radius: 10px;
+      width: 34px; height: 34px; border-radius: 10px;
       background: var(--yesil-acik);
       display: flex; align-items: center; justify-content: center;
     }
-
     .goruntu-kutu {
-      background: #fafbfc;
-      border: 1px solid #e1e5e8;
+      background: #fafbfc; border: 1px solid #e1e5e8;
       border-left: 4px solid var(--yesil);
       padding: 13px; border-radius: 10px;
       margin-top: 12px; margin-bottom: 12px;
     }
-
     .goruntu-kutu-baslik {
       font-size: 10px; color: #727c85;
-      margin-bottom: 9px;
-      text-transform: uppercase;
+      margin-bottom: 9px; text-transform: uppercase;
       letter-spacing: 0.8px; font-weight: 800;
     }
-
     .goruntu-personel-icerik {
       display: flex; flex-wrap: wrap; gap: 7px;
     }
-
     .neon-kutu {
-      background: #fff;
-      border: 1px solid #e0e5e9;
+      background: #fff; border: 1px solid #e0e5e9;
       border-left: 4px solid var(--kirmizi);
-      border-radius: 10px;
-      padding: 13px;
+      border-radius: 10px; padding: 13px;
       margin-top: 12px; margin-bottom: 12px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.04);
     }
-
     .neon-kutu-baslik {
       font-size: 10px; color: var(--kirmizi);
-      margin-bottom: 7px;
-      text-transform: uppercase;
+      margin-bottom: 7px; text-transform: uppercase;
       letter-spacing: 0.8px; font-weight: 800;
     }
-
     .neon-not-icerik {
-      font-size: 14px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      color: #30363d; line-height: 1.55;
+      font-size: 14px; white-space: pre-wrap;
+      word-break: break-word; color: #30363d;
+      line-height: 1.55;
     }
-
     .goruntu-zaman {
       font-size: 11px; color: #8b949c;
       margin-top: 10px; text-align: right;
     }
-
     .goruntu-mudahale {
-      background: #fffaf5;
-      border: 1px solid #f1dfca;
+      background: #fffaf5; border: 1px solid #f1dfca;
       border-left: 4px solid var(--turuncu);
-      border-radius: 10px;
-      padding: 13px; margin-top: 12px;
+      border-radius: 10px; padding: 13px; margin-top: 12px;
     }
-
     .mudahale-goruntu-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
-
     .mudahale-goruntu-item {
-      background: #fff;
-      border: 1px solid #eadfd4;
+      background: #fff; border: 1px solid #eadfd4;
       border-top: 3px solid #d9c9b3;
-      border-radius: 9px;
-      padding: 10px 7px;
-      text-align: center;
+      border-radius: 9px; padding: 10px 7px; text-align: center;
     }
-
     .mudahale-goruntu-item--su { border-top-color: var(--mavi); background: var(--mavi-acik); }
     .mudahale-goruntu-item--kopuk { border-top-color: var(--turuncu); background: var(--turuncu-acik); }
     .mudahale-goruntu-item--kkt { border-top-color: var(--kirmizi); background: #fdecec; }
     .mudahale-goruntu-item--mahalle { border-top-color: var(--yesil); background: var(--yesil-acik); }
-
     .mudahale-goruntu-item strong {
-      display: block; font-size: 11px;
-      color: #68727d; margin-bottom: 4px;
+      display: block; font-size: 11px; color: #68727d; margin-bottom: 4px;
     }
-
     .mudahale-goruntu-item span {
-      font-size: 13px; font-weight: 800;
-      color: #2b3137;
+      font-size: 13px; font-weight: 800; color: #2b3137;
     }
 
     .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      display: none; position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(25,30,35,0.62);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      align-items: center; justify-content: center;
-      padding: 14px;
+      backdrop-filter: blur(4px); z-index: 1000;
+      align-items: center; justify-content: center; padding: 14px;
       animation: modalArkaGiris 0.18s ease;
     }
-
     @keyframes modalArkaGiris { from { opacity: 0; } to { opacity: 1; } }
     @keyframes modalIcerikGiris {
       from { opacity: 0; transform: translateY(10px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
-
     .modal-content {
-      background: #fff;
-      border-radius: 17px;
-      padding: 16px;
-      width: 100%; max-width: 440px;
-      max-height: 84vh;
-      display: flex; flex-direction: column;
+      background: #fff; border-radius: 17px;
+      padding: 16px; width: 100%; max-width: 440px;
+      max-height: 84vh; display: flex; flex-direction: column;
       box-shadow: var(--golge-guclu);
       animation: modalIcerikGiris 0.2s ease;
     }
-
     .modal-header {
       font-size: 16px; font-weight: 800;
-      color: var(--kirmizi);
-      margin-bottom: 13px; text-align: center;
+      color: var(--kirmizi); margin-bottom: 13px; text-align: center;
     }
-
     .personel-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5px;
-      overflow-y: auto;
-      background: #f5f7f8;
-      padding: 8px; border-radius: 11px;
-      border: 1px solid #e0e5e8;
-      max-height: 340px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5px; overflow-y: auto;
+      background: #f5f7f8; padding: 8px; border-radius: 11px;
+      border: 1px solid #e0e5e8; max-height: 340px;
     }
-
     .personel-item {
       display: flex; align-items: center;
-      font-size: 12px; gap: 6px;
-      cursor: pointer;
-      background: #fff;
-      border: 1px solid #e2e6e9;
-      border-radius: 8px;
-      padding: 7px 8px;
+      font-size: 12px; gap: 6px; cursor: pointer;
+      background: #fff; border: 1px solid #e2e6e9;
+      border-radius: 8px; padding: 7px 8px;
       line-height: 1.15;
       transition: background 0.12s, border-color 0.12s;
     }
     .personel-item:active { background: #f6f7f8; }
-    .personel-item:has(input:checked) { background: var(--kirmizi-acik-bg, #fbefef); border-color: #e3c6c6; }
+    .personel-item:has(input:checked) {
+      background: var(--kirmizi-acik-bg, #fbefef); border-color: #e3c6c6;
+    }
     .personel-item input {
       width: 18px; height: 18px;
-      accent-color: var(--kirmizi);
-      flex-shrink: 0;
+      accent-color: var(--kirmizi); flex-shrink: 0;
     }
-
     .modal-confirm-btn {
-      width: 100%;
-      background: var(--kirmizi);
-      color: white;
-      border: none;
+      width: 100%; background: var(--kirmizi);
+      color: white; border: none;
       padding: 13px; border-radius: 10px;
       font-size: 14px; font-weight: 800;
-      margin-top: 12px;
-      cursor: pointer;
+      margin-top: 12px; cursor: pointer;
     }
 
     .galeri {
-      display: flex;
-      position: fixed; inset: 0;
-      background: rgba(10,13,16,0.97);
-      z-index: 3000;
+      display: flex; position: fixed; inset: 0;
+      background: rgba(10,13,16,0.97); z-index: 3000;
       align-items: center; justify-content: center;
-      touch-action: none;
-      opacity: 0; visibility: hidden;
+      touch-action: none; opacity: 0; visibility: hidden;
       transition: opacity 0.2s ease, visibility 0.2s ease;
     }
     .galeri.aktif { opacity: 1; visibility: visible; }
-
     .galeri-img {
-      max-width: 94vw; max-height: 84vh;
-      width: auto; height: auto;
-      object-fit: contain;
-      user-select: none;
-      -webkit-user-drag: none;
-      touch-action: none;
-      cursor: zoom-in;
-      border-radius: 6px;
+      max-width: 94vw; max-height: 84vh; width: auto; height: auto;
+      object-fit: contain; user-select: none;
+      -webkit-user-drag: none; touch-action: none;
+      cursor: zoom-in; border-radius: 6px;
       transform-origin: center center;
       will-change: transform;
       transition: transform 0.08s ease-out;
       box-shadow: 0 15px 45px rgba(0,0,0,0.5);
     }
-
     .galeri-kapat {
-      position: absolute;
-      top: 16px; right: 17px;
-      width: 42px; height: 42px;
-      border-radius: 50%;
+      position: absolute; top: 16px; right: 17px;
+      width: 42px; height: 42px; border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.10);
       color: #fff; font-size: 22px;
       cursor: pointer; z-index: 5;
     }
-
     .galeri-sol, .galeri-sag {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      width: 44px; height: 44px;
-      border-radius: 50%;
+      position: absolute; top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.10);
       color: #fff; font-size: 27px;
@@ -876,47 +602,32 @@ html
     }
     .galeri-sol { left: 12px; }
     .galeri-sag { right: 12px; }
-
     .galeri-sayac {
-      position: absolute;
-      bottom: 18px; left: 50%;
+      position: absolute; bottom: 18px; left: 50%;
       transform: translateX(-50%);
-      color: #fff;
-      background: rgba(0,0,0,0.45);
+      color: #fff; background: rgba(0,0,0,0.45);
       padding: 7px 12px; border-radius: 20px;
       font-size: 12px; font-weight: 700;
     }
-
     .galeri-bilgi {
-      position: absolute;
-      top: 20px; left: 20px;
-      color: rgba(255,255,255,0.8);
-      font-size: 11px;
+      position: absolute; top: 20px; left: 20px;
+      color: rgba(255,255,255,0.8); font-size: 11px;
     }
 
     .video-oynatici {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(5,8,10,0.96);
-      z-index: 3500;
-      align-items: center; justify-content: center;
-      padding: 12px;
+      display: none; position: fixed; inset: 0;
+      background: rgba(5,8,10,0.96); z-index: 3500;
+      align-items: center; justify-content: center; padding: 12px;
     }
     .video-oynatici.aktif { display: flex; }
-
     .video-oynatici video {
       max-width: 100%; max-height: 88vh;
-      width: auto; height: auto;
-      border-radius: 10px;
-      background: #000;
-      box-shadow: 0 15px 45px rgba(0,0,0,0.55);
+      width: auto; height: auto; border-radius: 10px;
+      background: #000; box-shadow: 0 15px 45px rgba(0,0,0,0.55);
     }
-
     .video-oynatici-kapat {
-      position: absolute;
-      top: 16px; right: 17px;
-      width: 42px; height: 42px;
-      border-radius: 50%;
+      position: absolute; top: 16px; right: 17px;
+      width: 42px; height: 42px; border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.10);
       color: #fff; font-size: 20px;
@@ -937,20 +648,15 @@ html
     }
 
     #toastKapsayici {
-      position: fixed;
-      left: 50%; bottom: 22px;
+      position: fixed; left: 50%; bottom: 22px;
       transform: translateX(-50%) translateY(12px);
-      z-index: 9999;
-      display: flex; flex-direction: column;
+      z-index: 9999; display: flex; flex-direction: column;
       gap: 8px; align-items: center;
       pointer-events: none;
-      width: calc(100% - 32px);
-      max-width: 420px;
+      width: calc(100% - 32px); max-width: 420px;
     }
-
     .toast {
-      background: #292d33;
-      color: #fff;
+      background: #292d33; color: #fff;
       font-size: 13px; line-height: 1.4;
       padding: 11px 16px; border-radius: 10px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.22);
@@ -963,197 +669,140 @@ html
     .toast--hata { background: #6f1d1d; }
     .toast--basari { background: #245f42; }
     .toast-simge { flex-shrink: 0; margin-top: 1px; }
-
     @keyframes spin { to { transform: rotate(360deg); } }
     .buton-spinner {
-      display: inline-block;
-      width: 14px; height: 14px;
+      display: inline-block; width: 14px; height: 14px;
       border: 2px solid rgba(255,255,255,0.4);
-      border-top-color: #fff;
-      border-radius: 50%;
+      border-top-color: #fff; border-radius: 50%;
       animation: spin 0.7s linear infinite;
-      vertical-align: -2px;
-      margin-right: 7px;
+      vertical-align: -2px; margin-right: 7px;
     }
 
     /* =========================================================
-       HIZLI OLAY YERİ MEDYASI - MODAL (SADECE MODAL, KART YOK)
+       HIZLI OLAY YERİ MEDYASI - MODAL
     ========================================================= */
 
     .hizli-medya-modal {
-      display: none;
-      position: fixed; inset: 0;
+      display: none; position: fixed; inset: 0;
       background: rgba(15,18,22,0.72);
-      backdrop-filter: blur(5px);
-      z-index: 2000;
-      align-items: flex-end; justify-content: center;
-      padding: 0;
+      backdrop-filter: blur(5px); z-index: 2000;
+      align-items: flex-end; justify-content: center; padding: 0;
       animation: modalArkaGiris 0.18s ease;
     }
     .hizli-medya-modal.aktif { display: flex; }
-
     .hizli-medya-icerik {
-      background: #fff;
-      border-radius: 20px 20px 0 0;
-      width: 100%; max-width: 520px;
-      max-height: 92vh;
+      background: #fff; border-radius: 20px 20px 0 0;
+      width: 100%; max-width: 520px; max-height: 92vh;
       display: flex; flex-direction: column;
-      overflow: hidden;
-      animation: hizliMedyaGiris 0.22s ease;
+      overflow: hidden; animation: hizliMedyaGiris 0.22s ease;
     }
-
     @keyframes hizliMedyaGiris {
       from { transform: translateY(24px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-
     .hizli-medya-ust {
       padding: 15px 17px 12px 17px;
       border-bottom: 1px solid #eef0f3;
       display: flex; align-items: center; justify-content: space-between;
       gap: 10px; flex-shrink: 0;
     }
-
     .hizli-medya-ust-baslik {
-      font-size: 15px; font-weight: 800;
-      color: #23262b;
+      font-size: 15px; font-weight: 800; color: #23262b;
       display: flex; align-items: center; gap: 8px;
     }
-
     .hizli-medya-kapat {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      border: none;
-      background: #f1f3f5;
-      color: #6b7178;
-      cursor: pointer; font-size: 18px;
+      width: 34px; height: 34px; border-radius: 50%;
+      border: none; background: #f1f3f5;
+      color: #6b7178; cursor: pointer; font-size: 18px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
     .hizli-medya-kapat:active { background: #e4e7ea; }
-
     .hizli-medya-govde {
-      padding: 15px 17px;
-      overflow-y: auto;
-      flex: 1;
-      -webkit-overflow-scrolling: touch;
+      padding: 15px 17px; overflow-y: auto;
+      flex: 1; -webkit-overflow-scrolling: touch;
     }
-
     .hizli-medya-secenekler {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
       gap: 8px; margin-bottom: 14px;
     }
-
     .hizli-medya-secenek {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 6px;
-      background: #f8fafb;
+      gap: 6px; background: #f8fafb;
       border: 1.5px dashed #c7cdd3;
-      border-radius: 12px;
-      padding: 12px 6px;
+      border-radius: 12px; padding: 12px 6px;
       cursor: pointer; transition: 0.15s;
-      font-size: 11px; font-weight: 800;
-      color: #3a4046;
+      font-size: 11px; font-weight: 800; color: #3a4046;
       text-align: center; line-height: 1.25;
+      font-family: inherit;
     }
-    .hizli-medya-secenek:active { transform: scale(0.97); background: #eef2f5; }
-
+    .hizli-medya-secenek:active {
+      transform: scale(0.97); background: #eef2f5;
+    }
     .hizli-medya-secenek-ikon { font-size: 22px; line-height: 1; }
-
     .hizli-medya-secenek--foto { border-color: #b7cde0; background: #eef3f7; color: #2f5474; }
     .hizli-medya-secenek--video { border-color: #e0b7b7; background: #fbefef; color: #8e2b2b; }
     .hizli-medya-secenek--galeri { border-color: #c9b7e0; background: #f5effc; color: #6a5590; }
-
     .hizli-medya-bolum-baslik {
       font-size: 11px; font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #7a8189;
-      margin-bottom: 9px; margin-top: 4px;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      color: #7a8189; margin-bottom: 9px; margin-top: 4px;
     }
-
     .hizli-medya-liste {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px; margin-bottom: 4px;
     }
-
     .hizli-medya-bos {
-      color: #979da3;
-      font-size: 12px; font-style: italic;
+      color: #979da3; font-size: 12px; font-style: italic;
       padding: 22px 10px; text-align: center;
-      background: #fafbfc;
-      border: 1px dashed #dde2e6;
-      border-radius: 11px;
-      margin-bottom: 4px;
+      background: #fafbfc; border: 1px dashed #dde2e6;
+      border-radius: 11px; margin-bottom: 4px;
     }
-
     .hizli-medya-thumb-wrap {
-      position: relative;
-      width: 100%; aspect-ratio: 1 / 1;
-      border-radius: 10px; overflow: hidden;
-      background: #f0f2f4;
+      position: relative; width: 100%;
+      aspect-ratio: 1 / 1; border-radius: 10px;
+      overflow: hidden; background: #f0f2f4;
       border: 1px solid #dfe3e7;
     }
-
     .hizli-medya-thumb-wrap img,
     .hizli-medya-thumb-wrap video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      background: #000;
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; background: #000;
     }
-
     .hizli-medya-thumb-sil {
-      position: absolute;
-      top: 4px; right: 4px;
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      background: #d32f2f;
-      color: #fff;
-      border: 2px solid #fff;
-      font-size: 13px; font-weight: bold;
-      line-height: 1;
+      position: absolute; top: 4px; right: 4px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #d32f2f; color: #fff;
+      border: 2px solid #fff; font-size: 13px;
+      font-weight: bold; line-height: 1;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; padding: 0; z-index: 3;
       box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     }
-
     .hizli-medya-video-rozet {
-      position: absolute;
-      bottom: 4px; left: 4px;
-      background: rgba(0,0,0,0.72);
-      color: #fff;
+      position: absolute; bottom: 4px; left: 4px;
+      background: rgba(0,0,0,0.72); color: #fff;
       font-size: 10px; font-weight: 800;
       padding: 3px 7px; border-radius: 999px;
       display: flex; align-items: center; gap: 3px;
       z-index: 2; letter-spacing: 0.3px;
     }
-
     .hizli-medya-tur-rozet {
-      position: absolute;
-      top: 4px; left: 4px;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
+      position: absolute; top: 4px; left: 4px;
+      background: rgba(0,0,0,0.6); color: #fff;
       font-size: 10px; font-weight: 800;
-      padding: 2px 6px; border-radius: 999px;
-      z-index: 2;
+      padding: 2px 6px; border-radius: 999px; z-index: 2;
     }
-
     .hizli-medya-footer {
       padding: 13px 17px 17px 17px;
       border-top: 1px solid #eef0f3;
-      background: #fafbfc;
-      flex-shrink: 0;
+      background: #fafbfc; flex-shrink: 0;
     }
-
     .hizli-medya-gonder {
       width: 100%;
       background: linear-gradient(135deg, #2f7a52, #245f42);
-      color: #fff;
-      border: none;
+      color: #fff; border: none;
       padding: 15px; border-radius: 12px;
       font-size: 15px; font-weight: 800;
       cursor: pointer;
@@ -1161,27 +810,84 @@ html
       transition: 0.15s;
     }
     .hizli-medya-gonder:active { transform: scale(0.99); }
-    .hizli-medya-gonder:disabled { background: #aeb5bb; box-shadow: none; cursor: not-allowed; }
-
+    .hizli-medya-gonder:disabled {
+      background: #aeb5bb; box-shadow: none; cursor: not-allowed;
+    }
     .hizli-medya-ilerleme {
-      margin-top: 10px;
-      font-size: 12px; font-weight: 700;
-      color: #35618a;
-      text-align: center;
-      min-height: 16px;
+      margin-top: 10px; font-size: 12px;
+      font-weight: 700; color: #35618a;
+      text-align: center; min-height: 16px;
     }
     .hizli-medya-ilerleme--ok { color: #2f7a52; }
     .hizli-medya-ilerleme--hata { color: #a33a3a; }
-
     @media (max-width: 430px) {
       .hizli-medya-secenekler { gap: 6px; }
       .hizli-medya-secenek { padding: 10px 4px; font-size: 10.5px; }
       .hizli-medya-liste { gap: 6px; }
     }
 
+    /* =========================================================
+       UYGULAMA İÇİ KAMERA (SERİ ÇEKİM)
+    ========================================================= */
+
+    .kamera-modal {
+      display: none; position: fixed; inset: 0;
+      background: #000; z-index: 4000;
+      flex-direction: column;
+    }
+    .kamera-modal.aktif { display: flex; }
+    .kamera-video {
+      flex: 1; width: 100%; height: 100%;
+      object-fit: cover; background: #000;
+    }
+    .kamera-ust {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: 16px; display: flex; justify-content: flex-end;
+      z-index: 5;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+    }
+    .kamera-kapat {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.5); color: #fff;
+      font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .kamera-alt {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 20px 32px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      z-index: 5;
+    }
+    .kamera-cek {
+      width: 78px; height: 78px; border-radius: 50%;
+      border: 5px solid #fff; background: rgba(255,255,255,0.25);
+      cursor: pointer; transition: transform 0.1s;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.3);
+    }
+    .kamera-cek:active {
+      transform: scale(0.92); background: rgba(255,255,255,0.5);
+    }
+    .kamera-sayac {
+      color: #fff; font-size: 13px; font-weight: 700;
+      background: rgba(0,0,0,0.55);
+      padding: 8px 14px; border-radius: 999px;
+      min-width: 130px; text-align: center;
+    }
+    .kamera-flash {
+      position: absolute; inset: 0; background: #fff;
+      opacity: 0; pointer-events: none; z-index: 4;
+    }
+    .kamera-flash.aktif { opacity: 0.85; }
+    .kamera-yukleniyor {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 14px; font-weight: 700; z-index: 6;
+    }
   </style>
 </head>
-
 <body>
 
   <div id="toastKapsayici"></div>
@@ -1201,26 +907,10 @@ html
         <span>Vaka ve olay tanımı</span>
       </div>
     </div>
-
-    <div class="info-row">
-      <strong>Vaka No</strong>
-      <span id="vakaNo">-</span>
-    </div>
-
-    <div class="info-row">
-      <strong>Olay Tanımı</strong>
-      <span id="olayTanimi">-</span>
-    </div>
-
-    <div class="info-row">
-      <strong>Görevli Vardiya</strong>
-      <span id="gorevliVardiya">-</span>
-    </div>
-
-    <div class="info-row">
-      <strong>Tarih</strong>
-      <span id="olayTarihSaat">-</span>
-    </div>
+    <div class="info-row"><strong>Vaka No</strong><span id="vakaNo">-</span></div>
+    <div class="info-row"><strong>Olay Tanımı</strong><span id="olayTanimi">-</span></div>
+    <div class="info-row"><strong>Görevli Vardiya</strong><span id="gorevliVardiya">-</span></div>
+    <div class="info-row"><strong>Tarih</strong><span id="olayTarihSaat">-</span></div>
   </div>
 
   <div class="card" id="formCard">
@@ -1243,21 +933,14 @@ html
     <div class="icap-bolum">
       <div class="icap-bolum-baslik">
         <div class="icap-bolum-baslik-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v5l3 2"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         </div>
         İcap Görevli Personel
       </div>
-
       <button type="button" class="icap-secim-btn" onclick="icapModalAc()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;">
-          <path d="M12 5v14M5 12h14"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" style="vertical-align:-2px;margin-right:5px;"><path d="M12 5v14M5 12h14"/></svg>
         İcap Görevli Personel Seç
       </button>
-
       <div id="icapTabloAlani"></div>
     </div>
 
@@ -1275,7 +958,6 @@ html
     <input type="file" id="fotoInput" accept="image/*,video/*" multiple>
 
     <div class="foto-grid" id="onizlemeGrid"></div>
-
     <div class="foto-sayac" id="fotoSayac"></div>
 
     <div class="section-title">
@@ -1302,12 +984,10 @@ html
           <svg class="gorev-grubu-ok" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
-
       <div class="gorev-grubu-govde-dis">
         <div class="gorev-grubu-govde">
           <div class="gorev-grubu-govde-ic">
             <div class="mudahale-panel">
-
               <div class="mudahale-satir mudahale-satir--su">
                 <div class="mudahale-ust">
                   <div class="mudahale-ad">
@@ -1320,7 +1000,6 @@ html
                   <div class="birim">Litre</div>
                 </div>
               </div>
-
               <div class="mudahale-satir mudahale-satir--kopuk">
                 <div class="mudahale-ust">
                   <div class="mudahale-ad">
@@ -1333,7 +1012,6 @@ html
                   <div class="birim">Litre</div>
                 </div>
               </div>
-
               <div class="mudahale-satir mudahale-satir--kkt">
                 <div class="mudahale-ust">
                   <div class="mudahale-ad">
@@ -1356,7 +1034,6 @@ html
                 </div>
                 <input type="hidden" id="kktMiktar" value="">
               </div>
-
               <div class="mudahale-satir mudahale-satir--mahalle">
                 <div class="mudahale-ust">
                   <div class="mudahale-ad">
@@ -1369,11 +1046,9 @@ html
                   <div class="birim">Litre</div>
                 </div>
               </div>
-
               <div class="mudahale-ozet">
                 Kullanılan müdahale malzemelerini işaretleyerek miktarlarını giriniz. Mahalle Tankeri seçildiğinde kullanılan su miktarını litre olarak belirtiniz.
               </div>
-
             </div>
           </div>
         </div>
@@ -1457,10 +1132,7 @@ html
 
     <div class="goruntu-icap" id="goruntuIcap" style="display:none;">
       <div class="goruntu-icap-baslik">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 7v5l3 2"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         İCAP GÖREVLİ PERSONEL
       </div>
       <div id="goruntuIcapTablo"></div>
@@ -1517,10 +1189,7 @@ html
     <div class="modal-content icap-modal-content">
       <div class="modal-header icap-modal-header">
         <span class="modal-header-icon" style="display:inline-flex;width:28px;height:28px;border-radius:8px;align-items:center;justify-content:center;margin-right:6px;vertical-align:-8px;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 7v5l3 2"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         </span>
         İcap Görevli Personel Seçimi
       </div>
@@ -1553,9 +1222,7 @@ html
     <div class="hizli-medya-icerik">
       <div class="hizli-medya-ust">
         <div class="hizli-medya-ust-baslik">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
           Hızlı Olay Yeri Medyası
         </div>
         <button type="button" class="hizli-medya-kapat" onclick="hizliMedyaModalKapat()">✕</button>
@@ -1563,10 +1230,10 @@ html
 
       <div class="hizli-medya-govde">
         <div class="hizli-medya-secenekler">
-          <label for="hizliFotoInput" class="hizli-medya-secenek hizli-medya-secenek--foto">
+          <button type="button" class="hizli-medya-secenek hizli-medya-secenek--foto" onclick="fotoCekBaslat()">
             <div class="hizli-medya-secenek-ikon">📸</div>
             Fotoğraf Çek
-          </label>
+          </button>
           <label for="hizliVideoInput" class="hizli-medya-secenek hizli-medya-secenek--video">
             <div class="hizli-medya-secenek-ikon">🎥</div>
             Video Çek
@@ -1594,14 +1261,31 @@ html
     </div>
   </div>
 
-  <script>
+  <div id="kameraModal" class="kamera-modal">
+    <video id="kameraVideo" class="kamera-video" autoplay playsinline muted></video>
+    <div class="kamera-flash" id="kameraFlash"></div>
+    <canvas id="kameraCanvas" style="display:none;"></canvas>
 
+    <div class="kamera-ust">
+      <button type="button" class="kamera-kapat" onclick="kameraKapat()">✕</button>
+    </div>
+
+    <div class="kamera-alt">
+      <div class="kamera-sayac" id="kameraSayac">0 fotoğraf</div>
+      <button type="button" class="kamera-cek" onclick="kameraCek()"></button>
+      <div style="width:130px;"></div>
+    </div>
+
+    <div class="kamera-yukleniyor" id="kameraYukleniyor" style="display:none;">
+      Kamera başlatılıyor...
+    </div>
+  </div>
+
+  <script>
     function escapeHtml(value) {
       return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
 
@@ -1635,7 +1319,6 @@ html
 
     const SUPABASE_URL = "https://gnufozcowbsrhcxbwhkf.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdudWZvemNvd2JzcmhjeGJ3aGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MzI1MDQsImV4cCI6MjEwNTIwODUwNH0._KdQ6MvqPE0Mam2c_ozcwSyDmHW3Fc-9923lUKEEJic";
-
     const TELEGRAM_TOKEN = "8611680491:AAHMzHLoVo_FMzbjtQ_YIV2_jVZXDpbQCsE";
     const CHAT_ID = "-1004426681303";
 
@@ -1823,35 +1506,13 @@ html
       const kutu = document.getElementById("goruntuIcap");
       const alan = document.getElementById("goruntuIcapTablo");
       const liste = icapVerisiniNormalizeEt(veri);
-      if (!liste.length) {
-        kutu.style.display = "none";
-        alan.innerHTML = "";
-        return;
-      }
+      if (!liste.length) { kutu.style.display = "none"; alan.innerHTML = ""; return; }
       kutu.style.display = "block";
-      let html = `
-        <table class="goruntu-icap-tablo">
-          <thead>
-            <tr>
-              <th>Personel</th>
-              <th>Başlama</th>
-              <th>Bitiş</th>
-              <th>Toplam</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
+      let html = `<table class="goruntu-icap-tablo"><thead><tr><th>Personel</th><th>Başlama</th><th>Bitiş</th><th>Toplam</th></tr></thead><tbody>`;
       liste.forEach(item => {
         const toplam = icapToplamDakikaHesapla(item.baslama, item.bitis);
         const dakika = toplam === null ? Number(item.toplam_dakika || 0) : toplam;
-        html += `
-          <tr>
-            <td><strong>${escapeHtml(item.personel)}</strong></td>
-            <td>${escapeHtml(item.baslama || "—")}</td>
-            <td>${escapeHtml(item.bitis || "—")}</td>
-            <td class="goruntu-icap-toplam">${escapeHtml(icapSureMetni(dakika))}</td>
-          </tr>
-        `;
+        html += `<tr><td><strong>${escapeHtml(item.personel)}</strong></td><td>${escapeHtml(item.baslama || "—")}</td><td>${escapeHtml(item.bitis || "—")}</td><td class="goruntu-icap-toplam">${escapeHtml(icapSureMetni(dakika))}</td></tr>`;
       });
       html += `</tbody></table>`;
       alan.innerHTML = html;
@@ -1859,9 +1520,7 @@ html
 
     function mudahaleVerisiniAl(rapor) {
       let json = rapor.mudahale_tipi;
-      if (typeof json === "string") {
-        try { json = JSON.parse(json); } catch (e) { json = null; }
-      }
+      if (typeof json === "string") { try { json = JSON.parse(json); } catch (e) { json = null; } }
       json = json || {};
       return {
         su: json.su ?? rapor.mudahale_su ?? "",
@@ -1879,18 +1538,13 @@ html
     async function mevcutRaporuKontrolEt() {
       try {
         const { data, error } = await supabaseClient
-          .from("olay_raporlari")
-          .select("*")
+          .from("olay_raporlari").select("*")
           .eq("vaka_no", vakaNo)
           .order("created_at", { ascending: false })
           .limit(1);
-
         if (error) throw error;
-
         if (data && data.length > 0) {
-          if (data[0].created_at) {
-            vardiyaVeSaatiniGuncelle(new Date(data[0].created_at));
-          }
+          if (data[0].created_at) vardiyaVeSaatiniGuncelle(new Date(data[0].created_at));
           goruntuModunuGoster(data[0]);
         }
       } catch (err) {
@@ -1911,7 +1565,6 @@ html
 
       const personelKutusu = document.getElementById("goruntuPersonel");
       personelKutusu.innerHTML = "";
-
       if (mevcutPersonelStr) {
         const isimler = mevcutPersonelStr.split(",").map(s => s.trim()).filter(Boolean);
         isimler.forEach(isim => {
@@ -1928,7 +1581,6 @@ html
 
       const grid = document.getElementById("goruntuFotoGrid");
       grid.innerHTML = "";
-
       mevcutFotograflar.forEach((url, index) => {
         const wrap = document.createElement("div");
         wrap.className = "foto-thumb-wrap";
@@ -1940,8 +1592,7 @@ html
         wrap.appendChild(img);
         grid.appendChild(wrap);
       });
-
-      mevcutVideolar.forEach((url) => {
+      mevcutVideolar.forEach(url => {
         grid.appendChild(videoThumbOlustur(url, { tiklamaFn: () => videoOynat(url) }));
       });
 
@@ -1952,18 +1603,14 @@ html
       if (mevcutAramaKurtarmaNotu.trim()) {
         aramaKutu.style.display = "block";
         document.getElementById("goruntuAramaNot").innerText = mevcutAramaKurtarmaNotu;
-      } else {
-        aramaKutu.style.display = "none";
-      }
+      } else { aramaKutu.style.display = "none"; }
 
       mevcutDigerGorevNotu = rapor.diger_gorev_notu || "";
       const digerKutu = document.getElementById("goruntuDigerKutu");
       if (mevcutDigerGorevNotu.trim()) {
         digerKutu.style.display = "block";
         document.getElementById("goruntuDigerNot").innerText = mevcutDigerGorevNotu;
-      } else {
-        digerKutu.style.display = "none";
-      }
+      } else { digerKutu.style.display = "none"; }
 
       document.getElementById("goruntuNot").innerText = rapor.rapor_notu || "Açıklama girilmemiş.";
 
@@ -1986,14 +1633,14 @@ html
       v.playsInline = true;
       v.preload = "metadata";
       v.addEventListener("loadedmetadata", () => { try { v.currentTime = 0.1; } catch (e) {} });
-      if (opts.tiklamaFn) {
-        v.addEventListener("click", () => { if (opts.tiklamaFn) opts.tiklamaFn(); });
-      }
+      if (opts.tiklamaFn) v.addEventListener("click", () => { if (opts.tiklamaFn) opts.tiklamaFn(); });
       wrap.appendChild(v);
+
       const overlay = document.createElement("div");
       overlay.className = "video-thumb-overlay";
       overlay.innerHTML = '<div class="video-thumb-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="#2f7a52"><path d="M8 5v14l11-7z"/></svg></div>';
       wrap.appendChild(overlay);
+
       const sureRozet = document.createElement("div");
       sureRozet.className = "video-sure-rozet";
       sureRozet.innerText = "00:00";
@@ -2006,6 +1653,7 @@ html
         }
       });
       wrap.appendChild(sureRozet);
+
       if (typeof opts.silmeFn === "function") {
         const silBtn = document.createElement("button");
         silBtn.className = "foto-sil-btn";
@@ -2431,12 +2079,7 @@ html
 
       const icapGorevlileri = mevcutIcapGorevlileri.map(item => {
         const toplam = icapToplamDakikaHesapla(item.baslama, item.bitis);
-        return {
-          personel: item.personel,
-          baslama: item.baslama,
-          bitis: item.bitis,
-          toplam_dakika: toplam === null ? 0 : toplam
-        };
+        return { personel: item.personel, baslama: item.baslama, bitis: item.bitis, toplam_dakika: toplam === null ? 0 : toplam };
       });
 
       for (const icap of icapGorevlileri) {
@@ -2458,26 +2101,11 @@ html
       const mahalleTankeriSecili = document.getElementById("mahalleTankeriSec").checked;
       const mahalleTankeriMiktar = document.getElementById("mahalleTankeriMiktar").value;
 
-      if (suSecili && (!suMiktar || Number(suMiktar) <= 0)) {
-        showToast("Lütfen kullanılan Su miktarını litre olarak girin.");
-        return;
-      }
-      if (kopukSecili && (!kopukMiktar || Number(kopukMiktar) <= 0)) {
-        showToast("Lütfen kullanılan Köpük miktarını litre olarak girin.");
-        return;
-      }
-      if (kktSecili && (!kktMiktar || Number(kktMiktar) <= 0)) {
-        showToast("Lütfen kullanılan KKT ağırlığını (kg) seçin.");
-        return;
-      }
-      if (kktSecili && (!kktAdet || Number(kktAdet) <= 0)) {
-        showToast("Lütfen kullanılan KKT adedini girin.");
-        return;
-      }
-      if (mahalleTankeriSecili && (!mahalleTankeriMiktar || Number(mahalleTankeriMiktar) <= 0)) {
-        showToast("Lütfen Mahalle Tankeri ile kullanılan su miktarını litre olarak girin.");
-        return;
-      }
+      if (suSecili && (!suMiktar || Number(suMiktar) <= 0)) { showToast("Lütfen kullanılan Su miktarını litre olarak girin."); return; }
+      if (kopukSecili && (!kopukMiktar || Number(kopukMiktar) <= 0)) { showToast("Lütfen kullanılan Köpük miktarını litre olarak girin."); return; }
+      if (kktSecili && (!kktMiktar || Number(kktMiktar) <= 0)) { showToast("Lütfen kullanılan KKT ağırlığını (kg) seçin."); return; }
+      if (kktSecili && (!kktAdet || Number(kktAdet) <= 0)) { showToast("Lütfen kullanılan KKT adedini girin."); return; }
+      if (mahalleTankeriSecili && (!mahalleTankeriMiktar || Number(mahalleTankeriMiktar) <= 0)) { showToast("Lütfen Mahalle Tankeri ile kullanılan su miktarını litre olarak girin."); return; }
 
       if (secilenPersoneller.length === 0 && secilenFotograflar.length === 0 && secilenVideolar.length === 0 && mevcutFotograflar.length === 0 && mevcutVideolar.length === 0 && !raporNotu.trim() && !aramaKurtarmaNotu.trim() && !digerGorevNotu.trim() && icapGorevlileri.length === 0 && !suSecili && !kopukSecili && !kktSecili) {
         showToast("Lütfen en az bir personel seçin, medya ekleyin, müdahale bilgisi girin veya açıklama yazın.");
@@ -2553,30 +2181,20 @@ html
 
         if (msgId) {
           const guncelLink = window.location.href;
-          let zamanlar = {};
-          try {
-            const { data: zamanVerisi, error: zamanHata } = await supabaseClient
-              .from("vaka_zamanlari")
-              .select("varis, ayrilis, donus")
-              .eq("message_id", Number(msgId))
-              .maybeSingle();
-            if (!zamanHata && zamanVerisi) zamanlar = zamanVerisi;
-          } catch (e) {
-            console.error("Zaman bilgisi okuma hatası:", e);
-          }
+          const hizliMedyaLinki = guncelLink.includes("?") ? guncelLink + "&hizliMedya=1" : guncelLink + "?hizliMedya=1";
 
           const yeniKlavye = {
             inline_keyboard: [
               [
                 { text: "🚦 İstasyondan Çıkış", callback_data: "cikis" },
-                { text: zamanlar.varis ? `✅ Olay Y. Varış ${zamanlar.varis}` : "📍 Olay Y. Varış", callback_data: "varis" }
+                { text: "📍 Olay Y. Varış", callback_data: "varis" }
               ],
               [
-                { text: zamanlar.ayrilis ? `✅ Olay Y. Ayrılış ${zamanlar.ayrilis}` : "🏁 Olay Y. Ayrılış", callback_data: "ayrilis" },
-                { text: zamanlar.donus ? `✅ İstasyona Dönüş ${zamanlar.donus}` : "🏠 İstasyona Dönüş", callback_data: "donus" }
+                { text: "🏁 Olay Y. Ayrılış", callback_data: "ayrilis" },
+                { text: "🏠 İstasyona Dönüş", callback_data: "donus" }
               ],
               [
-                { text: "⚡ Olay Yeri Hızlı Fotoğraf / Video Çek - Gönder", url: guncelLink.includes("?") ? guncelLink + "&hizliMedya=1" : guncelLink + "?hizliMedya=1" }
+                { text: "⚡ Hızlı Fotoğraf / Video", url: hizliMedyaLinki }
               ],
               [
                 { text: "✅ Olay Yeri Bilgileri Eklendi", url: guncelLink }
@@ -2590,11 +2208,7 @@ html
           const editSonucu = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: CHAT_ID,
-              message_id: Number(msgId),
-              reply_markup: yeniKlavye
-            })
+            body: JSON.stringify({ chat_id: CHAT_ID, message_id: Number(msgId), reply_markup: yeniKlavye })
           });
           const editVerisi = await editSonucu.json();
           if (!editVerisi.ok) console.error("Buton güncelleme hatası:", editVerisi.description);
@@ -2607,7 +2221,6 @@ html
         mevcutVideolar = videoUrlleri;
         mevcutPersonelStr = personelMetni;
         mevcutIcapGorevlileri = icapVerisiniNormalizeEt(icapGorevlileri);
-
         mevcutMudahale = {
           su: suSecili ? Number(suMiktar) : "",
           kopuk: kopukSecili ? Number(kopukMiktar) : "",
@@ -2645,13 +2258,9 @@ html
 
     mevcutRaporuKontrolEt();
 
-    /* =========================================================
-       HIZLI OLAY YERİ MEDYASI (FOTOĞRAF + VİDEO)
-    ========================================================= */
-
     let hizliMedyaListesi = [];
     const HIZLI_VIDEO_BUCKET = "olay-videolari";
-    const HIZLI_FOTO_BUCKET  = "olay-fotograflari";
+    const HIZLI_FOTO_BUCKET = "olay-fotograflari";
 
     function hizliMedyaModalAc() {
       hizliMedyaListesi = [];
@@ -2741,12 +2350,12 @@ html
     }
 
     (function hizliMedyaInputlariniBagla() {
-      const fotoInput = document.getElementById("hizliFotoInput");
-      const videoInput = document.getElementById("hizliVideoInput");
-      const galeriInput = document.getElementById("hizliGaleriInput");
-      if (fotoInput) fotoInput.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); fotoInput.value = ""; });
-      if (videoInput) videoInput.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); videoInput.value = ""; });
-      if (galeriInput) galeriInput.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); galeriInput.value = ""; });
+      const fi = document.getElementById("hizliFotoInput");
+      const vi = document.getElementById("hizliVideoInput");
+      const gi = document.getElementById("hizliGaleriInput");
+      if (fi) fi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); fi.value = ""; });
+      if (vi) vi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); vi.value = ""; });
+      if (gi) gi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); gi.value = ""; });
     })();
 
     async function hizliMedyaGonder() {
@@ -2761,16 +2370,10 @@ html
       try {
         if (!mevcutRaporId) {
           const bosKayit = {
-            vaka_no: vakaNo,
-            olay_turu: olayTanimi,
-            fotograf_url: "",
-            fotograf_urls: [],
-            video_urls: [],
-            "Görevli Personel": "",
-            icap_gorevlileri: [],
-            rapor_notu: "",
-            arama_kurtarma_notu: "",
-            diger_gorev_notu: ""
+            vaka_no: vakaNo, olay_turu: olayTanimi,
+            fotograf_url: "", fotograf_urls: [], video_urls: [],
+            "Görevli Personel": "", icap_gorevlileri: [],
+            rapor_notu: "", arama_kurtarma_notu: "", diger_gorev_notu: ""
           };
           const { data: insData, error: insErr } = await supabaseClient.from("olay_raporlari").insert([bosKayit]).select();
           if (insErr) throw insErr;
@@ -2780,10 +2383,8 @@ html
         let mevcutVideoUrls = [];
         try {
           const { data: vData, error: vErr } = await supabaseClient
-            .from("olay_raporlari")
-            .select("video_urls, fotograf_urls, fotograf_url")
-            .eq("id", mevcutRaporId)
-            .maybeSingle();
+            .from("olay_raporlari").select("video_urls, fotograf_urls, fotograf_url")
+            .eq("id", mevcutRaporId).maybeSingle();
           if (!vErr && vData) {
             if (Array.isArray(vData.video_urls)) mevcutVideoUrls = vData.video_urls;
             if (!mevcutFotograflar || !mevcutFotograflar.length) {
@@ -2791,7 +2392,7 @@ html
               else if (vData.fotograf_url) mevcutFotograflar = [vData.fotograf_url];
             }
           }
-        } catch (e) { console.error("Mevcut medya okuma hatası:", e); }
+        } catch (e) { console.error(e); }
 
         const toplam = hizliMedyaListesi.length;
         const yeniFotoUrls = [];
@@ -2842,7 +2443,6 @@ html
           }
           hizliMedyaModalKapat();
         }, 900);
-
       } catch (err) {
         console.error("Hızlı medya hatası:", err);
         ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--hata";
@@ -2854,23 +2454,113 @@ html
     (function hizliMedyaModalArkaPlani() {
       const modal = document.getElementById("hizliMedyaModal");
       if (!modal) return;
-      modal.addEventListener("click", e => {
-        if (e.target === modal) hizliMedyaModalKapat();
-      });
+      modal.addEventListener("click", e => { if (e.target === modal) hizliMedyaModalKapat(); });
     })();
 
     /* =========================================================
-       HIZLI MEDYA OTOMATİK AÇILIŞ
-       URL'de hizliMedya=1 varsa modal otomatik açılır.
+       UYGULAMA İÇİ KAMERA (SERİ ÇEKİM)
     ========================================================= */
+
+    let kameraStream = null;
+    let kameraCekimSayaci = 0;
+    let kameraAktifMi = false;
+
+    async function fotoCekBaslat() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        document.getElementById("hizliFotoInput").click();
+        return;
+      }
+
+      const yukleniyor = document.getElementById("kameraYukleniyor");
+      yukleniyor.style.display = "flex";
+
+      try {
+        kameraStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: "environment" },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          },
+          audio: false
+        });
+
+        const v = document.getElementById("kameraVideo");
+        v.srcObject = kameraStream;
+
+        kameraCekimSayaci = 0;
+        kameraSayacGuncelle();
+        kameraAktifMi = true;
+
+        yukleniyor.style.display = "none";
+        document.getElementById("kameraModal").classList.add("aktif");
+        document.body.style.overflow = "hidden";
+
+      } catch (err) {
+        yukleniyor.style.display = "none";
+        console.warn("Kamera açılamadı, native input kullanılıyor:", err);
+        document.getElementById("hizliFotoInput").click();
+      }
+    }
+
+    function kameraKapat() {
+      kameraAktifMi = false;
+      if (kameraStream) {
+        kameraStream.getTracks().forEach(t => t.stop());
+        kameraStream = null;
+      }
+      const v = document.getElementById("kameraVideo");
+      if (v) v.srcObject = null;
+      document.getElementById("kameraModal").classList.remove("aktif");
+      document.body.style.overflow = "";
+    }
+
+    function kameraSayacGuncelle() {
+      const el = document.getElementById("kameraSayac");
+      if (!el) return;
+      if (kameraCekimSayaci === 0) el.innerText = "0 fotoğraf";
+      else if (kameraCekimSayaci === 1) el.innerText = "1 fotoğraf çekildi";
+      else el.innerText = kameraCekimSayaci + " fotoğraf çekildi";
+    }
+
+    function kameraCek() {
+      if (!kameraAktifMi || !kameraStream) return;
+      const v = document.getElementById("kameraVideo");
+      const c = document.getElementById("kameraCanvas");
+      if (!v.videoWidth || !v.videoHeight) return;
+
+      c.width = v.videoWidth;
+      c.height = v.videoHeight;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(v, 0, 0, c.width, c.height);
+
+      const flash = document.getElementById("kameraFlash");
+      flash.classList.add("aktif");
+      setTimeout(() => flash.classList.remove("aktif"), 120);
+
+      if (navigator.vibrate) { try { navigator.vibrate(40); } catch (e) {} }
+
+      c.toBlob(blob => {
+        if (!blob) return;
+        const dosya = new File([blob], "kamera_" + Date.now() + ".jpg", { type: "image/jpeg" });
+        hizliMedyaListesi.push({
+          dosya: dosya,
+          tur: "foto",
+          url: URL.createObjectURL(dosya),
+          sure: 0,
+          id: "hm_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8)
+        });
+        hizliMedyaListesiniCiz();
+        kameraCekimSayaci++;
+        kameraSayacGuncelle();
+      }, "image/jpeg", 0.88);
+    }
 
     if (urlParams.get("hizliMedya") === "1") {
       setTimeout(() => {
-        hizliMedyaModalKapat();  /* önce kapat, sonra aç - state temiz olsun */
+        hizliMedyaModalKapat();
         hizliMedyaModalAc();
       }, 400);
     }
-
   </script>
 
 </body>
