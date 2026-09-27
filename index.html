@@ -1192,6 +1192,9 @@
       </div>
 
       <div class="hizli-medya-footer">
+        <button type="button" id="hizliGaleriyeKaydetBtn" class="hizli-medya-gonder" style="background:#35618a;margin-bottom:8px;" onclick="hizliFotograflariGaleriyeKaydet()">
+          📥 Fotoğrafları İndirilenlere Kaydet
+        </button>
         <button type="button" id="hizliMedyaGonderBtn" class="hizli-medya-gonder" onclick="hizliMedyaGonder()">
           🟢 0 MEDYAYI GÖNDER
         </button>
@@ -1272,9 +1275,10 @@
       const hedefTarih = tarih || new Date();
       const vardiya = gorevliVardiyayiHesapla(hedefTarih);
       document.getElementById("gorevliVardiya").innerText = vardiya + ". Vardiya";
-      const gun = String(hedefTarih.getDate()).padStart(2, "0");
-      const ay = String(hedefTarih.getMonth() + 1).padStart(2, "0");
-      const yil = hedefTarih.getFullYear();
+      const vardiyaGunu = vardiyaGununeCevir(hedefTarih);
+      const gun = String(vardiyaGunu.getDate()).padStart(2, "0");
+      const ay = String(vardiyaGunu.getMonth() + 1).padStart(2, "0");
+      const yil = vardiyaGunu.getFullYear();
       document.getElementById("olayTarihSaat").innerText = `${gun}.${ay}.${yil}`;
     }
 
@@ -2099,7 +2103,9 @@
         }
 
         if (msgId) {
-          const guncelLink = window.location.href;
+          const temizUrl = new URL(window.location.href);
+          temizUrl.searchParams.delete("hizliMedya");
+          const guncelLink = temizUrl.toString();
           const hizliMedyaLinki = guncelLink.includes("?") ? guncelLink + "&hizliMedya=1" : guncelLink + "?hizliMedya=1";
 
           const yeniKlavye = {
@@ -2276,6 +2282,30 @@
       if (vi) vi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); vi.value = ""; });
       if (gi) gi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); gi.value = ""; });
     })();
+
+    async function hizliFotograflariGaleriyeKaydet() {
+      const fotolar = hizliMedyaListesi.filter(x => x.tur === "foto");
+      const ilerleme = document.getElementById("hizliMedyaIlerleme");
+
+      if (!fotolar.length) {
+        ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--hata";
+        ilerleme.innerText = "Kaydedilecek fotoğraf yok (video zaten kendiliğinden galeriye kaydolur).";
+        return;
+      }
+
+      fotolar.forEach((item, i) => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(item.dosya);
+        a.download = "olay_yeri_" + Date.now() + "_" + i + ".jpg";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+      });
+
+      ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--ok";
+      ilerleme.innerText = fotolar.length + " fotoğraf indirilenlere kaydedildi.";
+    }
 
     async function hizliMedyaGonder() {
       const btn = document.getElementById("hizliMedyaGonderBtn");
