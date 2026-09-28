@@ -23,8 +23,7 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: linear-gradient(180deg, #f7f8fa 0%, #eef1f4 100%);
-      color: var(--metin);
-      padding: 14px;
+      color: var(--metin); padding: 14px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
@@ -53,16 +52,12 @@
       font-size: 12px; margin-top: 4px; opacity: 0.86;
       position: relative; z-index: 1;
     }
-
     .card {
       background: var(--kart); border: 1px solid var(--kenar);
       border-radius: 16px; padding: 17px; margin-bottom: 14px;
       box-shadow: var(--golge);
     }
-
-    .olay-baslik {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-    }
+    .olay-baslik { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .olay-icon {
       width: 40px; height: 40px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
@@ -72,7 +67,6 @@
     .olay-baslik-metin { min-width: 0; }
     .olay-baslik-metin strong { display: block; font-size: 16px; font-weight: 800; }
     .olay-baslik-metin span { display: block; margin-top: 2px; font-size: 11px; color: var(--ikincil); }
-
     .info-row {
       display: flex; flex-direction: column; gap: 3px;
       padding: 11px 0; border-bottom: 1px solid #edf0f2;
@@ -86,12 +80,10 @@
       color: var(--metin); font-size: 15px; font-weight: 700;
       word-break: break-word;
     }
-
     label {
       display: block; margin-top: 16px; margin-bottom: 7px;
       color: #30363d; font-size: 13px; font-weight: 800;
     }
-
     .section-title {
       display: flex; align-items: center; gap: 8px;
       margin-top: 20px; margin-bottom: 9px;
@@ -103,7 +95,6 @@
       display: flex; align-items: center; justify-content: center;
       border-radius: 9px; background: #f1f3f5; font-size: 16px;
     }
-
     .secim-btn {
       width: 100%; background: #fff; color: #30363d;
       border: 1px dashed #b9c1c9; padding: 13px; border-radius: 11px;
@@ -111,7 +102,6 @@
       cursor: pointer; text-align: center; transition: 0.2s;
     }
     .secim-btn:active { transform: scale(0.985); background: #f6f7f8; }
-
     .secilen-ozet {
       margin-top: 10px; background: #f8fafb;
       border: 1px solid #e3e7ea;
@@ -124,7 +114,6 @@
       border: 1px solid #c7ead5; padding: 7px 10px; border-radius: 20px;
       font-size: 11px; font-weight: 700; display: inline-block;
     }
-
     .icap-bolum {
       margin-top: 12px; background: #f8f5ff;
       border: 1px solid #ddd2f4; border-left: 4px solid #7656b8;
@@ -215,7 +204,6 @@
     }
     .goruntu-icap-tablo tr:last-child td { border-bottom: none; }
     .goruntu-icap-toplam { color: #197044; font-weight: 800; white-space: nowrap; }
-
     .mudahale-panel {
       background: #f8fafb; border: 1px solid #e0e5e9;
       border-radius: 13px; padding: 12px; margin-top: 8px;
@@ -239,9 +227,7 @@
       display: flex; align-items: center; gap: 9px;
       font-size: 14px; font-weight: 800; color: var(--metin);
     }
-    .gorev-grubu-baslik-sag {
-      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
-    }
+    .gorev-grubu-baslik-sag { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .gorev-grubu-simge {
       width: 30px; height: 30px; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
@@ -259,10 +245,7 @@
     .gorev-grubu.dolu .gorev-grubu-durum {
       color: var(--yesil); background: var(--yesil-acik);
     }
-    .gorev-grubu-ok {
-      color: var(--soluk); flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
+    .gorev-grubu-ok { color: var(--soluk); flex-shrink: 0; transition: transform 0.2s ease; }
     .gorev-grubu.acik .gorev-grubu-ok { transform: rotate(180deg); }
     .gorev-grubu-govde-dis {
       display: grid; grid-template-rows: 0fr;
@@ -272,7 +255,6 @@
     .gorev-grubu-govde { min-height: 0; overflow: hidden; }
     .gorev-grubu-govde-ic { padding: 0 14px 15px 14px; }
     .gorev-grubu-govde textarea { margin-top: 0; }
-
     .mudahale-satir {
       background: #fff; border: 1px solid #e1e5e8;
       border-left: 4px solid #c7ccd1; border-radius: 11px;
@@ -306,10 +288,7 @@
     .mudahale-satir--kopuk .mudahale-ad { color: #b1600f; }
     .mudahale-satir--kkt .mudahale-ad { color: var(--kirmizi); }
     .mudahale-satir--mahalle .mudahale-ad { color: var(--yesil); }
-    .mudahale-ust {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 10px;
-    }
+    .mudahale-ust { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .mudahale-ad { font-size: 14px; font-weight: 800; color: #252b31; }
     .miktar-alani {
       display: none; margin-top: 10px;
@@ -325,10 +304,7 @@
     .miktar-input:focus, .miktar-select:focus {
       border-color: var(--kirmizi); background: #fff;
     }
-    .kg-secim-grubu {
-      display: flex; flex-wrap: wrap;
-      align-content: flex-start; gap: 6px;
-    }
+    .kg-secim-grubu { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; }
     .kg-chip {
       background: #fff; border: 1.5px solid #d9c2c2;
       color: #8e4b4b; padding: 7px 11px;
@@ -346,11 +322,7 @@
       border-radius: 9px; font-size: 12px;
       font-weight: 700; color: #5f6871;
     }
-    .mudahale-ozet {
-      margin-top: 9px; font-size: 11px;
-      color: var(--ikincil); line-height: 1.5;
-    }
-
+    .mudahale-ozet { margin-top: 9px; font-size: 11px; color: var(--ikincil); line-height: 1.5; }
     .file-btn {
       display: flex; align-items: center; justify-content: center;
       gap: 8px; text-align: center;
@@ -360,7 +332,6 @@
       cursor: pointer; box-shadow: 0 2px 8px rgba(53,97,138,0.14);
     }
     input[type="file"] { display: none; }
-
     .foto-grid {
       display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px; margin-top: 10px;
@@ -408,7 +379,6 @@
       margin-top: 7px; text-align: right;
       font-size: 11px; color: var(--soluk);
     }
-
     textarea {
       width: 100%; height: 125px; margin-top: 4px;
       border-radius: 11px; border: 1px solid #d7dde2;
@@ -422,7 +392,6 @@
       box-shadow: 0 0 0 3px rgba(111,29,29,0.08);
     }
     textarea::placeholder { color: #a2a9b0; }
-
     .submit-btn {
       width: 100%;
       background: linear-gradient(135deg, var(--yesil), #245f42);
@@ -433,14 +402,8 @@
       box-shadow: 0 3px 10px rgba(47,122,82,0.16);
     }
     .submit-btn:active { transform: scale(0.99); }
-    .submit-btn:disabled {
-      background: #aeb5bb; box-shadow: none; cursor: not-allowed;
-    }
-    #status {
-      margin-top: 11px; text-align: center;
-      font-size: 12px; font-weight: 700; min-height: 18px;
-    }
-
+    .submit-btn:disabled { background: #aeb5bb; box-shadow: none; cursor: not-allowed; }
+    #status { margin-top: 11px; text-align: center; font-size: 12px; font-weight: 700; min-height: 18px; }
     .kayitli-baslik {
       display: flex; align-items: center; gap: 10px;
       color: var(--yesil); font-size: 15px; font-weight: 800;
@@ -462,9 +425,7 @@
       margin-bottom: 9px; text-transform: uppercase;
       letter-spacing: 0.8px; font-weight: 800;
     }
-    .goruntu-personel-icerik {
-      display: flex; flex-wrap: wrap; gap: 7px;
-    }
+    .goruntu-personel-icerik { display: flex; flex-wrap: wrap; gap: 7px; }
     .neon-kutu {
       background: #fff; border: 1px solid #e0e5e9;
       border-left: 4px solid var(--kirmizi);
@@ -482,19 +443,13 @@
       word-break: break-word; color: #30363d;
       line-height: 1.55;
     }
-    .goruntu-zaman {
-      font-size: 11px; color: #8b949c;
-      margin-top: 10px; text-align: right;
-    }
+    .goruntu-zaman { font-size: 11px; color: #8b949c; margin-top: 10px; text-align: right; }
     .goruntu-mudahale {
       background: #fffaf5; border: 1px solid #f1dfca;
       border-left: 4px solid var(--turuncu);
       border-radius: 10px; padding: 13px; margin-top: 12px;
     }
-    .mudahale-goruntu-grid {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
+    .mudahale-goruntu-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .mudahale-goruntu-item {
       background: #fff; border: 1px solid #eadfd4;
       border-top: 3px solid #d9c9b3;
@@ -504,13 +459,8 @@
     .mudahale-goruntu-item--kopuk { border-top-color: var(--turuncu); background: var(--turuncu-acik); }
     .mudahale-goruntu-item--kkt { border-top-color: var(--kirmizi); background: #fdecec; }
     .mudahale-goruntu-item--mahalle { border-top-color: var(--yesil); background: var(--yesil-acik); }
-    .mudahale-goruntu-item strong {
-      display: block; font-size: 11px; color: #68727d; margin-bottom: 4px;
-    }
-    .mudahale-goruntu-item span {
-      font-size: 13px; font-weight: 800; color: #2b3137;
-    }
-
+    .mudahale-goruntu-item strong { display: block; font-size: 11px; color: #68727d; margin-bottom: 4px; }
+    .mudahale-goruntu-item span { font-size: 13px; font-weight: 800; color: #2b3137; }
     .modal {
       display: none; position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -553,10 +503,7 @@
     .personel-item:has(input:checked) {
       background: var(--kirmizi-acik-bg, #fbefef); border-color: #e3c6c6;
     }
-    .personel-item input {
-      width: 18px; height: 18px;
-      accent-color: var(--kirmizi); flex-shrink: 0;
-    }
+    .personel-item input { width: 18px; height: 18px; accent-color: var(--kirmizi); flex-shrink: 0; }
     .modal-confirm-btn {
       width: 100%; background: var(--kirmizi);
       color: white; border: none;
@@ -564,7 +511,6 @@
       font-size: 14px; font-weight: 800;
       margin-top: 12px; cursor: pointer;
     }
-
     .galeri {
       display: flex; position: fixed; inset: 0;
       background: rgba(10,13,16,0.97); z-index: 3000;
@@ -613,7 +559,6 @@
       position: absolute; top: 20px; left: 20px;
       color: rgba(255,255,255,0.8); font-size: 11px;
     }
-
     .video-oynatici {
       display: none; position: fixed; inset: 0;
       background: rgba(5,8,10,0.96); z-index: 3500;
@@ -634,7 +579,6 @@
       cursor: pointer; z-index: 5;
       display: flex; align-items: center; justify-content: center;
     }
-
     @media (max-width: 430px) {
       body { padding: 10px; }
       .ust-baslik { border-radius: 15px; }
@@ -646,7 +590,6 @@
       .galeri-sol { left: 7px; }
       .galeri-sag { right: 7px; }
     }
-
     #toastKapsayici {
       position: fixed; left: 50%; bottom: 22px;
       transform: translateX(-50%) translateY(12px);
@@ -677,11 +620,6 @@
       animation: spin 0.7s linear infinite;
       vertical-align: -2px; margin-right: 7px;
     }
-
-    /* =========================================================
-       HIZLI OLAY YERİ MEDYASI - MODAL
-    ========================================================= */
-
     .hizli-medya-modal {
       display: none; position: fixed; inset: 0;
       background: rgba(15,18,22,0.72);
@@ -737,9 +675,7 @@
       text-align: center; line-height: 1.25;
       font-family: inherit;
     }
-    .hizli-medya-secenek:active {
-      transform: scale(0.97); background: #eef2f5;
-    }
+    .hizli-medya-secenek:active { transform: scale(0.97); background: #eef2f5; }
     .hizli-medya-secenek-ikon { font-size: 22px; line-height: 1; }
     .hizli-medya-secenek--foto { border-color: #b7cde0; background: #eef3f7; color: #2f5474; }
     .hizli-medya-secenek--video { border-color: #e0b7b7; background: #fbefef; color: #8e2b2b; }
@@ -810,9 +746,14 @@
       transition: 0.15s;
     }
     .hizli-medya-gonder:active { transform: scale(0.99); }
-    .hizli-medya-gonder:disabled {
-      background: #aeb5bb; box-shadow: none; cursor: not-allowed;
+    .hizli-medya-gonder:disabled { background: #aeb5bb; box-shadow: none; cursor: not-allowed; }
+    .hizli-medya-gonder--kaydet {
+      background: linear-gradient(135deg, #35618a, #264c6f) !important;
+      box-shadow: 0 3px 10px rgba(53,97,138,0.18) !important;
+      display: none;
+      margin-bottom: 8px;
     }
+    .hizli-medya-gonder--kaydet.gorunur { display: block; }
     .hizli-medya-ilerleme {
       margin-top: 10px; font-size: 12px;
       font-weight: 700; color: #35618a;
@@ -849,7 +790,7 @@
     <div class="info-row"><strong>Vaka No</strong><span id="vakaNo">-</span></div>
     <div class="info-row"><strong>Olay Tanımı</strong><span id="olayTanimi">-</span></div>
     <div class="info-row"><strong>Görevli Vardiya</strong><span id="gorevliVardiya">-</span></div>
-    <div class="info-row"><strong>Tarih</strong><span id="olayTarihSaat">-</span></div>
+    <div class="info-row"><strong>Vardiya Tarihi</strong><span id="olayTarihSaat">-</span></div>
   </div>
 
   <div class="card" id="formCard">
@@ -1192,6 +1133,9 @@
       </div>
 
       <div class="hizli-medya-footer">
+        <button type="button" id="hizliGaleriyeKaydetBtn" class="hizli-medya-gonder hizli-medya-gonder--kaydet" onclick="hizliFotograflariGaleriyeKaydet()">
+          📥 Fotoğrafları Cihaza Kaydet
+        </button>
         <button type="button" id="hizliMedyaGonderBtn" class="hizli-medya-gonder" onclick="hizliMedyaGonder()">
           🟢 0 MEDYAYI GÖNDER
         </button>
@@ -1251,17 +1195,39 @@
     document.getElementById("vakaNo").innerText = vakaNo;
     document.getElementById("olayTanimi").innerText = olayTanimi;
 
+    /* =========================================================
+       VARDİYA HESABI - 24 SAAT NÖBET SİSTEMİ (09:00 - 09:00)
+
+       Nöbetler sabah 09:00'da başlar, ertesi gün 09:00'da biter.
+       Yani saat 09:00'dan önceki herhangi bir zaman, hâlâ BİR ÖNCEKİ
+       günün vardiyasına aittir. Bu yüzden saat < 09:00 ise vardiya günü
+       bir önceki takvim günü olarak alınır.
+
+       Sabit 3 vardiya döngüsü: 24 Eylül 2026 (09:00-09:00 dilimi) ->
+       2. Vardiya, 25 Eylül 2026 -> 3. Vardiya, 26 Eylül 2026 ->
+       1. Vardiya, sonra baştan başlar.
+    ========================================================= */
+
     const VARDIYA_REFERANS_TARIHI = new Date(2026, 8, 24);
     const VARDIYA_REFERANS_NO = 2;
 
     function vardiyaGununeCevir(zaman) {
+      /* Bir Date'in "vardiya gününü" döndürür.
+         Saat 09:00'dan önceyse → önceki takvim günü
+         Saat 09:00 ve sonrasıysa → o takvim günü */
       const gun = new Date(zaman.getFullYear(), zaman.getMonth(), zaman.getDate());
-      if (zaman.getHours() < 9) { gun.setDate(gun.getDate() - 1); }
+      if (zaman.getHours() < 9) {
+        gun.setDate(gun.getDate() - 1);
+      }
       return gun;
     }
 
     function gorevliVardiyayiHesapla(tarih) {
-      const referans = new Date(VARDIYA_REFERANS_TARIHI.getFullYear(), VARDIYA_REFERANS_TARIHI.getMonth(), VARDIYA_REFERANS_TARIHI.getDate());
+      const referans = new Date(
+        VARDIYA_REFERANS_TARIHI.getFullYear(),
+        VARDIYA_REFERANS_TARIHI.getMonth(),
+        VARDIYA_REFERANS_TARIHI.getDate()
+      );
       const vardiyaGunu = vardiyaGununeCevir(tarih);
       const gunFarki = Math.round((vardiyaGunu - referans) / 86400000);
       const index = (((gunFarki + (VARDIYA_REFERANS_NO - 1)) % 3) + 3) % 3;
@@ -1272,9 +1238,12 @@
       const hedefTarih = tarih || new Date();
       const vardiya = gorevliVardiyayiHesapla(hedefTarih);
       document.getElementById("gorevliVardiya").innerText = vardiya + ". Vardiya";
-      const gun = String(hedefTarih.getDate()).padStart(2, "0");
-      const ay = String(hedefTarih.getMonth() + 1).padStart(2, "0");
-      const yil = hedefTarih.getFullYear();
+
+      /* Vardiya gününü göster — gece 00:00-09:00 arasında önceki günü gösterir */
+      const vardiyaGunu = vardiyaGununeCevir(hedefTarih);
+      const gun = String(vardiyaGunu.getDate()).padStart(2, "0");
+      const ay = String(vardiyaGunu.getMonth() + 1).padStart(2, "0");
+      const yil = vardiyaGunu.getFullYear();
       document.getElementById("olayTarihSaat").innerText = `${gun}.${ay}.${yil}`;
     }
 
@@ -1988,6 +1957,23 @@
       });
     })();
 
+    /* =========================================================
+       URL TEMİZLEME YARDIMCISI
+       Vaka sayfası URL'sinden istenmeyen parametreleri temizler.
+       Özellikle "hizliMedya" parametresi, Telegram butonlarının
+       doğru çalışması için kaldırılmalıdır.
+    ========================================================= */
+
+    function temizLinkOlustur(hizliMedya) {
+      const temizUrl = new URL(window.location.href);
+      temizUrl.searchParams.delete("hizliMedya");
+      const baseUrl = temizUrl.toString();
+      if (hizliMedya) {
+        return baseUrl.includes("?") ? baseUrl + "&hizliMedya=1" : baseUrl + "?hizliMedya=1";
+      }
+      return baseUrl;
+    }
+
     async function raporGonder() {
       const btn = document.getElementById("gonderBtn");
       const status = document.getElementById("status");
@@ -2099,8 +2085,9 @@
         }
 
         if (msgId) {
-          const guncelLink = window.location.href;
-          const hizliMedyaLinki = guncelLink.includes("?") ? guncelLink + "&hizliMedya=1" : guncelLink + "?hizliMedya=1";
+          /* URL'leri temiz şekilde oluştur */
+          const guncelLink = temizLinkOlustur(false);
+          const hizliMedyaLinki = temizLinkOlustur(true);
 
           const yeniKlavye = {
             inline_keyboard: [
@@ -2113,7 +2100,7 @@
                 { text: "🏠 İstasyona Dönüş", callback_data: "donus" }
               ],
               [
-                { text: "⚡ Hızlı Fotoğraf / Video", url: hizliMedyaLinki }
+                { text: "⚡ Olay Yeri Hızlı Fotoğraf / Video Çek", url: hizliMedyaLinki }
               ],
               [
                 { text: "✅ Olay Yeri Bilgileri Eklendi", url: guncelLink }
@@ -2244,6 +2231,8 @@
     function hizliMedyaListesiniCiz() {
       const alan = document.getElementById("hizliMedyaListeAlani");
       const btn = document.getElementById("hizliMedyaGonderBtn");
+      const kaydetBtn = document.getElementById("hizliGaleriyeKaydetBtn");
+
       if (!hizliMedyaListesi.length) {
         alan.innerHTML = '<div class="hizli-medya-bos">Henüz medya eklenmedi. Yukarıdan fotoğraf, video çekin veya galeriden seçin.</div>';
       } else {
@@ -2264,18 +2253,54 @@
         html += '</div>';
         alan.innerHTML = html;
       }
+
       btn.innerText = "🟢 " + hizliMedyaListesi.length + " MEDYAYI GÖNDER";
       btn.disabled = hizliMedyaListesi.length === 0;
+
+      /* Galeriye kaydet butonu SADECE fotoğraf varsa görünsün */
+      const fotoVar = hizliMedyaListesi.some(x => x.tur === "foto");
+      if (kaydetBtn) {
+        kaydetBtn.classList.toggle("gorunur", fotoVar);
+      }
     }
 
+    /* Video ve Galeri input'larını bağla - Fotoğraf input'u ayrı dinlenir (seri çekim) */
     (function hizliMedyaInputlariniBagla() {
-      const fi = document.getElementById("hizliFotoInput");
       const vi = document.getElementById("hizliVideoInput");
       const gi = document.getElementById("hizliGaleriInput");
-      if (fi) fi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); fi.value = ""; });
       if (vi) vi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); vi.value = ""; });
       if (gi) gi.addEventListener("change", e => { hizliMedyaDosyaEkle(e.target.files); gi.value = ""; });
     })();
+
+    async function hizliFotograflariGaleriyeKaydet() {
+      const fotolar = hizliMedyaListesi.filter(x => x.tur === "foto");
+      const ilerleme = document.getElementById("hizliMedyaIlerleme");
+
+      if (!fotolar.length) {
+        ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--hata";
+        ilerleme.innerText = "Kaydedilecek fotoğraf yok.";
+        return;
+      }
+
+      try {
+        for (let i = 0; i < fotolar.length; i++) {
+          const item = fotolar[i];
+          const a = document.createElement("a");
+          a.href = item.url;
+          a.download = "olay_yeri_" + Date.now() + "_" + i + ".jpg";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          /* Kısa aralık bırakmak bazı tarayıcılarda daha güvenli */
+          await new Promise(r => setTimeout(r, 200));
+        }
+        ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--ok";
+        ilerleme.innerText = "✅ " + fotolar.length + " fotoğraf indirilenlere kaydedildi.";
+      } catch (e) {
+        ilerleme.className = "hizli-medya-ilerleme hizli-medya-ilerleme--hata";
+        ilerleme.innerText = "Kaydetme hatası: " + (e.message || "Bilinmeyen hata");
+      }
+    }
 
     async function hizliMedyaGonder() {
       const btn = document.getElementById("hizliMedyaGonderBtn");
@@ -2383,6 +2408,9 @@
        Fotoğraf onaylandıktan sonra otomatik olarak tekrar açılır.
        Kullanıcı "Geri" veya "İptal" tuşuna basana kadar döngü
        devam eder. Bu sayede seri çekim kesintisiz yapılır.
+       
+       NOT: Sadece hizliFotoInput burada dinlenir. Video ve Galeri
+       input'ları hizliMedyaInputlariniBagla içinde dinlenir.
     ========================================================= */
 
     let seriCekimAktif = false;
@@ -2392,7 +2420,6 @@
       document.getElementById("hizliFotoInput").click();
     }
 
-    // Fotoğraf input'unun change olayını dinle
     document.getElementById("hizliFotoInput").addEventListener("change", function(e) {
       if (!seriCekimAktif) return;
 
@@ -2401,7 +2428,6 @@
         hizliMedyaDosyaEkle(dosyalar);
       }
 
-      // Input'u temizle ve tekrar aç (seri çekim devam eder)
       this.value = "";
       if (seriCekimAktif) {
         setTimeout(() => {
@@ -2409,13 +2435,6 @@
         }, 300);
       }
     });
-
-    // Kullanıcı "Geri" veya "İptal" tuşuna basarsa (change olayı tetiklenmez)
-    // seri çekimi durdurmak için bir yol: "Bitti" butonu ekle
-    // Ancak native kamerada "İptal" tuşuna basıldığında change olayı
-    // tetiklenmez, bu yüzden döngü kendiliğinden durur.
-    // Sorun olursa diye, kullanıcıya "Durdur" butonu ekleyebiliriz.
-    // Şimdilik native davranışa bırakıyoruz.
 
     if (urlParams.get("hizliMedya") === "1") {
       setTimeout(() => {
